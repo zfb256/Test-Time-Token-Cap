@@ -1,0 +1,35 @@
+Canonical three-arm artifact validation
+=======================================
+
+Validated: 2026-08-30
+
+Structure
+---------
+  python analysis/45_validate_rerun.py outputs/three_arm_core
+    VALID files=18 rows=14400 chains=115200
+  python analysis/45_validate_rerun.py outputs/three_arm_r1
+    VALID files=9 rows=7200 chains=28800
+
+  The validator asserts the 800-problem core-split shape, so it does not
+  apply to outputs/three_arm_expanded (6,319 problems).
+
+Protocol preconditions
+----------------------
+  Enforced as hard assertions by validate_protocol() in
+  analysis/53_three_arm_repair_decomposition.py: matching problems, decoding
+  signature and budgets across the three arms; disjoint request-seed sets for
+  arms A and C; and an exact token-prefix identity between every arm-B chain
+  and its arm-C chain. Analysis aborts rather than proceeding if any fails.
+
+Verifier audit
+--------------
+  analysis/63_verifier_audit.py re-scores all 167 eligible strict
+  complete-but-wrong problem-seed pairs of the core split.
+  Strict re-scoring reproduced 167/167 recorded labels.
+  Relaxed re-scoring added 0 plurality repairs.
+
+Unit tests
+----------
+  84 passed, 3 skipped (the skips need signal.setitimer, POSIX only).
+
+The reported attribution numbers are derived from the three-arm trees above.

@@ -1,0 +1,32 @@
+# caches / vendored deps
+.hf_cache/
+.model_fingerprint_cache/
+.llama_pydeps/
+.pytest_cache/
+__pycache__/
+*.pyc
+*.bak
+.venv/
+
+# model weights (download on GPU server)
+models/
+
+# latex build artifacts
+*.aux
+*.bbl
+*.blg
+*.log
+*.out
+*.synctex.gz
+*.zip
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
+
+# large generated experiment artifacts; compact summaries stay tracked
+outputs/**/*.jsonl
+outputs/**/*_detail.csv
+outputs/**/*_checkpoint.sqlite
+
+# local reading copies; keep only the curated notes in version control
+docs/writing_refs/*.pdf

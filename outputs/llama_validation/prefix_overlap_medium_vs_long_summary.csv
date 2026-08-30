@@ -1,0 +1,6 @@
+group,n,exact_equal_rate,a_is_prefix_rate,mean_lcp_ratio,min_lcp_ratio,n_divergent
+all,800,0.72625,1.0,1.0,1.0,0
+medium_complete,579,1.0,1.0,1.0,1.0,0
+medium_truncated,221,0.00904977375565611,1.0,1.0,1.0,0
+dataset=gsm8k,400,0.9825,1.0,1.0,1.0,0
+dataset=math,400,0.47,1.0,1.0,1.0,0

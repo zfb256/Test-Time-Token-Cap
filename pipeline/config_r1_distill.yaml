@@ -1,0 +1,75 @@
+# DeepSeek-R1-Distill-Qwen-7B validation config (v2, review response).
+#
+# Purpose: test whether "completion recovery dominates" still holds for a
+# reasoning-tuned model that was explicitly trained for self-correction /
+# backtracking. This is the model class both reviews flagged as the key
+# missing contrast.
+#
+# Decoding note: DeepSeek explicitly recommends AGAINST greedy decoding for
+# R1-distill models (repetition loops); the model card recommends
+# temperature 0.6, top_p 0.95. All budgets below therefore use sampling
+# with n_chains=4, and mechanism labels are computed per-chain and
+# aggregated (see analysis/39_sampling_repair_eval.py).
+#
+# Budget ladder: R1-distill emits long <think> traces, so the 384/768
+# ladder of the main experiment would truncate nearly everything. The
+# ladder below covers the truncation-dominated regime (1024) through the
+# mostly-complete regime (4096).
+
+paths:
+  base_dir: "."
+  data_dir: "../data"                # same 800 problems as the main run
+  raw_dir:  "../data/raw"
+  output_dir: "../outputs/r1_distill"
+  log_dir:  "./logs"
+
+dataset:
+  gsm8k:
+    enabled: true
+    split: "test"
+    n_samples: 400
+    seed: 42
+  math:
+    enabled: true
+    split: "test"
+    n_per_level: 80
+    seed: 42
+    levels: [1, 2, 3, 4, 5]
+
+inference:
+  model: "../models/DeepSeek-R1-Distill-Qwen-7B"
+  tensor_parallel_size: 1
+  dtype: "bfloat16"
+  gpu_memory_utilization: 0.90
+  max_model_len: 8192
+  trust_remote_code: false
+  collect_logprobs: false
+  num_logprobs: 2
+  seed: 42
+  deterministic_sampling: true
+  store_token_ids: true
+  budgets:
+    base1024:
+      max_new_tokens: 1024
+      n_chains: 4
+      temperature: 0.6
+      top_p: 0.95
+    ext2048:
+      max_new_tokens: 2048
+      n_chains: 4
+      temperature: 0.6
+      top_p: 0.95
+    ext4096:
+      max_new_tokens: 4096
+      n_chains: 4
+      temperature: 0.6
+      top_p: 0.95
+  batch_size: 32
+  prompt_template: "r1_math"
+
+orm:
+  numeric_tolerance: 1e-4
+
+classifiers:
+  cv_folds: 5
+  random_state: 42

@@ -1,0 +1,16 @@
+pair,dataset,n,medium_acc,long_acc,helpful_ml_rate,long_harm_rate,medium_hit_max_rate,completion_recovery_fraction_of_helpful,reasoning_recovery_fraction_of_helpful
+short:medium,all,800,0.0175,0.61375,0.5975,0.00125,0.99875,1.0,0.0
+short:medium,gsm8k,400,0.0325,0.85,0.82,0.0025,1.0,1.0,0.0
+short:medium,math,400,0.0025,0.3775,0.375,0.0,0.9975,1.0,0.0
+medium:medium512,all,800,0.61375,0.7475,0.13375,0.0,0.3925,1.0,0.0
+medium:medium512,gsm8k,400,0.85,0.96,0.11,0.0,0.1825,1.0,0.0
+medium:medium512,math,400,0.3775,0.535,0.1575,0.0,0.6025,1.0,0.0
+medium512:long,all,800,0.7475,0.82625,0.07875,0.0,0.21875,1.0,0.0
+medium512:long,gsm8k,400,0.96,0.97,0.01,0.0,0.015,1.0,0.0
+medium512:long,math,400,0.535,0.6825,0.1475,0.0,0.4225,1.0,0.0
+long:long1024,all,800,0.82625,0.8525,0.02625,0.0,0.11375,1.0,0.0
+long:long1024,gsm8k,400,0.97,0.97,0.0,0.0,0.0025,0.0,0.0
+long:long1024,math,400,0.6825,0.735,0.0525,0.0,0.225,1.0,0.0
+long1024:long_resume,all,800,0.8525,0.82375,0.0,0.02875,0.075,0.0,0.0
+long1024:long_resume,gsm8k,400,0.97,0.97,0.0,0.0,0.0025,0.0,0.0
+long1024:long_resume,math,400,0.735,0.6775,0.0,0.0575,0.1475,0.0,0.0

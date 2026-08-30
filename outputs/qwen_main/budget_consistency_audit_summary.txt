@@ -1,0 +1,25 @@
+Budget Consistency Audit
+========================
+
+Inference outputs:
+        budget  n_records  expected_n_chains  expected_max_new_tokens  n_chain_outputs  mean_generated_tokens  max_generated_tokens  hit_max_fraction  over_max_count  bad_budget_metadata_records  bad_chain_count_records
+         short        800                  3                      128             2400             127.999167                   128          0.999583               0                            0                        0
+        medium        800                  1                      384              800             317.605000                   384          0.392500               0                            0                        0
+          long        800                  1                      768              800             393.953750                   768          0.113750               0                            0                        0
+     medium512        800                  1                      512              800             354.772500                   512          0.218750               0                            0                        0
+      long1024        800                  1                     1024              800             417.693750                  1024          0.075000               0                            0                        0
+        sample        800                  4                      256             3200             245.487500                   256          0.745313               0                            0                        0
+medium_sample8        800                  8                      384             6400             316.924844                   384          0.387344               0                            0                        0
+  long_sample8        800                  8                      768             6400             396.520781                   768          0.124375               0                            0                        0
+ xlong_sample8        800                  8                     1536             6400             450.444844                  1536          0.039688               0                            0                        0
+
+Result accounting checks:
+                        file  status max_budget_abs_error max_savings_abs_error  n_rows
+global_budget_allocation.csv missing                 None                  None       0
+   cheap_router_ablation.csv missing                 None                  None       0
+          rule_baselines.csv missing                 None                  None       0
+
+Pass criteria:
+- over_max_count should be 0 for every inference budget.
+- bad_budget_metadata_records and bad_chain_count_records should be 0.
+- max budget/savings accounting errors should be near 0, allowing floating-point noise.

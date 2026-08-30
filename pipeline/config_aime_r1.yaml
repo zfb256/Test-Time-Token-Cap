@@ -1,0 +1,51 @@
+# AIME 2024+2025 hard-task validation, DeepSeek-R1-Distill-Qwen-7B (v2).
+#
+# Combines the two review-requested contrasts: a reasoning-tuned model
+# (trained for self-correction) on a task where complete-but-wrong
+# reasoning directions are common. Decoding follows the model card
+# (T=0.6, top_p 0.95; greedy is explicitly discouraged).
+
+paths:
+  base_dir: "."
+  data_dir: "../data/aime"
+  raw_dir:  "../data/raw"
+  output_dir: "../outputs/aime_r1"
+  log_dir:  "./logs"
+
+inference:
+  model: "../models/DeepSeek-R1-Distill-Qwen-7B"
+  tensor_parallel_size: 1
+  dtype: "bfloat16"
+  gpu_memory_utilization: 0.90
+  max_model_len: 16384
+  trust_remote_code: false
+  collect_logprobs: false
+  num_logprobs: 2
+  seed: 42
+  deterministic_sampling: true
+  store_token_ids: true
+  budgets:
+    base2048:
+      max_new_tokens: 2048
+      n_chains: 4
+      temperature: 0.6
+      top_p: 0.95
+    ext4096:
+      max_new_tokens: 4096
+      n_chains: 4
+      temperature: 0.6
+      top_p: 0.95
+    ext8192:
+      max_new_tokens: 8192
+      n_chains: 4
+      temperature: 0.6
+      top_p: 0.95
+  batch_size: 8
+  prompt_template: "r1_math"
+
+orm:
+  numeric_tolerance: 1e-4
+
+classifiers:
+  cv_folds: 5
+  random_state: 42

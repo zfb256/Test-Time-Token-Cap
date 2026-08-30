@@ -1,0 +1,20 @@
+Repair vs Completion under Sampling: long_reconstructed_to_xlong_sample8
+============================================================
+
+dataset    n  base_pass1  base_maj_acc  base_maj_tie_rate  ext_pass1  pass1_delta pass1_delta_ci95  ext_maj_acc  maj_acc_delta maj_acc_delta_ci95  ext_maj_tie_rate  ext_maj_acc_tie_lower  ext_maj_acc_tie_upper  helpful_maj_rate helpful_maj_ci95  harm_maj_rate harm_maj_ci95  base_trunc_rate  n_complete_wrong  repair_rate_maj  repair_count_maj  repair_count_maj_tie_lower  repair_count_maj_tie_upper  repair_rate_maj_tie_lower  repair_rate_maj_tie_upper repair_rate_maj_ci95  repair_rate_any repair_rate_any_ci95  helpful_from_truncated  helpful_from_complete_wrong  helpful_from_mixed  helpful_from_complete_other  helpful_taxonomy_n
+    all 6319    0.716292      0.793005           0.023738   0.802896     0.086604    [0.081,0.092]     0.851401       0.058395      [0.053,0.064]          0.040987               0.846495               0.860737          0.059661    [0.054,0.066]       0.001266 [0.001,0.002]         0.091945               225              0.0                 0                           0                           0                        0.0                        0.0        [0.000,0.016]              0.0        [0.000,0.016]                0.843501                          0.0            0.156499                          0.0                 377
+  gsm8k 1319    0.949014      0.966641           0.006065   0.949109     0.000095    [0.000,0.000]     0.966641       0.000000      [0.000,0.000]          0.006065               0.966641               0.970432          0.000000    [0.000,0.003]       0.000000 [0.000,0.003]         0.000000                19              0.0                 0                           0                           0                        0.0                        0.0        [0.000,0.176]              0.0        [0.000,0.176]                     NaN                          NaN                 NaN                          NaN                   0
+   math 5000    0.654900      0.747200           0.028400   0.764325     0.109425    [0.103,0.116]     0.821000       0.073800      [0.066,0.081]          0.050200               0.814800               0.831800          0.075400    [0.068,0.083]       0.001600 [0.001,0.003]         0.116200               206              0.0                 0                           0                           0                        0.0                        0.0        [0.000,0.018]              0.0        [0.000,0.018]                0.843501                          0.0            0.156499                          0.0                 377
+
+Key quantities:
+- repair_rate_*: among base complete-but-wrong problems, how often the
+  sampled extended run produces a correct majority (or any) answer.
+  Under the old greedy protocol this was 0 by construction. Under
+  independent sampling it is an observable transition, but not by
+  itself a token-budget effect: a same-budget resampling control is
+  required. Tie-lower/upper repair counts are reported explicitly.
+- helpful_from_truncated vs helpful_from_complete_wrong: taxonomy of
+  helpful cases via independent observable predicates. Mixed sampled
+  sets and complete-but-unparseable/aggregate-error sets are reported
+  separately, so the four helpful_from_* columns partition all helpful
+  cases instead of hiding a residual category.

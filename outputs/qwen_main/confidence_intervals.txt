@@ -1,0 +1,19 @@
+Statistical Confidence Summary (v2)
+===================================
+
+                                  quantity  estimate   n  events  ci_low  ci_high             method
+  long_fix_rate[strict_complete_wrong_all]   0.00000  20       0 0.00000 0.168433 clopper_pearson_95
+long_fix_rate[strict_complete_wrong_gsm8k]   0.00000   8       0 0.00000 0.369417 clopper_pearson_95
+ long_fix_rate[strict_complete_wrong_math]   0.00000  12       0 0.00000 0.264648 clopper_pearson_95
+ long_fix_rate[relaxed_complete_wrong_all]   0.00000  17       0 0.00000 0.195064 clopper_pearson_95
+                          fixed_medium_acc   0.61375 800     491 0.58000 0.647500    bootstrap_10000
+                            fixed_long_acc   0.82625 800     661 0.79875 0.852500    bootstrap_10000
+                              helpful_rate   0.21250 800     170 0.18375 0.242500    bootstrap_10000
+
+Reading guide:
+- Zero-event rows: the 95% upper bound is the largest true fix rate
+  still compatible with observing 0 fixes; claims must be phrased as
+  'we cannot rule out repair rates below this bound'.
+- diff rows compare routers at the SAME route fraction; p_diff_le_0 is
+  the one-sided bootstrap probability that the difference is <= 0.
+- Router rows were skipped because the optional frozen features_medium.jsonl artifact is absent.

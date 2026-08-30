@@ -1,0 +1,7 @@
+model,temperature,n_problems,n_strict_cbw,samecap_repair_count,long_repair_count,incremental_helpful_count,incremental_harmful_count,token_harm_eligible,token_harm_count
+Qwen2.5-Math-7B-Instruct,0.60,800,21,1,1,0,0,627,0
+Qwen2.5-Math-7B-Instruct,0.75,800,18,0,0,0,0,623,0
+Qwen2.5-Math-7B-Instruct,1.00,800,13,0,0,0,0,542,0
+Llama-3.1-8B-Instruct,0.60,800,42,1,2,1,0,553,1
+Llama-3.1-8B-Instruct,0.75,800,37,2,2,0,0,554,0
+Llama-3.1-8B-Instruct,1.00,800,29,0,0,0,0,527,0

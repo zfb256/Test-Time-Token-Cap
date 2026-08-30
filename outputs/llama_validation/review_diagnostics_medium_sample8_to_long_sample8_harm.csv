@@ -1,0 +1,7 @@
+dataset,definition,n_eligible,harm_count,harm_rate,ci95_low,ci95_high,certain_harm_count,possible_harm_count
+all,complete_plurality_correct,413,9,0.021791767554479417,0.010011864178550139,0.040963269620093286,9,9
+all,complete_all_correct,295,0,0.0,0.0,0.012426817523320432,0,0
+gsm8k,complete_plurality_correct,332,6,0.018072289156626505,0.00666037062794228,0.038918802447897125,6,6
+gsm8k,complete_all_correct,239,0,0.0,0.0,0.015316138449904697,0,0
+math,complete_plurality_correct,81,3,0.037037037037037035,0.007704037268873346,0.1044437124256791,3,3
+math,complete_all_correct,56,0,0.0,0.0,0.06375009666236217,0,0

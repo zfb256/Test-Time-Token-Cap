@@ -1,0 +1,38 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite both the software (this record) and the accompanying manuscript."
+title: "Attributing Test-Time Token-Cap Gains in Mathematical Reasoning: Continuation Versus Resampling"
+abstract: >-
+  A request-seeded three-arm protocol that separates trajectory replacement
+  from the effect of adding tokens to a shared prefix, together with the
+  inference and analysis pipeline, fixed dataset snapshots, summary result
+  tables, and reproducibility manifests that back the accompanying manuscript.
+type: software
+version: "1.0.0"
+date-released: "2026-08-30"
+license: MIT
+authors:
+  - family-names: "Zhuo"
+    given-names: "Feibao"
+    email: "zhuofb@163.com"
+    affiliation: "Digital Intelligence Group, United Family Healthcare, Shanghai, China"
+repository-code: "https://github.com/zfb256/Test-Time-Token-Cap"
+identifiers:
+  - type: doi
+    value: "10.5281/zenodo.22172647"
+    description: "Concept DOI, always resolving to the latest version"
+keywords:
+  - "test-time compute"
+  - "inference scaling"
+  - "mathematical reasoning"
+  - "self-correction"
+  - "token budget allocation"
+  - "reproducibility"
+  - "large language models"
+preferred-citation:
+  type: article
+  title: "Attributing test-time token-cap gains in mathematical reasoning: continuation versus resampling"
+  authors:
+    - family-names: "Zhuo"
+      given-names: "Feibao"
+  journal: "PeerJ Computer Science"
+  year: 2026

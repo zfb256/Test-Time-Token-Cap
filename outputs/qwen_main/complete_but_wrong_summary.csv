@@ -1,0 +1,7 @@
+subset,dataset,n_total,n_subset,subset_rate,strict_long_fix_rate,relaxed_long_fix_rate,medium_hit_max_rate,medium_boxed_rate,medium_final_answer_rate,mean_medium_tokens,mean_long_tokens
+strict_complete_wrong,all,800,20,0.025,0.0,0.0,0.0,1.0,1.0,274.9,274.9
+strict_complete_wrong,gsm8k,400,8,0.02,0.0,0.0,0.0,1.0,1.0,263.375,263.375
+strict_complete_wrong,math,400,12,0.03,0.0,0.0,0.0,1.0,1.0,282.5833333333333,282.5833333333333
+relaxed_complete_wrong,all,800,17,0.02125,0.0,0.0,0.0,1.0,1.0,264.47058823529414,264.47058823529414
+relaxed_complete_wrong,gsm8k,400,8,0.02,0.0,0.0,0.0,1.0,1.0,263.375,263.375
+relaxed_complete_wrong,math,400,9,0.0225,0.0,0.0,0.0,1.0,1.0,265.44444444444446,265.44444444444446

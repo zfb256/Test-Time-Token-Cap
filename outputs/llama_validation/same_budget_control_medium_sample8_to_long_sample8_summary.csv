@@ -1,0 +1,4 @@
+dataset,n,n_complete_wrong,base_plurality_accuracy,real_extended_plurality_accuracy,completed_only_control_accuracy,real_repairs_point,real_repairs_tie_lower,real_repairs_tie_upper,real_repair_ci95,control_repairs_point,control_repairs_tie_lower,control_repairs_tie_upper,control_repair_ci95,real_repairs_using_no_extra_tokens,control_censored_chain_rate
+all,800,10,0.70875,0.765,0.71625,0,0,0,"[0.000,0.308]",0,0,0,"[0.000,0.308]",0,0.2909375
+gsm8k,400,8,0.915,0.93,0.925,0,0,0,"[0.000,0.369]",0,0,0,"[0.000,0.369]",0,0.035625
+math,400,2,0.5025,0.6,0.5075,0,0,0,"[0.000,0.842]",0,0,0,"[0.000,0.842]",0,0.54625

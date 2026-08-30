@@ -1,0 +1,302 @@
+problem_id,dataset,math_level,strict_medium_correct,relaxed_medium_correct,strict_long_correct,relaxed_long_correct,medium_has_boxed,long_has_boxed,strict_medium_prediction,strict_long_prediction,ground_truth,medium_text,long_text
+math_l1_0065,math,1,False,True,False,True,True,True,120,120,"Since $\angle ABC$ is a straight angle, we have $6x + 3x = 180^\circ$, so $9x = 180^\circ$ and $x = 20^\circ$.  Therefore, $\angle ABD = 6x = \boxed{120^\circ}$.","To determine the measure of \(\angle ABD\), we start by analyzing the given information. We know that \(\angle ABC\) is a straight angle, which means it measures \(180^\circ\). The angle \(\angle ABC\) is divided into two smaller angles, \(\angle ABD\) and \(\angle DBC\). According to the diagram, \(\angle ABD\) is labeled as \(6x^\circ\) and \(\angle DBC\) is labeled as \(3x^\circ\).
+
+Since \(\angle ABC\) is a straight angle, we can write the equation:
+\[
+\angle ABD + \angle DBC = 180^\circ
+\]
+Substituting the given expressions for \(\angle ABD\) and \(\angle DBC\), we get:
+\[
+6x + 3x = 180^\circ
+\]
+Combining like terms, we have:
+\[
+9x = 180^\circ
+\]
+To find the value of \(x\), we divide both sides of the equation by 9:
+\[
+x = \frac{180^\circ}{9} = 20^\circ
+\]
+Now that we know \(x = 20^\circ\), we can find the measure of \(\angle ABD\) by substituting \(x\) back into the expression for \(\angle ABD\):
+\[
+\angle ABD = 6x = 6 \cdot 20^\circ = 120^\circ
+\]
+Therefore, the number of degrees in the measure of \(\angle ABD\) is \(\boxed{120}\).","To determine the measure of \(\angle ABD\), we start by analyzing the given information. We know that \(\angle ABC\) is a straight angle, which means it measures \(180^\circ\). The angle \(\angle ABC\) is divided into two smaller angles, \(\angle ABD\) and \(\angle DBC\). According to the diagram, \(\angle ABD\) is labeled as \(6x^\circ\) and \(\angle DBC\) is labeled as \(3x^\circ\).
+
+Since \(\angle ABC\) is a straight angle, we can write the equation:
+\[
+\angle ABD + \angle DBC = 180^\circ
+\]
+Substituting the given expressions for \(\angle ABD\) and \(\angle DBC\), we get:
+\[
+6x + 3x = 180^\circ
+\]
+Combining like terms, we have:
+\[
+9x = 180^\circ
+\]
+To find the value of \(x\), we divide both sides of the equation by 9:
+\[
+x = \frac{180^\circ}{9} = 20^\circ
+\]
+Now that we know \(x = 20^\circ\), we can find the measure of \(\angle ABD\) by substituting \(x\) back into the expression for \(\angle ABD\):
+\[
+\angle ABD = 6x = 6 \cdot 20^\circ = 120^\circ
+\]
+Therefore, the number of degrees in the measure of \(\angle ABD\) is \(\boxed{120}\)."
+math_l1_0071,math,1,False,True,False,True,True,True,70,70,"Since $\triangle ADB$ is the mirror image of $\triangle ADC$, we have that $m\angle B = m\angle C$.  Since $\triangle ABC$ is a triangle, we have that $m\angle A + m\angle B + m\angle C = 180^\circ$.  Solving, we find that $m\angle B = \frac{180^\circ - 40^\circ}{2} = \boxed{70^\circ}$.","Given that triangle \(ABD\) is a reflection of triangle \(ACD\) over segment \(AD\), we know that \(AB = AC\) and \(\angle BAD = \angle CAD\). Let \(\angle BAD = \angle CAD = x\). Since \(\angle BAC = 40^\circ\), we have:
+\[
+x + x = 40^\circ \implies 2x = 40^\circ \implies x = 20^\circ.
+\]
+Thus, \(\angle BAD = \angle CAD = 20^\circ\).
+
+Since \(AB = AC\), triangle \(ABC\) is isosceles with \(\angle ABC = \angle ACB\). Let \(\angle ABC = \angle ACB = y\). The sum of the angles in a triangle is \(180^\circ\), so we have:
+\[
+\angle BAC + \angle ABC + \angle ACB = 180^\circ \implies 40^\circ + y + y = 180^\circ \implies 40^\circ + 2y = 180^\circ \implies 2y = 140^\circ \implies y = 70^\circ.
+\]
+Therefore, the measure of angle \(B\) is \(\boxed{70}\).","Given that triangle \(ABD\) is a reflection of triangle \(ACD\) over segment \(AD\), we know that \(AB = AC\) and \(\angle BAD = \angle CAD\). Let \(\angle BAD = \angle CAD = x\). Since \(\angle BAC = 40^\circ\), we have:
+\[
+x + x = 40^\circ \implies 2x = 40^\circ \implies x = 20^\circ.
+\]
+Thus, \(\angle BAD = \angle CAD = 20^\circ\).
+
+Since \(AB = AC\), triangle \(ABC\) is isosceles with \(\angle ABC = \angle ACB\). Let \(\angle ABC = \angle ACB = y\). The sum of the angles in a triangle is \(180^\circ\), so we have:
+\[
+\angle BAC + \angle ABC + \angle ACB = 180^\circ \implies 40^\circ + y + y = 180^\circ \implies 40^\circ + 2y = 180^\circ \implies 2y = 140^\circ \implies y = 70^\circ.
+\]
+Therefore, the measure of angle \(B\) is \(\boxed{70}\)."
+math_l2_0014,math,2,False,True,False,True,True,True,10,10,"A pyramid with $6$ faces would have a pentagon on the bottom and five triangles on the sides. There are thus $5$ edges on the bottom along the pentagon and an additional $5$ edges from the triangles on the sides, for a total of $5+5 = \boxed{10\;\text{edges}}$.","To determine the number of edges in a pyramid with 6 vertices and 6 faces, we can use Euler's formula for polyhedra, which states that for any convex polyhedron, the number of vertices \(V\), the number of edges \(E\), and the number of faces \(F\) are related by the equation:
+
+\[ V - E + F = 2 \]
+
+We are given that the pyramid has 6 vertices (\(V = 6\)) and 6 faces (\(F = 6\)). We need to find the number of edges (\(E\)). Substituting the given values into Euler's formula, we get:
+
+\[ 6 - E + 6 = 2 \]
+
+Simplifying the left side of the equation, we have:
+
+\[ 12 - E = 2 \]
+
+To isolate \(E\), we subtract 12 from both sides of the equation:
+
+\[ -E = 2 - 12 \]
+\[ -E = -10 \]
+
+Multiplying both sides by -1, we get:
+
+\[ E = 10 \]
+
+Therefore, the number of edges in the pyramid is \(\boxed{10}\).
+
+To verify, we can consider the structure of the pyramid. A pyramid with a pentagonal base has 5 vertices on the base and 1 vertex at the top, making a total of 6 vertices. The base has 5 edges, and each of the 5 vertices on the base is connected to the top vertex by an edge, making a total of 5 more edges. Therefore, the total number of edges is \(5 + 5 = 10\), confirming our answer.","To determine the number of edges in a pyramid with 6 vertices and 6 faces, we can use Euler's formula for polyhedra, which states that for any convex polyhedron, the number of vertices \(V\), the number of edges \(E\), and the number of faces \(F\) are related by the equation:
+
+\[ V - E + F = 2 \]
+
+We are given that the pyramid has 6 vertices (\(V = 6\)) and 6 faces (\(F = 6\)). We need to find the number of edges (\(E\)). Substituting the given values into Euler's formula, we get:
+
+\[ 6 - E + 6 = 2 \]
+
+Simplifying the left side of the equation, we have:
+
+\[ 12 - E = 2 \]
+
+To isolate \(E\), we subtract 12 from both sides of the equation:
+
+\[ -E = 2 - 12 \]
+\[ -E = -10 \]
+
+Multiplying both sides by -1, we get:
+
+\[ E = 10 \]
+
+Therefore, the number of edges in the pyramid is \(\boxed{10}\).
+
+To verify, we can consider the structure of the pyramid. A pyramid with a pentagonal base has 5 vertices on the base and 1 vertex at the top, making a total of 6 vertices. The base has 5 edges, and each of the 5 vertices on the base is connected to the top vertex by an edge, making a total of 5 more edges. Therefore, the total number of edges is \(5 + 5 = 10\), confirming our answer."
+math_l2_0072,math,2,False,False,False,True,False,True,,9240,"In this problem, Mr. Cole is really selecting two separate groups.  He can choose 3 girls from the 6 girls total in $$ \binom{6}{3} = \frac{6 \times 5 \times 4}{3 \times 2 \times 1} = 20 $$ways, and 5 boys from the 11 boys total in $$ \binom{11}{5} = \frac{11 \times 10 \times 9 \times 8 \times 7}{5 \times 4 \times 3 \times 2 \times 1} = 462 $$ways.  Since these two selections are independent (since for each of the 20 ways to pick the girls, there are 462 ways to pick the boys), we multiply them together to get the number of ways that we can form the 8-member trip: $$ \binom{6}{3}\binom{11}{5} = (20)(462) = \boxed{9,\!240}. $$","To determine the number of ways Mr. Cole can select 3 girls and 5 boys to go on a backpacking trip from a group of 6 girls and 11 boys, we need to use combinations. Combinations are used because the order in which we select the girls and boys does not matter.
+
+First, we calculate the number of ways to choose 3 girls out of 6. This is denoted as \( \binom{6}{3} \) and is calculated using the formula for combinations:
+\[
+\binom{n}{r} = \frac{n!}{r!(n-r)!}
+\]
+where \( n \) is the total number of items to choose from, \( r \) is the number of items to choose, and \( ! \) denotes factorial, which is the product of all positive integers up to that number.
+
+For \( \binom{6}{3} \):
+\[
+\binom{6}{3} = \frac{6!}{3!3!} = \frac{6 \times 5 \times 4 \times 3!}{3! \times 3 \times 2 \times 1} = \frac{6 \times 5 \times 4}{3 \times 2 \times 1} = \frac{120}{6} = 20
+\]
+
+Next, we calculate the number of ways to choose 5 boys out of 11. This is denoted as \( \binom{11}{5} \) and is calculated similarly:
+\[
+\binom{11}{5} = \frac{11!}{5!6!} = \frac{11 \times 10 \times 9 \times 8 \times 7 \times 6!}{5! \times","To determine the number of ways Mr. Cole can select 3 girls and 5 boys to go on a backpacking trip from a group of 6 girls and 11 boys, we need to use combinations. Combinations are used because the order in which we select the girls and boys does not matter.
+
+First, we calculate the number of ways to choose 3 girls out of 6. This is denoted as \( \binom{6}{3} \) and is calculated using the formula for combinations:
+\[
+\binom{n}{r} = \frac{n!}{r!(n-r)!}
+\]
+where \( n \) is the total number of items to choose from, \( r \) is the number of items to choose, and \( ! \) denotes factorial, which is the product of all positive integers up to that number.
+
+For \( \binom{6}{3} \):
+\[
+\binom{6}{3} = \frac{6!}{3!3!} = \frac{6 \times 5 \times 4 \times 3!}{3! \times 3 \times 2 \times 1} = \frac{6 \times 5 \times 4}{3 \times 2 \times 1} = \frac{120}{6} = 20
+\]
+
+Next, we calculate the number of ways to choose 5 boys out of 11. This is denoted as \( \binom{11}{5} \) and is calculated similarly:
+\[
+\binom{11}{5} = \frac{11!}{5!6!} = \frac{11 \times 10 \times 9 \times 8 \times 7 \times 6!}{5! \times 6!} = \frac{11 \times 10 \times 9 \times 8 \times 7}{5 \times 4 \times 3 \times 2 \times 1} = \frac{55440}{120} = 462
+\]
+
+To find the total number of ways to select 3 girls and 5 boys, we multiply the number of ways to choose the girls by the number of ways to choose the boys:
+\[
+\binom{6}{3} \times \binom{11}{5} = 20 \times 462 = 9240
+\]
+
+Therefore, the number of ways Mr. Cole can do this is \(\boxed{9240}\)."
+math_l3_0046,math,3,False,False,False,True,False,True,,34650,"First we count the arrangements if all the letters are unique, which is $11!$. Then since the I's, S's and the P's are not unique, we divide by $4!$, $4!$, and $2!$ for the arrangements of I's, S's, and P's, for an answer of $\dfrac{11!}{4! \times 4! \times 2!} = \boxed{34,\!650}$.","To determine the number of ways to arrange the letters of the word ""MISSISSIPPI,"" we need to consider the fact that some of the letters are repeated. The word ""MISSISSIPPI"" consists of 11 letters where the letter M appears 1 time, the letter I appears 4 times, the letter S appears 4 times, and the letter P appears 2 times.
+
+The formula for the number of distinct permutations of a word with repeated letters is given by:
+
+\[
+\frac{n!}{n_1! \cdot n_2! \cdot \ldots \cdot n_k!}
+\]
+
+where \( n \) is the total number of letters, and \( n_1, n_2, \ldots, n_k \) are the frequencies of the distinct letters.
+
+For the word ""MISSISSIPPI"":
+- \( n = 11 \)
+- \( n_1 = 1 \) (for M)
+- \( n_2 = 4 \) (for I)
+- \( n_3 = 4 \) (for S)
+- \( n_4 = 2 \) (for P)
+
+Substituting these values into the formula, we get:
+
+\[
+\frac{11!}{1! \cdot 4! \cdot 4! \cdot 2!}
+\]
+
+First, we calculate the factorials:
+- \( 11! = 11 \times 10 \times 9 \times 8 \times 7 \times 6 \times 5 \times 4 \times 3 \times 2 \times 1 = 39916800 \)
+- \( 1! = 1 \)
+- \( 4! = 4 \times 3 \times 2 \times 1 =","To determine the number of ways to arrange the letters of the word ""MISSISSIPPI,"" we need to consider the fact that some of the letters are repeated. The word ""MISSISSIPPI"" consists of 11 letters where the letter M appears 1 time, the letter I appears 4 times, the letter S appears 4 times, and the letter P appears 2 times.
+
+The formula for the number of distinct permutations of a word with repeated letters is given by:
+
+\[
+\frac{n!}{n_1! \cdot n_2! \cdot \ldots \cdot n_k!}
+\]
+
+where \( n \) is the total number of letters, and \( n_1, n_2, \ldots, n_k \) are the frequencies of the distinct letters.
+
+For the word ""MISSISSIPPI"":
+- \( n = 11 \)
+- \( n_1 = 1 \) (for M)
+- \( n_2 = 4 \) (for I)
+- \( n_3 = 4 \) (for S)
+- \( n_4 = 2 \) (for P)
+
+Substituting these values into the formula, we get:
+
+\[
+\frac{11!}{1! \cdot 4! \cdot 4! \cdot 2!}
+\]
+
+First, we calculate the factorials:
+- \( 11! = 11 \times 10 \times 9 \times 8 \times 7 \times 6 \times 5 \times 4 \times 3 \times 2 \times 1 = 39916800 \)
+- \( 1! = 1 \)
+- \( 4! = 4 \times 3 \times 2 \times 1 = 24 \)
+- \( 2! = 2 \times 1 = 2 \)
+
+Now, substitute these factorial values back into the formula:
+
+\[
+\frac{39916800}{1 \cdot 24 \cdot 24 \cdot 2} = \frac{39916800}{1152}
+\]
+
+Next, we perform the division:
+
+\[
+\frac{39916800}{1152} = 34650
+\]
+
+Therefore, the number of distinct ways to arrange the letters of the word ""MISSISSIPPI"" is:
+
+\[
+\boxed{34650}
+\]"
+math_l5_0000,math,5,False,False,False,True,False,True,,840,"First, we can write $z^4 = 4 - 4i \sqrt{3} = 8 \operatorname{cis} 300^\circ.$  Therefore, the four roots are
+\begin{align*}
+&\sqrt[4]{8} \operatorname{cis} 75^\circ, \\
+&\sqrt[4]{8} \operatorname{cis} (75^\circ + 90^\circ) = \sqrt[4]{8} \operatorname{cis} 165^\circ, \\
+&\sqrt[4]{8} \operatorname{cis} (75^\circ + 180^\circ) = \sqrt[4]{8} \operatorname{cis} 255^\circ, \\
+&\sqrt[4]{8} \operatorname{cis} (75^\circ + 270^\circ) = \sqrt[4]{8} \operatorname{cis} 345^\circ.
+\end{align*}Then $\theta_1 + \theta_2 + \theta_3 + \theta_4 = 75^\circ + 165^\circ + 255^\circ + 345^\circ = \boxed{840^\circ}.$","To solve the equation \( z^4 = 4 - 4i\sqrt{3} \), we first express the right-hand side in polar form. The complex number \( 4 - 4i\sqrt{3} \) has a magnitude \( r \) and an argument \( \theta \).
+
+The magnitude \( r \) is given by:
+\[
+r = \sqrt{4^2 + (-4\sqrt{3})^2} = \sqrt{16 + 48} = \sqrt{64} = 8.
+\]
+
+The argument \( \theta \) is given by:
+\[
+\theta = \tan^{-1}\left(\frac{-4\sqrt{3}}{4}\right) = \tan^{-1}(-\sqrt{3}).
+\]
+Since the complex number \( 4 - 4i\sqrt{3} \) is in the fourth quadrant, we have:
+\[
+\theta = 360^\circ - 60^\circ = 300^\circ.
+\]
+
+Thus, we can write:
+\[
+4 - 4i\sqrt{3} = 8 \left( \cos 300^\circ + i \sin 300^\circ \right).
+\]
+
+We need to find the fourth roots of this complex number. The fourth roots of \( 8 \left( \cos 300^\circ + i \sin 300^\circ \right) \) are given by:
+\[
+z_k = 8^{1/4} \left( \cos \left( \frac{300^\circ + 360^\circ k}{4} \right) + i \sin \left( \frac{300^\circ + 360^\","To solve the equation \( z^4 = 4 - 4i\sqrt{3} \), we first express the right-hand side in polar form. The complex number \( 4 - 4i\sqrt{3} \) has a magnitude \( r \) and an argument \( \theta \).
+
+The magnitude \( r \) is given by:
+\[
+r = \sqrt{4^2 + (-4\sqrt{3})^2} = \sqrt{16 + 48} = \sqrt{64} = 8.
+\]
+
+The argument \( \theta \) is given by:
+\[
+\theta = \tan^{-1}\left(\frac{-4\sqrt{3}}{4}\right) = \tan^{-1}(-\sqrt{3}).
+\]
+Since the complex number \( 4 - 4i\sqrt{3} \) is in the fourth quadrant, we have:
+\[
+\theta = 360^\circ - 60^\circ = 300^\circ.
+\]
+
+Thus, we can write:
+\[
+4 - 4i\sqrt{3} = 8 \left( \cos 300^\circ + i \sin 300^\circ \right).
+\]
+
+We need to find the fourth roots of this complex number. The fourth roots of \( 8 \left( \cos 300^\circ + i \sin 300^\circ \right) \) are given by:
+\[
+z_k = 8^{1/4} \left( \cos \left( \frac{300^\circ + 360^\circ k}{4} \right) + i \sin \left( \frac{300^\circ + 360^\circ k}{4} \right) \right),
+\]
+for \( k = 0, 1, 2, 3 \). Since \( 8^{1/4} = \sqrt{2} \), we have:
+\[
+z_k = \sqrt{2} \left( \cos \left( \frac{300^\circ + 360^\circ k}{4} \right) + i \sin \left( \frac{300^\circ + 360^\circ k}{4} \right) \right).
+\]
+
+The arguments of the roots are:
+\[
+\theta_k = \frac{300^\circ + 360^\circ k}{4} = 75^\circ + 90^\circ k,
+\]
+for \( k = 0, 1, 2, 3 \). Therefore, the arguments are:
+\[
+\theta_0 = 75^\circ, \quad \theta_1 = 165^\circ, \quad \theta_2 = 255^\circ, \quad \theta_3 = 345^\circ.
+\]
+
+The sum of these arguments is:
+\[
+\theta_0 + \theta_1 + \theta_2 + \theta_3 = 75^\circ + 165^\circ + 255^\circ + 345^\circ = 840^\circ.
+\]
+
+Thus, the answer is:
+\[
+\boxed{840}.
+\]"

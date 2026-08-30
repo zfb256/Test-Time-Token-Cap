@@ -1,0 +1,10 @@
+dataset,definition,n_problems,n_eligible,samecap_repair_count,samecap_repair_rate,long_repair_count,long_repair_rate,incremental_token_effect,incremental_helpful_count,incremental_harmful_count,samecap_any_repair_count,long_any_repair_count
+all,strict_all_wrong,800,33,1,0.030303030303030304,1,0.030303030303030304,0.0,0,0,7,8
+all,plurality_wrong,800,73,14,0.1917808219178082,12,0.1643835616438356,-0.0273972602739726,0,2,7,8
+all,first_chain_wrong,800,195,83,0.4256410256410256,82,0.4205128205128205,-0.005128205128205128,2,3,117,122
+gsm8k,strict_all_wrong,400,5,1,0.2,1,0.2,0.0,0,0,2,2
+gsm8k,plurality_wrong,400,27,10,0.37037037037037035,9,0.3333333333333333,-0.037037037037037035,0,1,2,2
+gsm8k,first_chain_wrong,400,57,39,0.6842105263157895,38,0.6666666666666666,-0.017543859649122806,0,1,50,50
+math,strict_all_wrong,400,28,0,0.0,0,0.0,0.0,0,0,5,6
+math,plurality_wrong,400,46,4,0.08695652173913043,3,0.06521739130434782,-0.021739130434782608,0,1,5,6
+math,first_chain_wrong,400,138,44,0.3188405797101449,44,0.3188405797101449,0.0,2,2,67,72

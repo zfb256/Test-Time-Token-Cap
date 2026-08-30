@@ -1,0 +1,19 @@
+Complete-But-Wrong Subset Analysis
+==================================
+
+Definition: medium output has a dataset-specific final-answer signal (boxed answer, or numeric answer for GSM8K), does not hit the medium token cap, and is incorrect under the chosen verifier.
+
+Summary:
+                subset dataset  n_total  n_subset  subset_rate  strict_long_fix_rate  relaxed_long_fix_rate  medium_hit_max_rate  medium_boxed_rate  medium_final_answer_rate  mean_medium_tokens  mean_long_tokens
+ strict_complete_wrong     all      800        20      0.02500                   0.0                    0.0                  0.0                1.0                       1.0          274.900000        274.900000
+ strict_complete_wrong   gsm8k      400         8      0.02000                   0.0                    0.0                  0.0                1.0                       1.0          263.375000        263.375000
+ strict_complete_wrong    math      400        12      0.03000                   0.0                    0.0                  0.0                1.0                       1.0          282.583333        282.583333
+relaxed_complete_wrong     all      800        17      0.02125                   0.0                    0.0                  0.0                1.0                       1.0          264.470588        264.470588
+relaxed_complete_wrong   gsm8k      400         8      0.02000                   0.0                    0.0                  0.0                1.0                       1.0          263.375000        263.375000
+relaxed_complete_wrong    math      400         9      0.02250                   0.0                    0.0                  0.0                1.0                       1.0          265.444444        265.444444
+
+Strict complete-wrong cases fixed by long:
+None.
+
+Relaxed complete-wrong cases fixed by long:
+None.

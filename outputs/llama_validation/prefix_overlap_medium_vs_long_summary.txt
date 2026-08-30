@@ -1,0 +1,16 @@
+Prefix Overlap Audit: medium vs long
+==================================================
+
+           group   n  exact_equal_rate  a_is_prefix_rate  mean_lcp_ratio  min_lcp_ratio  n_divergent
+             all 800           0.72625               1.0             1.0            1.0            0
+ medium_complete 579           1.00000               1.0             1.0            1.0            0
+medium_truncated 221           0.00905               1.0             1.0            1.0            0
+   dataset=gsm8k 400           0.98250               1.0             1.0            1.0            0
+    dataset=math 400           0.47000               1.0             1.0            1.0            0
+
+Interpretation:
+- Among 579 complete (non-cap-hit) 'medium' traces, 100.0% of 'long' outputs are byte-identical.
+- If this rate is ~100%, 'no repair of complete-but-wrong traces'
+  is a property of the deterministic decoding protocol, and must be
+  reported as such rather than as an empirical finding about the model.
+- Divergent pairs (LCP < 99.9% of 'medium'): 0

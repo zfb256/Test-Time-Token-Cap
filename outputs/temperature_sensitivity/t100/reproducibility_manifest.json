@@ -1,0 +1,2335 @@
+{
+  "python": "3.10.12",
+  "platform": "Linux-6.2.0-37-generic-x86_64-with-glibc2.35",
+  "notes": [
+    "This manifest records the current artifact tree.",
+    "Seed-policy modes observed in the artifacts: per_problem_per_chain_sha256",
+    "Request seeds are 64-bit SHA-256 projections, so rare global collisions are possible and are counted in request_seed_collisions.",
+    "Every corrected sampled output passed the hard diversity guard."
+  ],
+  "seeds": {
+    "dataset_gsm8k": 42,
+    "dataset_math": 42,
+    "inference": 42,
+    "classifier_random_state": 42,
+    "random_forest_random_state": 42
+  },
+  "budgets": {
+    "short": {
+      "max_new_tokens": 128,
+      "n_chains": 3,
+      "temperature": 0.75,
+      "top_p": 0.95,
+      "collect_logprobs": true
+    },
+    "medium": {
+      "max_new_tokens": 384,
+      "n_chains": 1,
+      "temperature": 0.0,
+      "top_p": 1.0
+    },
+    "long": {
+      "max_new_tokens": 768,
+      "n_chains": 1,
+      "temperature": 0.0,
+      "top_p": 1.0
+    },
+    "medium512": {
+      "max_new_tokens": 512,
+      "n_chains": 1,
+      "temperature": 0.0,
+      "top_p": 1.0
+    },
+    "long1024": {
+      "max_new_tokens": 1024,
+      "n_chains": 1,
+      "temperature": 0.0,
+      "top_p": 1.0
+    },
+    "sample": {
+      "max_new_tokens": 256,
+      "n_chains": 4,
+      "temperature": 0.75,
+      "top_p": 0.95
+    },
+    "medium_sample8": {
+      "max_new_tokens": 384,
+      "n_chains": 8,
+      "temperature": 0.75,
+      "top_p": 0.95
+    },
+    "long_sample8": {
+      "max_new_tokens": 768,
+      "n_chains": 8,
+      "temperature": 0.75,
+      "top_p": 0.95
+    },
+    "xlong_sample8": {
+      "max_new_tokens": 1536,
+      "n_chains": 8,
+      "temperature": 0.75,
+      "top_p": 0.95
+    }
+  },
+  "observed_budgets": {
+    "outputs/temperature_sensitivity/t100/llama_seed271828/inference_long_reconstructed.jsonl": {
+      "max_new_tokens": 768,
+      "n_chains": 8,
+      "temperature": 1.0,
+      "top_p": 0.95,
+      "seed": 352387,
+      "seed_policy": {
+        "engine_seed": 271828,
+        "request_seed": "derived",
+        "base_seed": 352387,
+        "mode": "per_problem_per_chain_sha256"
+      },
+      "deterministic_sampling": true,
+      "run_signature": {
+        "model": "../models/Llama-3.1-8B-Instruct",
+        "model_snapshot_sha256": "30cda48b8c52db3bef7b3c17a5a4369d5ac263e6e3d610e4c892784339e3efdd",
+        "runtime_versions": {
+          "python": "3.10.12",
+          "torch": "2.5.1",
+          "transformers": "4.47.1",
+          "vllm": "0.6.6.post1"
+        },
+        "prompt_template": "llama3_math",
+        "prompt_sha256": "56527a2dcf425f1699f6d12ca320144946a6b61926f2495f6df00221bf732fb2",
+        "store_token_ids": true,
+        "dtype": "bfloat16",
+        "max_model_len": 2560,
+        "trust_remote_code": false
+      },
+      "mode": "reconstructed_token_prefix",
+      "reconstructed_from": {
+        "source_name": "xlong_sample8",
+        "source_cap": 1536
+      }
+    },
+    "outputs/temperature_sensitivity/t100/llama_seed271828/inference_long_sample8.jsonl": {
+      "max_new_tokens": 768,
+      "n_chains": 8,
+      "temperature": 1.0,
+      "top_p": 0.95,
+      "seed": 317066,
+      "seed_policy": {
+        "engine_seed": 271828,
+        "request_seed": "derived",
+        "base_seed": 317066,
+        "mode": "per_problem_per_chain_sha256"
+      },
+      "deterministic_sampling": true,
+      "run_signature": {
+        "model": "../models/Llama-3.1-8B-Instruct",
+        "model_snapshot_sha256": "30cda48b8c52db3bef7b3c17a5a4369d5ac263e6e3d610e4c892784339e3efdd",
+        "runtime_versions": {
+          "python": "3.10.12",
+          "torch": "2.5.1",
+          "transformers": "4.47.1",
+          "vllm": "0.6.6.post1"
+        },
+        "prompt_template": "llama3_math",
+        "prompt_sha256": "56527a2dcf425f1699f6d12ca320144946a6b61926f2495f6df00221bf732fb2",
+        "store_token_ids": true,
+        "dtype": "bfloat16",
+        "max_model_len": 2560,
+        "trust_remote_code": false
+      }
+    },
+    "outputs/temperature_sensitivity/t100/llama_seed271828/inference_xlong_sample8.jsonl": {
+      "max_new_tokens": 1536,
+      "n_chains": 8,
+      "temperature": 1.0,
+      "top_p": 0.95,
+      "seed": 352387,
+      "seed_policy": {
+        "engine_seed": 271828,
+        "request_seed": "derived",
+        "base_seed": 352387,
+        "mode": "per_problem_per_chain_sha256"
+      },
+      "deterministic_sampling": true,
+      "run_signature": {
+        "model": "../models/Llama-3.1-8B-Instruct",
+        "model_snapshot_sha256": "30cda48b8c52db3bef7b3c17a5a4369d5ac263e6e3d610e4c892784339e3efdd",
+        "runtime_versions": {
+          "python": "3.10.12",
+          "torch": "2.5.1",
+          "transformers": "4.47.1",
+          "vllm": "0.6.6.post1"
+        },
+        "prompt_template": "llama3_math",
+        "prompt_sha256": "56527a2dcf425f1699f6d12ca320144946a6b61926f2495f6df00221bf732fb2",
+        "store_token_ids": true,
+        "dtype": "bfloat16",
+        "max_model_len": 2560,
+        "trust_remote_code": false
+      }
+    },
+    "outputs/temperature_sensitivity/t100/llama_seed314159/inference_long_reconstructed.jsonl": {
+      "max_new_tokens": 768,
+      "n_chains": 8,
+      "temperature": 1.0,
+      "top_p": 0.95,
+      "seed": 394718,
+      "seed_policy": {
+        "engine_seed": 314159,
+        "request_seed": "derived",
+        "base_seed": 394718,
+        "mode": "per_problem_per_chain_sha256"
+      },
+      "deterministic_sampling": true,
+      "run_signature": {
+        "model": "../models/Llama-3.1-8B-Instruct",
+        "model_snapshot_sha256": "30cda48b8c52db3bef7b3c17a5a4369d5ac263e6e3d610e4c892784339e3efdd",
+        "runtime_versions": {
+          "python": "3.10.12",
+          "torch": "2.5.1",
+          "transformers": "4.47.1",
+          "vllm": "0.6.6.post1"
+        },
+        "prompt_template": "llama3_math",
+        "prompt_sha256": "56527a2dcf425f1699f6d12ca320144946a6b61926f2495f6df00221bf732fb2",
+        "store_token_ids": true,
+        "dtype": "bfloat16",
+        "max_model_len": 2560,
+        "trust_remote_code": false
+      },
+      "mode": "reconstructed_token_prefix",
+      "reconstructed_from": {
+        "source_name": "xlong_sample8",
+        "source_cap": 1536
+      }
+    },
+    "outputs/temperature_sensitivity/t100/llama_seed314159/inference_long_sample8.jsonl": {
+      "max_new_tokens": 768,
+      "n_chains": 8,
+      "temperature": 1.0,
+      "top_p": 0.95,
+      "seed": 359397,
+      "seed_policy": {
+        "engine_seed": 314159,
+        "request_seed": "derived",
+        "base_seed": 359397,
+        "mode": "per_problem_per_chain_sha256"
+      },
+      "deterministic_sampling": true,
+      "run_signature": {
+        "model": "../models/Llama-3.1-8B-Instruct",
+        "model_snapshot_sha256": "30cda48b8c52db3bef7b3c17a5a4369d5ac263e6e3d610e4c892784339e3efdd",
+        "runtime_versions": {
+          "python": "3.10.12",
+          "torch": "2.5.1",
+          "transformers": "4.47.1",
+          "vllm": "0.6.6.post1"
+        },
+        "prompt_template": "llama3_math",
+        "prompt_sha256": "56527a2dcf425f1699f6d12ca320144946a6b61926f2495f6df00221bf732fb2",
+        "store_token_ids": true,
+        "dtype": "bfloat16",
+        "max_model_len": 2560,
+        "trust_remote_code": false
+      }
+    },
+    "outputs/temperature_sensitivity/t100/llama_seed314159/inference_xlong_sample8.jsonl": {
+      "max_new_tokens": 1536,
+      "n_chains": 8,
+      "temperature": 1.0,
+      "top_p": 0.95,
+      "seed": 394718,
+      "seed_policy": {
+        "engine_seed": 314159,
+        "request_seed": "derived",
+        "base_seed": 394718,
+        "mode": "per_problem_per_chain_sha256"
+      },
+      "deterministic_sampling": true,
+      "run_signature": {
+        "model": "../models/Llama-3.1-8B-Instruct",
+        "model_snapshot_sha256": "30cda48b8c52db3bef7b3c17a5a4369d5ac263e6e3d610e4c892784339e3efdd",
+        "runtime_versions": {
+          "python": "3.10.12",
+          "torch": "2.5.1",
+          "transformers": "4.47.1",
+          "vllm": "0.6.6.post1"
+        },
+        "prompt_template": "llama3_math",
+        "prompt_sha256": "56527a2dcf425f1699f6d12ca320144946a6b61926f2495f6df00221bf732fb2",
+        "store_token_ids": true,
+        "dtype": "bfloat16",
+        "max_model_len": 2560,
+        "trust_remote_code": false
+      }
+    },
+    "outputs/temperature_sensitivity/t100/llama_seed42/inference_long_reconstructed.jsonl": {
+      "max_new_tokens": 768,
+      "n_chains": 8,
+      "temperature": 1.0,
+      "top_p": 0.95,
+      "seed": 80601,
+      "seed_policy": {
+        "engine_seed": 42,
+        "request_seed": "derived",
+        "base_seed": 80601,
+        "mode": "per_problem_per_chain_sha256"
+      },
+      "deterministic_sampling": true,
+      "run_signature": {
+        "model": "../models/Llama-3.1-8B-Instruct",
+        "model_snapshot_sha256": "30cda48b8c52db3bef7b3c17a5a4369d5ac263e6e3d610e4c892784339e3efdd",
+        "runtime_versions": {
+          "python": "3.10.12",
+          "torch": "2.5.1",
+          "transformers": "4.47.1",
+          "vllm": "0.6.6.post1"
+        },
+        "prompt_template": "llama3_math",
+        "prompt_sha256": "56527a2dcf425f1699f6d12ca320144946a6b61926f2495f6df00221bf732fb2",
+        "store_token_ids": true,
+        "dtype": "bfloat16",
+        "max_model_len": 2560,
+        "trust_remote_code": false
+      },
+      "mode": "reconstructed_token_prefix",
+      "reconstructed_from": {
+        "source_name": "xlong_sample8",
+        "source_cap": 1536
+      }
+    },
+    "outputs/temperature_sensitivity/t100/llama_seed42/inference_long_sample8.jsonl": {
+      "max_new_tokens": 768,
+      "n_chains": 8,
+      "temperature": 1.0,
+      "top_p": 0.95,
+      "seed": 45280,
+      "seed_policy": {
+        "engine_seed": 42,
+        "request_seed": "derived",
+        "base_seed": 45280,
+        "mode": "per_problem_per_chain_sha256"
+      },
+      "deterministic_sampling": true,
+      "run_signature": {
+        "model": "../models/Llama-3.1-8B-Instruct",
+        "model_snapshot_sha256": "30cda48b8c52db3bef7b3c17a5a4369d5ac263e6e3d610e4c892784339e3efdd",
+        "runtime_versions": {
+          "python": "3.10.12",
+          "torch": "2.5.1",
+          "transformers": "4.47.1",
+          "vllm": "0.6.6.post1"
+        },
+        "prompt_template": "llama3_math",
+        "prompt_sha256": "56527a2dcf425f1699f6d12ca320144946a6b61926f2495f6df00221bf732fb2",
+        "store_token_ids": true,
+        "dtype": "bfloat16",
+        "max_model_len": 2560,
+        "trust_remote_code": false
+      }
+    },
+    "outputs/temperature_sensitivity/t100/llama_seed42/inference_xlong_sample8.jsonl": {
+      "max_new_tokens": 1536,
+      "n_chains": 8,
+      "temperature": 1.0,
+      "top_p": 0.95,
+      "seed": 80601,
+      "seed_policy": {
+        "engine_seed": 42,
+        "request_seed": "derived",
+        "base_seed": 80601,
+        "mode": "per_problem_per_chain_sha256"
+      },
+      "deterministic_sampling": true,
+      "run_signature": {
+        "model": "../models/Llama-3.1-8B-Instruct",
+        "model_snapshot_sha256": "30cda48b8c52db3bef7b3c17a5a4369d5ac263e6e3d610e4c892784339e3efdd",
+        "runtime_versions": {
+          "python": "3.10.12",
+          "torch": "2.5.1",
+          "transformers": "4.47.1",
+          "vllm": "0.6.6.post1"
+        },
+        "prompt_template": "llama3_math",
+        "prompt_sha256": "56527a2dcf425f1699f6d12ca320144946a6b61926f2495f6df00221bf732fb2",
+        "store_token_ids": true,
+        "dtype": "bfloat16",
+        "max_model_len": 2560,
+        "trust_remote_code": false
+      }
+    },
+    "outputs/temperature_sensitivity/t100/qwen_seed271828/inference_long_reconstructed.jsonl": {
+      "max_new_tokens": 768,
+      "n_chains": 8,
+      "temperature": 1.0,
+      "top_p": 0.95,
+      "seed": 352387,
+      "seed_policy": {
+        "engine_seed": 271828,
+        "request_seed": "derived",
+        "base_seed": 352387,
+        "mode": "per_problem_per_chain_sha256"
+      },
+      "deterministic_sampling": true,
+      "run_signature": {
+        "model": "../models/Qwen2.5-Math-7B-Instruct",
+        "model_snapshot_sha256": "206a96bfd2e215654f5704a8226816db7a627bf57b38b5bff8430e269b955c27",
+        "runtime_versions": {
+          "python": "3.10.12",
+          "torch": "2.5.1",
+          "transformers": "4.47.1",
+          "vllm": "0.6.6.post1"
+        },
+        "prompt_template": "qwen_math",
+        "prompt_sha256": "a356c4bbdb9a8c3427c26be488596ed1d9540056ff7f1e98d4d2de66ba3e640b",
+        "store_token_ids": true,
+        "dtype": "bfloat16",
+        "max_model_len": 2560,
+        "trust_remote_code": false
+      },
+      "mode": "reconstructed_token_prefix",
+      "reconstructed_from": {
+        "source_name": "xlong_sample8",
+        "source_cap": 1536
+      }
+    },
+    "outputs/temperature_sensitivity/t100/qwen_seed271828/inference_long_sample8.jsonl": {
+      "max_new_tokens": 768,
+      "n_chains": 8,
+      "temperature": 1.0,
+      "top_p": 0.95,
+      "seed": 317066,
+      "seed_policy": {
+        "engine_seed": 271828,
+        "request_seed": "derived",
+        "base_seed": 317066,
+        "mode": "per_problem_per_chain_sha256"
+      },
+      "deterministic_sampling": true,
+      "run_signature": {
+        "model": "../models/Qwen2.5-Math-7B-Instruct",
+        "model_snapshot_sha256": "206a96bfd2e215654f5704a8226816db7a627bf57b38b5bff8430e269b955c27",
+        "runtime_versions": {
+          "python": "3.10.12",
+          "torch": "2.5.1",
+          "transformers": "4.47.1",
+          "vllm": "0.6.6.post1"
+        },
+        "prompt_template": "qwen_math",
+        "prompt_sha256": "a356c4bbdb9a8c3427c26be488596ed1d9540056ff7f1e98d4d2de66ba3e640b",
+        "store_token_ids": true,
+        "dtype": "bfloat16",
+        "max_model_len": 2560,
+        "trust_remote_code": false
+      }
+    },
+    "outputs/temperature_sensitivity/t100/qwen_seed271828/inference_xlong_sample8.jsonl": {
+      "max_new_tokens": 1536,
+      "n_chains": 8,
+      "temperature": 1.0,
+      "top_p": 0.95,
+      "seed": 352387,
+      "seed_policy": {
+        "engine_seed": 271828,
+        "request_seed": "derived",
+        "base_seed": 352387,
+        "mode": "per_problem_per_chain_sha256"
+      },
+      "deterministic_sampling": true,
+      "run_signature": {
+        "model": "../models/Qwen2.5-Math-7B-Instruct",
+        "model_snapshot_sha256": "206a96bfd2e215654f5704a8226816db7a627bf57b38b5bff8430e269b955c27",
+        "runtime_versions": {
+          "python": "3.10.12",
+          "torch": "2.5.1",
+          "transformers": "4.47.1",
+          "vllm": "0.6.6.post1"
+        },
+        "prompt_template": "qwen_math",
+        "prompt_sha256": "a356c4bbdb9a8c3427c26be488596ed1d9540056ff7f1e98d4d2de66ba3e640b",
+        "store_token_ids": true,
+        "dtype": "bfloat16",
+        "max_model_len": 2560,
+        "trust_remote_code": false
+      }
+    },
+    "outputs/temperature_sensitivity/t100/qwen_seed314159/inference_long_reconstructed.jsonl": {
+      "max_new_tokens": 768,
+      "n_chains": 8,
+      "temperature": 1.0,
+      "top_p": 0.95,
+      "seed": 394718,
+      "seed_policy": {
+        "engine_seed": 314159,
+        "request_seed": "derived",
+        "base_seed": 394718,
+        "mode": "per_problem_per_chain_sha256"
+      },
+      "deterministic_sampling": true,
+      "run_signature": {
+        "model": "../models/Qwen2.5-Math-7B-Instruct",
+        "model_snapshot_sha256": "206a96bfd2e215654f5704a8226816db7a627bf57b38b5bff8430e269b955c27",
+        "runtime_versions": {
+          "python": "3.10.12",
+          "torch": "2.5.1",
+          "transformers": "4.47.1",
+          "vllm": "0.6.6.post1"
+        },
+        "prompt_template": "qwen_math",
+        "prompt_sha256": "a356c4bbdb9a8c3427c26be488596ed1d9540056ff7f1e98d4d2de66ba3e640b",
+        "store_token_ids": true,
+        "dtype": "bfloat16",
+        "max_model_len": 2560,
+        "trust_remote_code": false
+      },
+      "mode": "reconstructed_token_prefix",
+      "reconstructed_from": {
+        "source_name": "xlong_sample8",
+        "source_cap": 1536
+      }
+    },
+    "outputs/temperature_sensitivity/t100/qwen_seed314159/inference_long_sample8.jsonl": {
+      "max_new_tokens": 768,
+      "n_chains": 8,
+      "temperature": 1.0,
+      "top_p": 0.95,
+      "seed": 359397,
+      "seed_policy": {
+        "engine_seed": 314159,
+        "request_seed": "derived",
+        "base_seed": 359397,
+        "mode": "per_problem_per_chain_sha256"
+      },
+      "deterministic_sampling": true,
+      "run_signature": {
+        "model": "../models/Qwen2.5-Math-7B-Instruct",
+        "model_snapshot_sha256": "206a96bfd2e215654f5704a8226816db7a627bf57b38b5bff8430e269b955c27",
+        "runtime_versions": {
+          "python": "3.10.12",
+          "torch": "2.5.1",
+          "transformers": "4.47.1",
+          "vllm": "0.6.6.post1"
+        },
+        "prompt_template": "qwen_math",
+        "prompt_sha256": "a356c4bbdb9a8c3427c26be488596ed1d9540056ff7f1e98d4d2de66ba3e640b",
+        "store_token_ids": true,
+        "dtype": "bfloat16",
+        "max_model_len": 2560,
+        "trust_remote_code": false
+      }
+    },
+    "outputs/temperature_sensitivity/t100/qwen_seed314159/inference_xlong_sample8.jsonl": {
+      "max_new_tokens": 1536,
+      "n_chains": 8,
+      "temperature": 1.0,
+      "top_p": 0.95,
+      "seed": 394718,
+      "seed_policy": {
+        "engine_seed": 314159,
+        "request_seed": "derived",
+        "base_seed": 394718,
+        "mode": "per_problem_per_chain_sha256"
+      },
+      "deterministic_sampling": true,
+      "run_signature": {
+        "model": "../models/Qwen2.5-Math-7B-Instruct",
+        "model_snapshot_sha256": "206a96bfd2e215654f5704a8226816db7a627bf57b38b5bff8430e269b955c27",
+        "runtime_versions": {
+          "python": "3.10.12",
+          "torch": "2.5.1",
+          "transformers": "4.47.1",
+          "vllm": "0.6.6.post1"
+        },
+        "prompt_template": "qwen_math",
+        "prompt_sha256": "a356c4bbdb9a8c3427c26be488596ed1d9540056ff7f1e98d4d2de66ba3e640b",
+        "store_token_ids": true,
+        "dtype": "bfloat16",
+        "max_model_len": 2560,
+        "trust_remote_code": false
+      }
+    },
+    "outputs/temperature_sensitivity/t100/qwen_seed42/inference_long_reconstructed.jsonl": {
+      "max_new_tokens": 768,
+      "n_chains": 8,
+      "temperature": 1.0,
+      "top_p": 0.95,
+      "seed": 80601,
+      "seed_policy": {
+        "engine_seed": 42,
+        "request_seed": "derived",
+        "base_seed": 80601,
+        "mode": "per_problem_per_chain_sha256"
+      },
+      "deterministic_sampling": true,
+      "run_signature": {
+        "model": "../models/Qwen2.5-Math-7B-Instruct",
+        "model_snapshot_sha256": "206a96bfd2e215654f5704a8226816db7a627bf57b38b5bff8430e269b955c27",
+        "runtime_versions": {
+          "python": "3.10.12",
+          "torch": "2.5.1",
+          "transformers": "4.47.1",
+          "vllm": "0.6.6.post1"
+        },
+        "prompt_template": "qwen_math",
+        "prompt_sha256": "a356c4bbdb9a8c3427c26be488596ed1d9540056ff7f1e98d4d2de66ba3e640b",
+        "store_token_ids": true,
+        "dtype": "bfloat16",
+        "max_model_len": 2560,
+        "trust_remote_code": false
+      },
+      "mode": "reconstructed_token_prefix",
+      "reconstructed_from": {
+        "source_name": "xlong_sample8",
+        "source_cap": 1536
+      }
+    },
+    "outputs/temperature_sensitivity/t100/qwen_seed42/inference_long_sample8.jsonl": {
+      "max_new_tokens": 768,
+      "n_chains": 8,
+      "temperature": 1.0,
+      "top_p": 0.95,
+      "seed": 45280,
+      "seed_policy": {
+        "engine_seed": 42,
+        "request_seed": "derived",
+        "base_seed": 45280,
+        "mode": "per_problem_per_chain_sha256"
+      },
+      "deterministic_sampling": true,
+      "run_signature": {
+        "model": "../models/Qwen2.5-Math-7B-Instruct",
+        "model_snapshot_sha256": "206a96bfd2e215654f5704a8226816db7a627bf57b38b5bff8430e269b955c27",
+        "runtime_versions": {
+          "python": "3.10.12",
+          "torch": "2.5.1",
+          "transformers": "4.47.1",
+          "vllm": "0.6.6.post1"
+        },
+        "prompt_template": "qwen_math",
+        "prompt_sha256": "a356c4bbdb9a8c3427c26be488596ed1d9540056ff7f1e98d4d2de66ba3e640b",
+        "store_token_ids": true,
+        "dtype": "bfloat16",
+        "max_model_len": 2560,
+        "trust_remote_code": false
+      }
+    },
+    "outputs/temperature_sensitivity/t100/qwen_seed42/inference_xlong_sample8.jsonl": {
+      "max_new_tokens": 1536,
+      "n_chains": 8,
+      "temperature": 1.0,
+      "top_p": 0.95,
+      "seed": 80601,
+      "seed_policy": {
+        "engine_seed": 42,
+        "request_seed": "derived",
+        "base_seed": 80601,
+        "mode": "per_problem_per_chain_sha256"
+      },
+      "deterministic_sampling": true,
+      "run_signature": {
+        "model": "../models/Qwen2.5-Math-7B-Instruct",
+        "model_snapshot_sha256": "206a96bfd2e215654f5704a8226816db7a627bf57b38b5bff8430e269b955c27",
+        "runtime_versions": {
+          "python": "3.10.12",
+          "torch": "2.5.1",
+          "transformers": "4.47.1",
+          "vllm": "0.6.6.post1"
+        },
+        "prompt_template": "qwen_math",
+        "prompt_sha256": "a356c4bbdb9a8c3427c26be488596ed1d9540056ff7f1e98d4d2de66ba3e640b",
+        "store_token_ids": true,
+        "dtype": "bfloat16",
+        "max_model_len": 2560,
+        "trust_remote_code": false
+      }
+    }
+  },
+  "seed_policies": {
+    "outputs/temperature_sensitivity/t100/llama_seed271828/inference_long_reconstructed.jsonl": {
+      "engine_seed": 271828,
+      "request_seed": "derived",
+      "base_seed": 352387,
+      "mode": "per_problem_per_chain_sha256"
+    },
+    "outputs/temperature_sensitivity/t100/llama_seed271828/inference_long_sample8.jsonl": {
+      "engine_seed": 271828,
+      "request_seed": "derived",
+      "base_seed": 317066,
+      "mode": "per_problem_per_chain_sha256"
+    },
+    "outputs/temperature_sensitivity/t100/llama_seed271828/inference_xlong_sample8.jsonl": {
+      "engine_seed": 271828,
+      "request_seed": "derived",
+      "base_seed": 352387,
+      "mode": "per_problem_per_chain_sha256"
+    },
+    "outputs/temperature_sensitivity/t100/llama_seed314159/inference_long_reconstructed.jsonl": {
+      "engine_seed": 314159,
+      "request_seed": "derived",
+      "base_seed": 394718,
+      "mode": "per_problem_per_chain_sha256"
+    },
+    "outputs/temperature_sensitivity/t100/llama_seed314159/inference_long_sample8.jsonl": {
+      "engine_seed": 314159,
+      "request_seed": "derived",
+      "base_seed": 359397,
+      "mode": "per_problem_per_chain_sha256"
+    },
+    "outputs/temperature_sensitivity/t100/llama_seed314159/inference_xlong_sample8.jsonl": {
+      "engine_seed": 314159,
+      "request_seed": "derived",
+      "base_seed": 394718,
+      "mode": "per_problem_per_chain_sha256"
+    },
+    "outputs/temperature_sensitivity/t100/llama_seed42/inference_long_reconstructed.jsonl": {
+      "engine_seed": 42,
+      "request_seed": "derived",
+      "base_seed": 80601,
+      "mode": "per_problem_per_chain_sha256"
+    },
+    "outputs/temperature_sensitivity/t100/llama_seed42/inference_long_sample8.jsonl": {
+      "engine_seed": 42,
+      "request_seed": "derived",
+      "base_seed": 45280,
+      "mode": "per_problem_per_chain_sha256"
+    },
+    "outputs/temperature_sensitivity/t100/llama_seed42/inference_xlong_sample8.jsonl": {
+      "engine_seed": 42,
+      "request_seed": "derived",
+      "base_seed": 80601,
+      "mode": "per_problem_per_chain_sha256"
+    },
+    "outputs/temperature_sensitivity/t100/qwen_seed271828/inference_long_reconstructed.jsonl": {
+      "engine_seed": 271828,
+      "request_seed": "derived",
+      "base_seed": 352387,
+      "mode": "per_problem_per_chain_sha256"
+    },
+    "outputs/temperature_sensitivity/t100/qwen_seed271828/inference_long_sample8.jsonl": {
+      "engine_seed": 271828,
+      "request_seed": "derived",
+      "base_seed": 317066,
+      "mode": "per_problem_per_chain_sha256"
+    },
+    "outputs/temperature_sensitivity/t100/qwen_seed271828/inference_xlong_sample8.jsonl": {
+      "engine_seed": 271828,
+      "request_seed": "derived",
+      "base_seed": 352387,
+      "mode": "per_problem_per_chain_sha256"
+    },
+    "outputs/temperature_sensitivity/t100/qwen_seed314159/inference_long_reconstructed.jsonl": {
+      "engine_seed": 314159,
+      "request_seed": "derived",
+      "base_seed": 394718,
+      "mode": "per_problem_per_chain_sha256"
+    },
+    "outputs/temperature_sensitivity/t100/qwen_seed314159/inference_long_sample8.jsonl": {
+      "engine_seed": 314159,
+      "request_seed": "derived",
+      "base_seed": 359397,
+      "mode": "per_problem_per_chain_sha256"
+    },
+    "outputs/temperature_sensitivity/t100/qwen_seed314159/inference_xlong_sample8.jsonl": {
+      "engine_seed": 314159,
+      "request_seed": "derived",
+      "base_seed": 394718,
+      "mode": "per_problem_per_chain_sha256"
+    },
+    "outputs/temperature_sensitivity/t100/qwen_seed42/inference_long_reconstructed.jsonl": {
+      "engine_seed": 42,
+      "request_seed": "derived",
+      "base_seed": 80601,
+      "mode": "per_problem_per_chain_sha256"
+    },
+    "outputs/temperature_sensitivity/t100/qwen_seed42/inference_long_sample8.jsonl": {
+      "engine_seed": 42,
+      "request_seed": "derived",
+      "base_seed": 45280,
+      "mode": "per_problem_per_chain_sha256"
+    },
+    "outputs/temperature_sensitivity/t100/qwen_seed42/inference_xlong_sample8.jsonl": {
+      "engine_seed": 42,
+      "request_seed": "derived",
+      "base_seed": 80601,
+      "mode": "per_problem_per_chain_sha256"
+    }
+  },
+  "run_signatures": {
+    "outputs/temperature_sensitivity/t100/llama_seed271828/inference_long_reconstructed.jsonl": {
+      "model": "../models/Llama-3.1-8B-Instruct",
+      "model_snapshot_sha256": "30cda48b8c52db3bef7b3c17a5a4369d5ac263e6e3d610e4c892784339e3efdd",
+      "runtime_versions": {
+        "python": "3.10.12",
+        "torch": "2.5.1",
+        "transformers": "4.47.1",
+        "vllm": "0.6.6.post1"
+      },
+      "prompt_template": "llama3_math",
+      "prompt_sha256": "56527a2dcf425f1699f6d12ca320144946a6b61926f2495f6df00221bf732fb2",
+      "store_token_ids": true,
+      "dtype": "bfloat16",
+      "max_model_len": 2560,
+      "trust_remote_code": false
+    },
+    "outputs/temperature_sensitivity/t100/llama_seed271828/inference_long_sample8.jsonl": {
+      "model": "../models/Llama-3.1-8B-Instruct",
+      "model_snapshot_sha256": "30cda48b8c52db3bef7b3c17a5a4369d5ac263e6e3d610e4c892784339e3efdd",
+      "runtime_versions": {
+        "python": "3.10.12",
+        "torch": "2.5.1",
+        "transformers": "4.47.1",
+        "vllm": "0.6.6.post1"
+      },
+      "prompt_template": "llama3_math",
+      "prompt_sha256": "56527a2dcf425f1699f6d12ca320144946a6b61926f2495f6df00221bf732fb2",
+      "store_token_ids": true,
+      "dtype": "bfloat16",
+      "max_model_len": 2560,
+      "trust_remote_code": false
+    },
+    "outputs/temperature_sensitivity/t100/llama_seed271828/inference_xlong_sample8.jsonl": {
+      "model": "../models/Llama-3.1-8B-Instruct",
+      "model_snapshot_sha256": "30cda48b8c52db3bef7b3c17a5a4369d5ac263e6e3d610e4c892784339e3efdd",
+      "runtime_versions": {
+        "python": "3.10.12",
+        "torch": "2.5.1",
+        "transformers": "4.47.1",
+        "vllm": "0.6.6.post1"
+      },
+      "prompt_template": "llama3_math",
+      "prompt_sha256": "56527a2dcf425f1699f6d12ca320144946a6b61926f2495f6df00221bf732fb2",
+      "store_token_ids": true,
+      "dtype": "bfloat16",
+      "max_model_len": 2560,
+      "trust_remote_code": false
+    },
+    "outputs/temperature_sensitivity/t100/llama_seed314159/inference_long_reconstructed.jsonl": {
+      "model": "../models/Llama-3.1-8B-Instruct",
+      "model_snapshot_sha256": "30cda48b8c52db3bef7b3c17a5a4369d5ac263e6e3d610e4c892784339e3efdd",
+      "runtime_versions": {
+        "python": "3.10.12",
+        "torch": "2.5.1",
+        "transformers": "4.47.1",
+        "vllm": "0.6.6.post1"
+      },
+      "prompt_template": "llama3_math",
+      "prompt_sha256": "56527a2dcf425f1699f6d12ca320144946a6b61926f2495f6df00221bf732fb2",
+      "store_token_ids": true,
+      "dtype": "bfloat16",
+      "max_model_len": 2560,
+      "trust_remote_code": false
+    },
+    "outputs/temperature_sensitivity/t100/llama_seed314159/inference_long_sample8.jsonl": {
+      "model": "../models/Llama-3.1-8B-Instruct",
+      "model_snapshot_sha256": "30cda48b8c52db3bef7b3c17a5a4369d5ac263e6e3d610e4c892784339e3efdd",
+      "runtime_versions": {
+        "python": "3.10.12",
+        "torch": "2.5.1",
+        "transformers": "4.47.1",
+        "vllm": "0.6.6.post1"
+      },
+      "prompt_template": "llama3_math",
+      "prompt_sha256": "56527a2dcf425f1699f6d12ca320144946a6b61926f2495f6df00221bf732fb2",
+      "store_token_ids": true,
+      "dtype": "bfloat16",
+      "max_model_len": 2560,
+      "trust_remote_code": false
+    },
+    "outputs/temperature_sensitivity/t100/llama_seed314159/inference_xlong_sample8.jsonl": {
+      "model": "../models/Llama-3.1-8B-Instruct",
+      "model_snapshot_sha256": "30cda48b8c52db3bef7b3c17a5a4369d5ac263e6e3d610e4c892784339e3efdd",
+      "runtime_versions": {
+        "python": "3.10.12",
+        "torch": "2.5.1",
+        "transformers": "4.47.1",
+        "vllm": "0.6.6.post1"
+      },
+      "prompt_template": "llama3_math",
+      "prompt_sha256": "56527a2dcf425f1699f6d12ca320144946a6b61926f2495f6df00221bf732fb2",
+      "store_token_ids": true,
+      "dtype": "bfloat16",
+      "max_model_len": 2560,
+      "trust_remote_code": false
+    },
+    "outputs/temperature_sensitivity/t100/llama_seed42/inference_long_reconstructed.jsonl": {
+      "model": "../models/Llama-3.1-8B-Instruct",
+      "model_snapshot_sha256": "30cda48b8c52db3bef7b3c17a5a4369d5ac263e6e3d610e4c892784339e3efdd",
+      "runtime_versions": {
+        "python": "3.10.12",
+        "torch": "2.5.1",
+        "transformers": "4.47.1",
+        "vllm": "0.6.6.post1"
+      },
+      "prompt_template": "llama3_math",
+      "prompt_sha256": "56527a2dcf425f1699f6d12ca320144946a6b61926f2495f6df00221bf732fb2",
+      "store_token_ids": true,
+      "dtype": "bfloat16",
+      "max_model_len": 2560,
+      "trust_remote_code": false
+    },
+    "outputs/temperature_sensitivity/t100/llama_seed42/inference_long_sample8.jsonl": {
+      "model": "../models/Llama-3.1-8B-Instruct",
+      "model_snapshot_sha256": "30cda48b8c52db3bef7b3c17a5a4369d5ac263e6e3d610e4c892784339e3efdd",
+      "runtime_versions": {
+        "python": "3.10.12",
+        "torch": "2.5.1",
+        "transformers": "4.47.1",
+        "vllm": "0.6.6.post1"
+      },
+      "prompt_template": "llama3_math",
+      "prompt_sha256": "56527a2dcf425f1699f6d12ca320144946a6b61926f2495f6df00221bf732fb2",
+      "store_token_ids": true,
+      "dtype": "bfloat16",
+      "max_model_len": 2560,
+      "trust_remote_code": false
+    },
+    "outputs/temperature_sensitivity/t100/llama_seed42/inference_xlong_sample8.jsonl": {
+      "model": "../models/Llama-3.1-8B-Instruct",
+      "model_snapshot_sha256": "30cda48b8c52db3bef7b3c17a5a4369d5ac263e6e3d610e4c892784339e3efdd",
+      "runtime_versions": {
+        "python": "3.10.12",
+        "torch": "2.5.1",
+        "transformers": "4.47.1",
+        "vllm": "0.6.6.post1"
+      },
+      "prompt_template": "llama3_math",
+      "prompt_sha256": "56527a2dcf425f1699f6d12ca320144946a6b61926f2495f6df00221bf732fb2",
+      "store_token_ids": true,
+      "dtype": "bfloat16",
+      "max_model_len": 2560,
+      "trust_remote_code": false
+    },
+    "outputs/temperature_sensitivity/t100/qwen_seed271828/inference_long_reconstructed.jsonl": {
+      "model": "../models/Qwen2.5-Math-7B-Instruct",
+      "model_snapshot_sha256": "206a96bfd2e215654f5704a8226816db7a627bf57b38b5bff8430e269b955c27",
+      "runtime_versions": {
+        "python": "3.10.12",
+        "torch": "2.5.1",
+        "transformers": "4.47.1",
+        "vllm": "0.6.6.post1"
+      },
+      "prompt_template": "qwen_math",
+      "prompt_sha256": "a356c4bbdb9a8c3427c26be488596ed1d9540056ff7f1e98d4d2de66ba3e640b",
+      "store_token_ids": true,
+      "dtype": "bfloat16",
+      "max_model_len": 2560,
+      "trust_remote_code": false
+    },
+    "outputs/temperature_sensitivity/t100/qwen_seed271828/inference_long_sample8.jsonl": {
+      "model": "../models/Qwen2.5-Math-7B-Instruct",
+      "model_snapshot_sha256": "206a96bfd2e215654f5704a8226816db7a627bf57b38b5bff8430e269b955c27",
+      "runtime_versions": {
+        "python": "3.10.12",
+        "torch": "2.5.1",
+        "transformers": "4.47.1",
+        "vllm": "0.6.6.post1"
+      },
+      "prompt_template": "qwen_math",
+      "prompt_sha256": "a356c4bbdb9a8c3427c26be488596ed1d9540056ff7f1e98d4d2de66ba3e640b",
+      "store_token_ids": true,
+      "dtype": "bfloat16",
+      "max_model_len": 2560,
+      "trust_remote_code": false
+    },
+    "outputs/temperature_sensitivity/t100/qwen_seed271828/inference_xlong_sample8.jsonl": {
+      "model": "../models/Qwen2.5-Math-7B-Instruct",
+      "model_snapshot_sha256": "206a96bfd2e215654f5704a8226816db7a627bf57b38b5bff8430e269b955c27",
+      "runtime_versions": {
+        "python": "3.10.12",
+        "torch": "2.5.1",
+        "transformers": "4.47.1",
+        "vllm": "0.6.6.post1"
+      },
+      "prompt_template": "qwen_math",
+      "prompt_sha256": "a356c4bbdb9a8c3427c26be488596ed1d9540056ff7f1e98d4d2de66ba3e640b",
+      "store_token_ids": true,
+      "dtype": "bfloat16",
+      "max_model_len": 2560,
+      "trust_remote_code": false
+    },
+    "outputs/temperature_sensitivity/t100/qwen_seed314159/inference_long_reconstructed.jsonl": {
+      "model": "../models/Qwen2.5-Math-7B-Instruct",
+      "model_snapshot_sha256": "206a96bfd2e215654f5704a8226816db7a627bf57b38b5bff8430e269b955c27",
+      "runtime_versions": {
+        "python": "3.10.12",
+        "torch": "2.5.1",
+        "transformers": "4.47.1",
+        "vllm": "0.6.6.post1"
+      },
+      "prompt_template": "qwen_math",
+      "prompt_sha256": "a356c4bbdb9a8c3427c26be488596ed1d9540056ff7f1e98d4d2de66ba3e640b",
+      "store_token_ids": true,
+      "dtype": "bfloat16",
+      "max_model_len": 2560,
+      "trust_remote_code": false
+    },
+    "outputs/temperature_sensitivity/t100/qwen_seed314159/inference_long_sample8.jsonl": {
+      "model": "../models/Qwen2.5-Math-7B-Instruct",
+      "model_snapshot_sha256": "206a96bfd2e215654f5704a8226816db7a627bf57b38b5bff8430e269b955c27",
+      "runtime_versions": {
+        "python": "3.10.12",
+        "torch": "2.5.1",
+        "transformers": "4.47.1",
+        "vllm": "0.6.6.post1"
+      },
+      "prompt_template": "qwen_math",
+      "prompt_sha256": "a356c4bbdb9a8c3427c26be488596ed1d9540056ff7f1e98d4d2de66ba3e640b",
+      "store_token_ids": true,
+      "dtype": "bfloat16",
+      "max_model_len": 2560,
+      "trust_remote_code": false
+    },
+    "outputs/temperature_sensitivity/t100/qwen_seed314159/inference_xlong_sample8.jsonl": {
+      "model": "../models/Qwen2.5-Math-7B-Instruct",
+      "model_snapshot_sha256": "206a96bfd2e215654f5704a8226816db7a627bf57b38b5bff8430e269b955c27",
+      "runtime_versions": {
+        "python": "3.10.12",
+        "torch": "2.5.1",
+        "transformers": "4.47.1",
+        "vllm": "0.6.6.post1"
+      },
+      "prompt_template": "qwen_math",
+      "prompt_sha256": "a356c4bbdb9a8c3427c26be488596ed1d9540056ff7f1e98d4d2de66ba3e640b",
+      "store_token_ids": true,
+      "dtype": "bfloat16",
+      "max_model_len": 2560,
+      "trust_remote_code": false
+    },
+    "outputs/temperature_sensitivity/t100/qwen_seed42/inference_long_reconstructed.jsonl": {
+      "model": "../models/Qwen2.5-Math-7B-Instruct",
+      "model_snapshot_sha256": "206a96bfd2e215654f5704a8226816db7a627bf57b38b5bff8430e269b955c27",
+      "runtime_versions": {
+        "python": "3.10.12",
+        "torch": "2.5.1",
+        "transformers": "4.47.1",
+        "vllm": "0.6.6.post1"
+      },
+      "prompt_template": "qwen_math",
+      "prompt_sha256": "a356c4bbdb9a8c3427c26be488596ed1d9540056ff7f1e98d4d2de66ba3e640b",
+      "store_token_ids": true,
+      "dtype": "bfloat16",
+      "max_model_len": 2560,
+      "trust_remote_code": false
+    },
+    "outputs/temperature_sensitivity/t100/qwen_seed42/inference_long_sample8.jsonl": {
+      "model": "../models/Qwen2.5-Math-7B-Instruct",
+      "model_snapshot_sha256": "206a96bfd2e215654f5704a8226816db7a627bf57b38b5bff8430e269b955c27",
+      "runtime_versions": {
+        "python": "3.10.12",
+        "torch": "2.5.1",
+        "transformers": "4.47.1",
+        "vllm": "0.6.6.post1"
+      },
+      "prompt_template": "qwen_math",
+      "prompt_sha256": "a356c4bbdb9a8c3427c26be488596ed1d9540056ff7f1e98d4d2de66ba3e640b",
+      "store_token_ids": true,
+      "dtype": "bfloat16",
+      "max_model_len": 2560,
+      "trust_remote_code": false
+    },
+    "outputs/temperature_sensitivity/t100/qwen_seed42/inference_xlong_sample8.jsonl": {
+      "model": "../models/Qwen2.5-Math-7B-Instruct",
+      "model_snapshot_sha256": "206a96bfd2e215654f5704a8226816db7a627bf57b38b5bff8430e269b955c27",
+      "runtime_versions": {
+        "python": "3.10.12",
+        "torch": "2.5.1",
+        "transformers": "4.47.1",
+        "vllm": "0.6.6.post1"
+      },
+      "prompt_template": "qwen_math",
+      "prompt_sha256": "a356c4bbdb9a8c3427c26be488596ed1d9540056ff7f1e98d4d2de66ba3e640b",
+      "store_token_ids": true,
+      "dtype": "bfloat16",
+      "max_model_len": 2560,
+      "trust_remote_code": false
+    }
+  },
+  "request_seed_collisions": {
+    "outputs/temperature_sensitivity/t100/llama_seed271828/inference_long_reconstructed.jsonl": {
+      "n_seeded_requests": 6400,
+      "n_unique_request_seeds": 6400,
+      "n_duplicate_assignments": 0,
+      "max_seed_multiplicity": 1
+    },
+    "outputs/temperature_sensitivity/t100/llama_seed271828/inference_long_sample8.jsonl": {
+      "n_seeded_requests": 6400,
+      "n_unique_request_seeds": 6400,
+      "n_duplicate_assignments": 0,
+      "max_seed_multiplicity": 1
+    },
+    "outputs/temperature_sensitivity/t100/llama_seed271828/inference_xlong_sample8.jsonl": {
+      "n_seeded_requests": 6400,
+      "n_unique_request_seeds": 6400,
+      "n_duplicate_assignments": 0,
+      "max_seed_multiplicity": 1
+    },
+    "outputs/temperature_sensitivity/t100/llama_seed314159/inference_long_reconstructed.jsonl": {
+      "n_seeded_requests": 6400,
+      "n_unique_request_seeds": 6400,
+      "n_duplicate_assignments": 0,
+      "max_seed_multiplicity": 1
+    },
+    "outputs/temperature_sensitivity/t100/llama_seed314159/inference_long_sample8.jsonl": {
+      "n_seeded_requests": 6400,
+      "n_unique_request_seeds": 6400,
+      "n_duplicate_assignments": 0,
+      "max_seed_multiplicity": 1
+    },
+    "outputs/temperature_sensitivity/t100/llama_seed314159/inference_xlong_sample8.jsonl": {
+      "n_seeded_requests": 6400,
+      "n_unique_request_seeds": 6400,
+      "n_duplicate_assignments": 0,
+      "max_seed_multiplicity": 1
+    },
+    "outputs/temperature_sensitivity/t100/llama_seed42/inference_long_reconstructed.jsonl": {
+      "n_seeded_requests": 6400,
+      "n_unique_request_seeds": 6400,
+      "n_duplicate_assignments": 0,
+      "max_seed_multiplicity": 1
+    },
+    "outputs/temperature_sensitivity/t100/llama_seed42/inference_long_sample8.jsonl": {
+      "n_seeded_requests": 6400,
+      "n_unique_request_seeds": 6400,
+      "n_duplicate_assignments": 0,
+      "max_seed_multiplicity": 1
+    },
+    "outputs/temperature_sensitivity/t100/llama_seed42/inference_xlong_sample8.jsonl": {
+      "n_seeded_requests": 6400,
+      "n_unique_request_seeds": 6400,
+      "n_duplicate_assignments": 0,
+      "max_seed_multiplicity": 1
+    },
+    "outputs/temperature_sensitivity/t100/qwen_seed271828/inference_long_reconstructed.jsonl": {
+      "n_seeded_requests": 6400,
+      "n_unique_request_seeds": 6400,
+      "n_duplicate_assignments": 0,
+      "max_seed_multiplicity": 1
+    },
+    "outputs/temperature_sensitivity/t100/qwen_seed271828/inference_long_sample8.jsonl": {
+      "n_seeded_requests": 6400,
+      "n_unique_request_seeds": 6400,
+      "n_duplicate_assignments": 0,
+      "max_seed_multiplicity": 1
+    },
+    "outputs/temperature_sensitivity/t100/qwen_seed271828/inference_xlong_sample8.jsonl": {
+      "n_seeded_requests": 6400,
+      "n_unique_request_seeds": 6400,
+      "n_duplicate_assignments": 0,
+      "max_seed_multiplicity": 1
+    },
+    "outputs/temperature_sensitivity/t100/qwen_seed314159/inference_long_reconstructed.jsonl": {
+      "n_seeded_requests": 6400,
+      "n_unique_request_seeds": 6400,
+      "n_duplicate_assignments": 0,
+      "max_seed_multiplicity": 1
+    },
+    "outputs/temperature_sensitivity/t100/qwen_seed314159/inference_long_sample8.jsonl": {
+      "n_seeded_requests": 6400,
+      "n_unique_request_seeds": 6400,
+      "n_duplicate_assignments": 0,
+      "max_seed_multiplicity": 1
+    },
+    "outputs/temperature_sensitivity/t100/qwen_seed314159/inference_xlong_sample8.jsonl": {
+      "n_seeded_requests": 6400,
+      "n_unique_request_seeds": 6400,
+      "n_duplicate_assignments": 0,
+      "max_seed_multiplicity": 1
+    },
+    "outputs/temperature_sensitivity/t100/qwen_seed42/inference_long_reconstructed.jsonl": {
+      "n_seeded_requests": 6400,
+      "n_unique_request_seeds": 6400,
+      "n_duplicate_assignments": 0,
+      "max_seed_multiplicity": 1
+    },
+    "outputs/temperature_sensitivity/t100/qwen_seed42/inference_long_sample8.jsonl": {
+      "n_seeded_requests": 6400,
+      "n_unique_request_seeds": 6400,
+      "n_duplicate_assignments": 0,
+      "max_seed_multiplicity": 1
+    },
+    "outputs/temperature_sensitivity/t100/qwen_seed42/inference_xlong_sample8.jsonl": {
+      "n_seeded_requests": 6400,
+      "n_unique_request_seeds": 6400,
+      "n_duplicate_assignments": 0,
+      "max_seed_multiplicity": 1
+    }
+  },
+  "packages": {
+    "numpy": "1.26.4",
+    "pandas": "2.2.2",
+    "scikit-learn": "1.4.2",
+    "lightgbm": "4.3.0",
+    "torch": "2.5.1",
+    "transformers": "4.47.1",
+    "vllm": "0.6.6.post1",
+    "datasets": "2.19.2",
+    "PyYAML": "6.0.3",
+    "sympy": "1.13.1",
+    "latex2sympy2": "1.9.1",
+    "antlr4-python3-runtime": "4.7.2",
+    "pytest": "8.3.5"
+  },
+  "files": [
+    {
+      "path": "pipeline/config.yaml",
+      "exists": true,
+      "bytes": 5383,
+      "lines": 175,
+      "sha256": "a8ad21493c6cc37e43b4560d30b6c3cff37bef190bb480723f5dad11199f2682"
+    },
+    {
+      "path": "pipeline/config_llama_validation.yaml",
+      "exists": true,
+      "bytes": 1539,
+      "lines": 72,
+      "sha256": "c589d6bf4b5ba92d59637b61ad901948b2878d2a199faa22a95d2657a48833ee"
+    },
+    {
+      "path": "pipeline/config_r1_distill.yaml",
+      "exists": true,
+      "bytes": 2005,
+      "lines": 75,
+      "sha256": "0e8e5d7f482e75f1ea2b6dadd580431ef8e57280a9ddf735b8a12fff0f27fc4b"
+    },
+    {
+      "path": "pipeline/config_aime_qwen.yaml",
+      "exists": true,
+      "bytes": 1658,
+      "lines": 65,
+      "sha256": "ff0ea338db580c8db98fd56193b7e969d3e154c3a1aa83c70f5b034f7b1b1190"
+    },
+    {
+      "path": "pipeline/config_aime_r1.yaml",
+      "exists": true,
+      "bytes": 1201,
+      "lines": 51,
+      "sha256": "c41aaba8666a9094dc9e1939e703b6fc12f9d85a6e937918d2496d1ca89ca4c8"
+    },
+    {
+      "path": "data/all_problems.jsonl",
+      "exists": true,
+      "bytes": 580499,
+      "lines": 800,
+      "sha256": "ade249319a710daf005767462e01082bae7d479c9585e4d7cb5f6b4d6936edb2"
+    },
+    {
+      "path": "data/expanded/all_problems.jsonl",
+      "exists": true,
+      "bytes": 5670546,
+      "lines": 6319,
+      "sha256": "276f199d7e67c4098a5966478334ec937aff952e21046356295071335c2af013"
+    },
+    {
+      "path": "data/llama_validation/all_problems.jsonl",
+      "exists": true,
+      "bytes": 580499,
+      "lines": 800,
+      "sha256": "ade249319a710daf005767462e01082bae7d479c9585e4d7cb5f6b4d6936edb2"
+    },
+    {
+      "path": "data/aime/all_problems.jsonl",
+      "exists": true,
+      "bytes": 32490,
+      "lines": 60,
+      "sha256": "7e49895fd04a9d54470fa038a44346510a638769174b8508aa0da11b0e16ec49"
+    },
+    {
+      "path": "paper/main.tex",
+      "exists": true,
+      "bytes": 38458,
+      "lines": 743,
+      "sha256": "af1f1cd15f62fd6aacf2e4e10b1f54f351a2fd0307a40169b389f6fb263ff26f"
+    },
+    {
+      "path": "paper/peerj_main.tex",
+      "exists": true,
+      "bytes": 46633,
+      "lines": 860,
+      "sha256": "4c63d258a389706cfcf3f8aed0d975952c085c8dd388e52769d55692f980d7f9"
+    },
+    {
+      "path": "paper/main.pdf",
+      "exists": true,
+      "bytes": 267914,
+      "lines": null,
+      "sha256": "4443b92f282414be89bc52218579ba364fb63b981b002a7f8d42a28f082b8a93"
+    },
+    {
+      "path": "paper/references.bib",
+      "exists": true,
+      "bytes": 11097,
+      "lines": 257,
+      "sha256": "7018b5f8a319dfbebb7881fd61bf68f216e622b165051f915493bbbd5b6e92c7"
+    },
+    {
+      "path": "outputs/frozen_router/cheap_router_ablation_best.csv",
+      "exists": true,
+      "bytes": 3071,
+      "lines": 26,
+      "sha256": "09e8bb6330eb9fc6519689dc75840021335216910e4b0613be1df207552372eb"
+    },
+    {
+      "path": "outputs/frozen_router/confidence_intervals.csv",
+      "exists": true,
+      "bytes": 1280,
+      "lines": 14,
+      "sha256": "333a646586254e55b97c9f9599ca2ae056e9e19caff40ab91975c99ef5904462"
+    },
+    {
+      "path": "outputs/frozen_router/rule_baselines.csv",
+      "exists": true,
+      "bytes": 3280,
+      "lines": 30,
+      "sha256": "8ff24ad97a61a715a7906f1d7b70f1991088cd4ed838a368a9ec7cbc13c132ce"
+    },
+    {
+      "path": "paper/figures/route_accuracy.pdf",
+      "exists": true,
+      "bytes": 15621,
+      "lines": null,
+      "sha256": "d1aad022ff9f8bce56dd9d03dd198b98887fb863b925e3a82389b25f4706799c"
+    },
+    {
+      "path": "paper/figures/route_accuracy.png",
+      "exists": true,
+      "bytes": 71459,
+      "lines": null,
+      "sha256": "355f6024e85324778b9d601e275725011ca965a0ca85c8306566a0ff7e0e6fd8"
+    },
+    {
+      "path": "paper/figures/answer_churn.pdf",
+      "exists": true,
+      "bytes": 17261,
+      "lines": null,
+      "sha256": "98b31bb6cf8d4c980d27ac92cde75d8662393bb9f0a349db6172f8728273d426"
+    },
+    {
+      "path": "paper/figures/answer_churn.png",
+      "exists": true,
+      "bytes": 67113,
+      "lines": null,
+      "sha256": "fb636978e884c8a95f18f8f916e261fe786063c95bab6fb31145eccd7219191a"
+    },
+    {
+      "path": "paper/figures/three_arm_design.pdf",
+      "exists": true,
+      "bytes": 19458,
+      "lines": null,
+      "sha256": "53743f6b3cbdbae4ce183622202e1f3fa9296380ebe578b299cd7a1c6a187c2d"
+    },
+    {
+      "path": "paper/figures/three_arm_design.png",
+      "exists": true,
+      "bytes": 40949,
+      "lines": null,
+      "sha256": "99d53ce4f148dd39ce0452dac209ce2434a9a98d2d0456dcaf6699ee93c6e42a"
+    },
+    {
+      "path": "outputs/temperature_sensitivity/temperature_sensitivity_summary.csv",
+      "exists": true,
+      "bytes": 474,
+      "lines": 7,
+      "sha256": "a57620060ac7d293aacd939a9d184f52f41b41897e2eb98aff71017f16a355f9"
+    },
+    {
+      "path": "README.md",
+      "exists": true,
+      "bytes": 4152,
+      "lines": 87,
+      "sha256": "17464eca4d6db77546d28f40efc04186c3bad14e4616c55d5b166fe98d566571"
+    },
+    {
+      "path": "pipeline/preflight_v2.py",
+      "exists": true,
+      "bytes": 10108,
+      "lines": 272,
+      "sha256": "d6f6cebc299fb6e64ac17b5166be32beea8d9799284aa50a976ae367195c5bb6"
+    },
+    {
+      "path": "pipeline/02_run_inference.py",
+      "exists": true,
+      "bytes": 33945,
+      "lines": 897,
+      "sha256": "0829550b350c09b3cc87a1bd0b10f331e60dc36a07b70d15a5afa0492206945e"
+    },
+    {
+      "path": "pipeline/08_run_continuation.py",
+      "exists": true,
+      "bytes": 17723,
+      "lines": 455,
+      "sha256": "33f264970db090802c8b0f435fda025dda67e3e548b037218d10f6d5df6b69e6"
+    },
+    {
+      "path": "pipeline/requirements.txt",
+      "exists": true,
+      "bytes": 909,
+      "lines": 38,
+      "sha256": "764d11b08d476b8a97c7df5255fa5ed3dc598b09a2c7938383643ea37aed31eb"
+    },
+    {
+      "path": "pipeline/utils/math_verify.py",
+      "exists": true,
+      "bytes": 17239,
+      "lines": 464,
+      "sha256": "4f6e16ac7f04994e4daeb50f227a497ff007545104cd03f4f0e413d554c9be5f"
+    },
+    {
+      "path": "pipeline/run_three_seed_core.sh",
+      "exists": true,
+      "bytes": 4211,
+      "lines": 121,
+      "sha256": "b87db87988498a4d150efc857068741a2cdbb5cf0801e4eaa36fda7e2cf3fb72"
+    },
+    {
+      "path": "pipeline/run_three_arm_base.sh",
+      "exists": true,
+      "bytes": 1824,
+      "lines": 53,
+      "sha256": "e5f119f2ddd9cc56ffb3c2de04d3099033fe2d7856bbb9a332942a5f2ec517f7"
+    },
+    {
+      "path": "analysis/28_reproducibility_manifest.py",
+      "exists": true,
+      "bytes": 10886,
+      "lines": 314,
+      "sha256": "1b64b5434842a553d2b7ede87a3a6fb6cbb8861cef86ed6ac2eb81ab58ebf969"
+    },
+    {
+      "path": "analysis/32_second_model_sanity_eval.py",
+      "exists": true,
+      "bytes": 11202,
+      "lines": 285,
+      "sha256": "14c49e2c9e8f55ae32904f4a1d9016afe2b4792fa14a0729ab6ae0f18b70c284"
+    },
+    {
+      "path": "analysis/35_complete_but_wrong_analysis.py",
+      "exists": true,
+      "bytes": 10730,
+      "lines": 279,
+      "sha256": "4aa2a27aef7e6209b11159ba12371d0702d8a4f4bb0aef69db2bd695fef84f7d"
+    },
+    {
+      "path": "analysis/36_make_paper_figures.py",
+      "exists": true,
+      "bytes": 8734,
+      "lines": 231,
+      "sha256": "550321c33de485806e1ffef3331dcb557279f246c2da3ef15f3df972fe78f05e"
+    },
+    {
+      "path": "analysis/39_sampling_repair_eval.py",
+      "exists": true,
+      "bytes": 16283,
+      "lines": 355,
+      "sha256": "2f69670882cd28c3b1e9277226dcdc06dcec580114d908818598f77c00ce5217"
+    },
+    {
+      "path": "analysis/42_relabel_cached_scores.py",
+      "exists": true,
+      "bytes": 6292,
+      "lines": 161,
+      "sha256": "66a6c83d35e10b68b8725c4995edf85b72518dacd17a9119a128a2817a40ea87"
+    },
+    {
+      "path": "analysis/44_same_budget_control.py",
+      "exists": true,
+      "bytes": 8713,
+      "lines": 215,
+      "sha256": "e9dd7baeeb2056d21825ff12a17382e64bdddc8db1ab7c150a9d05712a94e75a"
+    },
+    {
+      "path": "analysis/45_validate_rerun.py",
+      "exists": true,
+      "bytes": 9530,
+      "lines": 232,
+      "sha256": "5c9e4b7648a4e737e457d71f6d7b228d11da40efd2afe55c47a4e46202f49b23"
+    },
+    {
+      "path": "analysis/46_direct_same_budget_control.py",
+      "exists": true,
+      "bytes": 10688,
+      "lines": 261,
+      "sha256": "0bb39fef1598d1291910992b871ab1df1ccc1fbf71a7db9daae5eb7c5b13316c"
+    },
+    {
+      "path": "analysis/47_reconstruct_lower_cap.py",
+      "exists": true,
+      "bytes": 10590,
+      "lines": 270,
+      "sha256": "fd945d5c64bace689bcb4254862b3d1f3b02aee06b45112af7c86e4cb5951f87"
+    },
+    {
+      "path": "analysis/48_expanded_repair_eval.py",
+      "exists": true,
+      "bytes": 11016,
+      "lines": 305,
+      "sha256": "fee437da9d0b7bef7f1346634d4bfc5ceaed204a18ac27db53c5e2ff9660a6b0"
+    },
+    {
+      "path": "analysis/49_chain_count_sensitivity.py",
+      "exists": true,
+      "bytes": 5616,
+      "lines": 154,
+      "sha256": "7af68ba3b8f97046fd89b9bf7baf42414a86f32b4834d6fca302f22e2514443e"
+    },
+    {
+      "path": "analysis/50_seed_stopping_plan.py",
+      "exists": true,
+      "bytes": 2209,
+      "lines": 64,
+      "sha256": "9452cf8dba829739f94447ede62e0702e2a0b5a425c4c9ab9513900c49ceb015"
+    },
+    {
+      "path": "analysis/51_multiseed_cluster_summary.py",
+      "exists": true,
+      "bytes": 8837,
+      "lines": 238,
+      "sha256": "3ab7c7a88122613802d97e07d4c4d4f40277639055cf5d224a1729ed9cf93962"
+    },
+    {
+      "path": "analysis/52_aggregate_three_seed_core.py",
+      "exists": true,
+      "bytes": 12462,
+      "lines": 314,
+      "sha256": "b5b8bb7ec63e2431857f657a61140970b5e7aa6846c0e06d4bab92c47a6e39da"
+    },
+    {
+      "path": "analysis/53_three_arm_repair_decomposition.py",
+      "exists": true,
+      "bytes": 19676,
+      "lines": 528,
+      "sha256": "3aa6afbb5f5631ec702dadc6bddefbacaf9842cb6414e4977a8826ad20e1ecd7"
+    },
+    {
+      "path": "analysis/54_export_human_audit_sample.py",
+      "exists": true,
+      "bytes": 12439,
+      "lines": 333,
+      "sha256": "4a4c862c2538506e7bd9a64fe63ae50fd0499ad6627449550efb0d86595b1d4e"
+    },
+    {
+      "path": "analysis/55_score_human_audit.py",
+      "exists": true,
+      "bytes": 4414,
+      "lines": 119,
+      "sha256": "83b4f22933734f3c7b7a652fa11184eb1d6e9122371bdd9c3718f6aea4f2937f"
+    },
+    {
+      "path": "analysis/56_aggregate_three_arm.py",
+      "exists": true,
+      "bytes": 7693,
+      "lines": 197,
+      "sha256": "c954f299042f2963c139b9e6d1ead364abb7f1f385e20f1f4910d71ee175cd24"
+    },
+    {
+      "path": "analysis/07_cupidg_allocate.py",
+      "exists": true,
+      "bytes": 19345,
+      "lines": 503,
+      "sha256": "bbbe90ac5f00f3c7b1ee3e37d54637d37216c240924e3a292973249249b4662e"
+    },
+    {
+      "path": "analysis/08_cross_domain_fix.py",
+      "exists": true,
+      "bytes": 11530,
+      "lines": 292,
+      "sha256": "107e75882c981b40edd2afd4405e6b9bf6662b2cf8e6132bf633e5f1ea4f5ce6"
+    },
+    {
+      "path": "analysis/09_build_medium_features.py",
+      "exists": true,
+      "bytes": 10820,
+      "lines": 303,
+      "sha256": "120578b84b0b1fa27d419a944c40294c161a7b04edaac42237a6976da765288c"
+    },
+    {
+      "path": "analysis/10_medium_long_routing.py",
+      "exists": true,
+      "bytes": 17699,
+      "lines": 447,
+      "sha256": "32453e5343ef92bbb727f51b2b7cb6b319fa26046afe7a11702256478c241a84"
+    },
+    {
+      "path": "analysis/11_medium_robustness.py",
+      "exists": true,
+      "bytes": 8628,
+      "lines": 225,
+      "sha256": "b3ba585ab04460132fd0a90ae2dd677814337c2559cc1e6107e8e4786db28581"
+    },
+    {
+      "path": "analysis/12_domain_aware_routing.py",
+      "exists": true,
+      "bytes": 8299,
+      "lines": 216,
+      "sha256": "14e6aee78f463319c67a9bb578668bf03b184f9cbffb1028ee54cec976720d18"
+    },
+    {
+      "path": "analysis/13_classifier_sweep.py",
+      "exists": true,
+      "bytes": 6722,
+      "lines": 180,
+      "sha256": "3d18b9903a34ce98937edadb6cde67d8370abf7ccaefd728af0034d7270bc1fc"
+    },
+    {
+      "path": "analysis/14_feature_attribution.py",
+      "exists": true,
+      "bytes": 6942,
+      "lines": 191,
+      "sha256": "4cfec54decf27c086d6f6f8dc76938a59c293cf97b7ab71b7f0f9645fc4b6274"
+    },
+    {
+      "path": "analysis/15_compute_utility_atlas.py",
+      "exists": true,
+      "bytes": 6607,
+      "lines": 158,
+      "sha256": "b6c01118c0cae0b7bcc1dc54d43b915aeddce5357aff47ad61e4c8405f789220"
+    },
+    {
+      "path": "analysis/16_action_selection.py",
+      "exists": true,
+      "bytes": 8093,
+      "lines": 211,
+      "sha256": "48ad5707bb8fc85de66d6985cebb3030ace9ce125d591c83aca98941caba29ba"
+    },
+    {
+      "path": "analysis/17_nested_threshold_eval.py",
+      "exists": true,
+      "bytes": 9244,
+      "lines": 246,
+      "sha256": "354b2c4a678c7cb63b0af3f25f0e82a3c5f4f120005695e4bc4cd4e08d89fade"
+    },
+    {
+      "path": "analysis/18_global_budget_allocation.py",
+      "exists": true,
+      "bytes": 7790,
+      "lines": 213,
+      "sha256": "896d2e8b51a6d54591039037a511b1aa48860eb6e9532d7d69f494355b2bf2db"
+    },
+    {
+      "path": "analysis/19_cost_accounting.py",
+      "exists": true,
+      "bytes": 13334,
+      "lines": 313,
+      "sha256": "24171bea4c8c375011cf12eed8cceb807b159f41e0c2bfc64c57f74e3cb9ab62"
+    },
+    {
+      "path": "analysis/20_cheap_router_ablation.py",
+      "exists": true,
+      "bytes": 8094,
+      "lines": 216,
+      "sha256": "f84d0b5265d49a528afbca1089b5fc1d09a13f5235a0968d8c38a8035f051e2f"
+    },
+    {
+      "path": "analysis/21_compile_report.py",
+      "exists": true,
+      "bytes": 14941,
+      "lines": 421,
+      "sha256": "0135664da113f07208111f22a294fe688c9d7c6846d2e9d54e1c2ddf3c425804"
+    },
+    {
+      "path": "analysis/22_cheap_router_analysis.py",
+      "exists": true,
+      "bytes": 11369,
+      "lines": 291,
+      "sha256": "acb46c63e467435666a5ebda71fd6db1926a0d02c09ef2c6b2a187445b473371"
+    },
+    {
+      "path": "analysis/23_rule_baselines.py",
+      "exists": true,
+      "bytes": 9215,
+      "lines": 240,
+      "sha256": "979748f3623e23b989a90974f4f2b7580aaf9ff2cd3417bef0789c86fbf0eef9"
+    },
+    {
+      "path": "analysis/24_relaxed_verifier_sensitivity.py",
+      "exists": true,
+      "bytes": 13697,
+      "lines": 380,
+      "sha256": "c9c224b005813bfd9419338a89e461947e0fba510ca29b8bd51ebca431ca4413"
+    },
+    {
+      "path": "analysis/25_compile_paper_tables.py",
+      "exists": true,
+      "bytes": 12629,
+      "lines": 347,
+      "sha256": "86270d6f1abc1698d7423429d6eadf05e89b90501b41568a021d5dc928a91ef7"
+    },
+    {
+      "path": "analysis/26_budget_consistency_audit.py",
+      "exists": true,
+      "bytes": 8013,
+      "lines": 203,
+      "sha256": "8a9ce372c396f9dee53afcae39c2b5c2d044756dbca14f16e33d618fbebbee3d"
+    },
+    {
+      "path": "analysis/27_export_case_studies.py",
+      "exists": true,
+      "bytes": 6262,
+      "lines": 183,
+      "sha256": "f101944ed68a92875d4d863428a479302a5d61e1dc840bd5501cd9461648a055"
+    },
+    {
+      "path": "analysis/29_compute_utility_taxonomy.py",
+      "exists": true,
+      "bytes": 7833,
+      "lines": 196,
+      "sha256": "254e11e4360ed36ef035cd4e0cbc31afdbcbebc4a725e3adb8f1b55e9adfc19c"
+    },
+    {
+      "path": "analysis/30_budget_scaling_validation.py",
+      "exists": true,
+      "bytes": 7032,
+      "lines": 181,
+      "sha256": "4db50d8ecf09c870dea0737ad404e1c4cb7460f90c49ee3a35e5d0a26e0ecbeb"
+    },
+    {
+      "path": "analysis/33_check_second_model_ready.py",
+      "exists": true,
+      "bytes": 2033,
+      "lines": 68,
+      "sha256": "a903468879a014b65d7284c39db90911186c15554ea74dd9dd5c3198e2ae38b2"
+    },
+    {
+      "path": "analysis/34_run_llama_transformers_sanity.py",
+      "exists": true,
+      "bytes": 8646,
+      "lines": 244,
+      "sha256": "4369fe99bdd82151c893fdc3a32daf913e71d50a92d55d088a4d30a8bc417057"
+    },
+    {
+      "path": "analysis/37_confidence_intervals.py",
+      "exists": true,
+      "bytes": 11540,
+      "lines": 283,
+      "sha256": "009284ca143784b4f39049385aff41a684168999f73c9c35bcf72b2e0ec94d83"
+    },
+    {
+      "path": "analysis/38_trace_prefix_overlap.py",
+      "exists": true,
+      "bytes": 9666,
+      "lines": 241,
+      "sha256": "78bd48ce3b1557c20b5e0a4d28031b236e83bd73242e11b5b3cd2ff6f7f0731d"
+    },
+    {
+      "path": "analysis/40_cost_accounting_v2.py",
+      "exists": true,
+      "bytes": 7523,
+      "lines": 173,
+      "sha256": "45d8c969ca9abe2b17ddefe0705e9d78521e3680b75b9164bcc6782e792b3d09"
+    },
+    {
+      "path": "analysis/41_prm_calibration.py",
+      "exists": true,
+      "bytes": 5457,
+      "lines": 140,
+      "sha256": "4b2dea74e9e63cdb720157ea53f7edbfd6284f000fe5fba2aada7d1b8fcb44ae"
+    },
+    {
+      "path": "analysis/57_review_diagnostics.py",
+      "exists": true,
+      "bytes": 11406,
+      "lines": 315,
+      "sha256": "f8c37f775470f248976658428e8502ea114a7ef92bda5f8946725355e2c96440"
+    },
+    {
+      "path": "analysis/58_temperature_sensitivity.py",
+      "exists": true,
+      "bytes": 3618,
+      "lines": 100,
+      "sha256": "0b96c2efaff08593583cb6fb3bfab9085c61573cd2e45cf42e73be594950f422"
+    },
+    {
+      "path": "analysis/59_completion_attribution.py",
+      "exists": true,
+      "bytes": 5093,
+      "lines": 140,
+      "sha256": "fc5f395bb257c6b3a22b91c4d245d6a8922e15e9fb849e9b986c5ae32b9d804f"
+    },
+    {
+      "path": "analysis/59_rebuild_router_evidence.py",
+      "exists": true,
+      "bytes": 5576,
+      "lines": 162,
+      "sha256": "16c15a5a8d7a0cf5bae4061d30fa163ad2875aa37651c223eb61a5553fcf06aa"
+    },
+    {
+      "path": "analysis/60_equivalence_power.py",
+      "exists": true,
+      "bytes": 13993,
+      "lines": 349,
+      "sha256": "07568ad9fc68bbaa6aeeed8fc409e2c968fcaae5fff5a1b2fb5e2ad2bfd4cb0f"
+    },
+    {
+      "path": "analysis/61_three_arm_routing.py",
+      "exists": true,
+      "bytes": 11617,
+      "lines": 280,
+      "sha256": "5d16b6af1ded635485f92218a97069d05bc0b88dffc2f9926ab05ff7e92827d2"
+    },
+    {
+      "path": "analysis/62_temperature_multiseed.py",
+      "exists": true,
+      "bytes": 6225,
+      "lines": 159,
+      "sha256": "e39479779de29e9d93594e2aa5daa3053a2ad99137056033ea9397339a0ef5dd"
+    },
+    {
+      "path": "pipeline/00_preflight.py",
+      "exists": true,
+      "bytes": 9951,
+      "lines": 306,
+      "sha256": "20e1a1174dc0485cb6e39c83ce321f2b27e447fb605f9a14723cf961de049fde"
+    },
+    {
+      "path": "pipeline/01_download_data.py",
+      "exists": true,
+      "bytes": 6843,
+      "lines": 186,
+      "sha256": "e9afabbfcd2894f98324df16386ba30e041075e7a171fb6e17fbcfc2f50fe18d"
+    },
+    {
+      "path": "pipeline/03_prm_scoring.py",
+      "exists": true,
+      "bytes": 12389,
+      "lines": 324,
+      "sha256": "6f40ff591c5bcae03f023c6ebb26a7a1c38c3b5c45190f87e27e988322238204"
+    },
+    {
+      "path": "pipeline/04_build_features.py",
+      "exists": true,
+      "bytes": 5923,
+      "lines": 183,
+      "sha256": "e1ffb9a83afdf8a3562367f3d94c4b69eb33aa7c7a2126864900422a71bb2ded"
+    },
+    {
+      "path": "pipeline/05_train_evaluate.py",
+      "exists": true,
+      "bytes": 17336,
+      "lines": 467,
+      "sha256": "5093b287c577d4c56092e8bfbe8e4f8139d23c80042bfcb7ed5e9da25efb60ae"
+    },
+    {
+      "path": "pipeline/06_planb1_chr.py",
+      "exists": true,
+      "bytes": 10107,
+      "lines": 269,
+      "sha256": "59b09b3eaee1d48d057440e2ff61cddd4dfe4f5975efff8163bf31814ac41c36"
+    },
+    {
+      "path": "pipeline/07_mechanism_validation.py",
+      "exists": true,
+      "bytes": 10148,
+      "lines": 258,
+      "sha256": "892af38003d977bd0320f11ac2199b0565261a2e2b479ccd640d733e45f479a5"
+    },
+    {
+      "path": "pipeline/09_download_aime.py",
+      "exists": true,
+      "bytes": 4468,
+      "lines": 115,
+      "sha256": "424335028a4e5715790481089857eb877f518be4652d1cceff07aea5d456a66b"
+    },
+    {
+      "path": "pipeline/config_r1_three_arm.yaml",
+      "exists": true,
+      "bytes": 1957,
+      "lines": 68,
+      "sha256": "6ecf2b5cde37e215ac990e1e446cf8f1cd5dc0ee8cfd2ee7f90b1b87a80b2b6f"
+    },
+    {
+      "path": "pipeline/install_gpu_deps.sh",
+      "exists": true,
+      "bytes": 930,
+      "lines": 26,
+      "sha256": "85116a29707e8b2eddc2c7bfe0bec00283d888894272d25930185fe5f07cc7fa"
+    },
+    {
+      "path": "pipeline/reproducibility.py",
+      "exists": true,
+      "bytes": 3596,
+      "lines": 107,
+      "sha256": "55c878026a61f2e1d5c378edaae73251d77c0b9d14c42937ffe32dd0d36f884f"
+    },
+    {
+      "path": "pipeline/run_all.sh",
+      "exists": true,
+      "bytes": 6073,
+      "lines": 165,
+      "sha256": "ba935eb52d383f78e0c618f7254c73da5395c0a497c2b6f9bb8e7e522d60746a"
+    },
+    {
+      "path": "pipeline/run_clean_rerun.sh",
+      "exists": true,
+      "bytes": 1631,
+      "lines": 45,
+      "sha256": "4385d8a69bba17d290df73018c3bfbf613b7d5fc588b7ca3c60c7a1a6156d068"
+    },
+    {
+      "path": "pipeline/run_r1_three_arm.sh",
+      "exists": true,
+      "bytes": 3077,
+      "lines": 94,
+      "sha256": "a825808e8c593d1380c8c67a70d5a90cd4bf6e19f4c5987ada9550192a495d8f"
+    },
+    {
+      "path": "pipeline/run_temperature_sensitivity.sh",
+      "exists": true,
+      "bytes": 3063,
+      "lines": 85,
+      "sha256": "47513e29496680fed666d4a894d1707ddf3f03582a6a47024b4fb2d8ee6d4f8c"
+    },
+    {
+      "path": "pipeline/run_v2_experiments.sh",
+      "exists": true,
+      "bytes": 8131,
+      "lines": 158,
+      "sha256": "8e586b0e93e8b7b34a590f91b4ae8e785ed38742feeeb0dfe0044c49e0c9a061"
+    },
+    {
+      "path": "pipeline/utils/__init__.py",
+      "exists": true,
+      "bytes": 215,
+      "lines": 8,
+      "sha256": "1a152b3120ebdae715626458f73e5687ecb9ce33010c691367d23dbd49fadd1d"
+    },
+    {
+      "path": "pipeline/utils/feature_utils.py",
+      "exists": true,
+      "bytes": 10917,
+      "lines": 300,
+      "sha256": "73b4936f4af0b919fa0bbd38b402323331b08d0d2be9f5fbfd611235912dfbc3"
+    },
+    {
+      "path": "pipeline/utils/prm_utils.py",
+      "exists": true,
+      "bytes": 9561,
+      "lines": 259,
+      "sha256": "df27e826939cb1c57413ccfb360806ef2dfef5e1abd1ae82f3ae075087f2aa2b"
+    },
+    {
+      "path": "tests/test_cached_relabel.py",
+      "exists": true,
+      "bytes": 1040,
+      "lines": 32,
+      "sha256": "ab56925600a8bd2ae2ab2266baf97e5e839ebf6a7818b64868f5553cf2d91924"
+    },
+    {
+      "path": "tests/test_continuation_validation.py",
+      "exists": true,
+      "bytes": 2665,
+      "lines": 98,
+      "sha256": "f3f74bdcb01c61ba326461ab2086976982c546ab9d2d2a8fbad462c6a84d9f15"
+    },
+    {
+      "path": "tests/test_cpu_robustness.py",
+      "exists": true,
+      "bytes": 7362,
+      "lines": 230,
+      "sha256": "65a4ab725396f6530c2cf1c9ee9df4aa583d644f456a09857cf57ab734b6da4e"
+    },
+    {
+      "path": "tests/test_direct_same_budget_control.py",
+      "exists": true,
+      "bytes": 3869,
+      "lines": 125,
+      "sha256": "67ac326d4041f5d2dfb513a350e653f22b4bc07f5935db7826bac859895f5e49"
+    },
+    {
+      "path": "tests/test_feature_validation.py",
+      "exists": true,
+      "bytes": 1452,
+      "lines": 44,
+      "sha256": "5f94c159d2049738bb2a09ac615539c5a956f6423af082f1470ba4ea0ef390f1"
+    },
+    {
+      "path": "tests/test_human_audit_scoring.py",
+      "exists": true,
+      "bytes": 1892,
+      "lines": 66,
+      "sha256": "b954c54d2f19fbcd13cfc307e7d793be7034979c4c4d811d6dae247e5ea694c7"
+    },
+    {
+      "path": "tests/test_inference_resume.py",
+      "exists": true,
+      "bytes": 19637,
+      "lines": 579,
+      "sha256": "231a698d5007b96b6ece953b65f61e7bf6884a8ec567e6f7033d38ec4b64c598"
+    },
+    {
+      "path": "tests/test_math_verify.py",
+      "exists": true,
+      "bytes": 7040,
+      "lines": 187,
+      "sha256": "ecc88a2bcd8416c62993382ce870762d7f69bae2655e53f5b6658846d67c0359"
+    },
+    {
+      "path": "tests/test_mechanism_helpers.py",
+      "exists": true,
+      "bytes": 1598,
+      "lines": 49,
+      "sha256": "124e21e5fd6882af87aea74de84307efb6ec9490c64d5fce08ca792d6cfafdbc"
+    },
+    {
+      "path": "tests/test_rebuild_router_evidence.py",
+      "exists": true,
+      "bytes": 1052,
+      "lines": 37,
+      "sha256": "61c549dd542d1d9c4ce68e0b9bf97345023b43e61d9022ef56e0b3e611a650f7"
+    },
+    {
+      "path": "tests/test_reconstruct_lower_cap.py",
+      "exists": true,
+      "bytes": 7166,
+      "lines": 217,
+      "sha256": "a8f343a06508e95a42a080d32203296493454460ef8a2413cb921b51ff1a50e9"
+    },
+    {
+      "path": "tests/test_reproducibility_manifest.py",
+      "exists": true,
+      "bytes": 2830,
+      "lines": 83,
+      "sha256": "72cc3c8c746f636af5edb36316323e7c258c83fdb49462c468a3b141b2d9cf6e"
+    },
+    {
+      "path": "tests/test_review_diagnostics.py",
+      "exists": true,
+      "bytes": 1802,
+      "lines": 59,
+      "sha256": "977857908301e29f263e8f5623121ecc3edcf8abb739b996674e1b282381b401"
+    },
+    {
+      "path": "tests/test_same_budget_control.py",
+      "exists": true,
+      "bytes": 1641,
+      "lines": 51,
+      "sha256": "429b4c3e9afac3234e4abb4f084a747fc26a7d89227cc30088791ce093491ed8"
+    },
+    {
+      "path": "tests/test_sampling_repair_eval.py",
+      "exists": true,
+      "bytes": 3113,
+      "lines": 85,
+      "sha256": "b8defa75b23832c87c7ecc87d2fc9ba9c017851cc0d7833ab90e788992943454"
+    },
+    {
+      "path": "tests/test_sampling_summary_cli.py",
+      "exists": true,
+      "bytes": 3161,
+      "lines": 97,
+      "sha256": "d6e9e7a8ed9cbd5e00108a56594f790cc983347edac6ee0799a50093f9d908aa"
+    },
+    {
+      "path": "tests/test_three_arm_aggregate.py",
+      "exists": true,
+      "bytes": 2136,
+      "lines": 61,
+      "sha256": "15e362991c716e19b21fd8e49cab10f271532c44231fa973366e6ef44d024404"
+    },
+    {
+      "path": "tests/test_three_arm_decomposition.py",
+      "exists": true,
+      "bytes": 8305,
+      "lines": 260,
+      "sha256": "c8bf72ad97aa56b4aa33e2f94ba40cf8243cf2fb5aadd8636edca225625020df"
+    },
+    {
+      "path": "tests/test_validate_rerun.py",
+      "exists": true,
+      "bytes": 2349,
+      "lines": 69,
+      "sha256": "a0dee2239b67d4b1dd9eb5a0fe2fe5decb94b895de52d0434050e0d99d6ec3d5"
+    },
+    {
+      "path": "outputs/temperature_sensitivity/t100/llama_seed271828/inference_long_reconstructed.jsonl",
+      "exists": true,
+      "bytes": 20469248,
+      "lines": 800,
+      "sha256": "dac62cc0d5b2cb2805a6612480d4a55399f29a492034536601f4c73719e5f114"
+    },
+    {
+      "path": "outputs/temperature_sensitivity/t100/llama_seed271828/inference_long_sample8.jsonl",
+      "exists": true,
+      "bytes": 20350572,
+      "lines": 800,
+      "sha256": "a0c21d106aa718da00cd96dc84bdcf64720ac3605662af61d78d14561a4a3fe3"
+    },
+    {
+      "path": "outputs/temperature_sensitivity/t100/llama_seed271828/inference_xlong_sample8.jsonl",
+      "exists": true,
+      "bytes": 22438728,
+      "lines": 800,
+      "sha256": "0086df0d20181f05ed23bac6a6920bb6da94d24785822bccde076c1a91fc2acd"
+    },
+    {
+      "path": "outputs/temperature_sensitivity/t100/llama_seed271828/three_arm_detail.csv",
+      "exists": true,
+      "bytes": 233235,
+      "lines": 2401,
+      "sha256": "a47bc57a30d6cef67d0779bdec12c394265a89701b9b09f6f0b71ef829b4296e"
+    },
+    {
+      "path": "outputs/temperature_sensitivity/t100/llama_seed271828/three_arm_harm_detail.csv",
+      "exists": true,
+      "bytes": 388710,
+      "lines": 4801,
+      "sha256": "096cbb1599aee85488b7b2608c6a9f308b0f2c5772b591bb384bd52ac43184a5"
+    },
+    {
+      "path": "outputs/temperature_sensitivity/t100/llama_seed271828/three_arm_harm_summary.csv",
+      "exists": true,
+      "bytes": 1835,
+      "lines": 19,
+      "sha256": "bc094b7c55376dfcf94cc42df8814b338b9d0d621f1431d6e7e1d92e1387f491"
+    },
+    {
+      "path": "outputs/temperature_sensitivity/t100/llama_seed271828/three_arm_summary.csv",
+      "exists": true,
+      "bytes": 952,
+      "lines": 10,
+      "sha256": "c04417258b8ee2847a5fedce52ad68602b1dfdc4e73f40d78cfe05654d21301f"
+    },
+    {
+      "path": "outputs/temperature_sensitivity/t100/llama_seed314159/inference_long_reconstructed.jsonl",
+      "exists": true,
+      "bytes": 20569788,
+      "lines": 800,
+      "sha256": "f6f79a333df17d58b5fff81ccc74ec7f09c94a85f3c880a4366209755b2c1bee"
+    },
+    {
+      "path": "outputs/temperature_sensitivity/t100/llama_seed314159/inference_long_sample8.jsonl",
+      "exists": true,
+      "bytes": 20297984,
+      "lines": 800,
+      "sha256": "e44ee857df186097dc639999df88cbea502ef2454fc1f61a1ead17740f6b4ab6"
+    },
+    {
+      "path": "outputs/temperature_sensitivity/t100/llama_seed314159/inference_xlong_sample8.jsonl",
+      "exists": true,
+      "bytes": 22551814,
+      "lines": 800,
+      "sha256": "b7ea7368f2960fd0321108eb379ae518bde4e8313d30a6e973776b4d3c5ccb62"
+    },
+    {
+      "path": "outputs/temperature_sensitivity/t100/llama_seed314159/three_arm_detail.csv",
+      "exists": true,
+      "bytes": 233248,
+      "lines": 2401,
+      "sha256": "ba40177201727df1c9d3304f80bb8ba89e11410e0fdd7c7156c2359bbdf7165e"
+    },
+    {
+      "path": "outputs/temperature_sensitivity/t100/llama_seed314159/three_arm_harm_detail.csv",
+      "exists": true,
+      "bytes": 388699,
+      "lines": 4801,
+      "sha256": "2939811088a09bfd0e6bcee1811f0dbeb658d2a901b2b0aa3392f8d29a3c7230"
+    },
+    {
+      "path": "outputs/temperature_sensitivity/t100/llama_seed314159/three_arm_harm_summary.csv",
+      "exists": true,
+      "bytes": 1833,
+      "lines": 19,
+      "sha256": "9b9f0006b945d27521ec6874d9fd5fed2de777a29b5e4fa205d36c6c0ad2d2d0"
+    },
+    {
+      "path": "outputs/temperature_sensitivity/t100/llama_seed314159/three_arm_summary.csv",
+      "exists": true,
+      "bytes": 1041,
+      "lines": 10,
+      "sha256": "fd754ac2d8257d94775d21dfea320b843d5e1371f7fc9af03dbdeb46262bf430"
+    },
+    {
+      "path": "outputs/temperature_sensitivity/t100/llama_seed42/inference_long_reconstructed.jsonl",
+      "exists": true,
+      "bytes": 20478665,
+      "lines": 800,
+      "sha256": "7fc9a0b531986aa8c5fa58182a411c90b38b4725d73f7ed46cea9d7d363054c0"
+    },
+    {
+      "path": "outputs/temperature_sensitivity/t100/llama_seed42/inference_long_sample8.jsonl",
+      "exists": true,
+      "bytes": 20334305,
+      "lines": 800,
+      "sha256": "992899cae07edb736a48e62214bc9ab0035fb733263af4c05f915d281111c809"
+    },
+    {
+      "path": "outputs/temperature_sensitivity/t100/llama_seed42/inference_xlong_sample8.jsonl",
+      "exists": true,
+      "bytes": 22468090,
+      "lines": 800,
+      "sha256": "3179cce0ab23407ad876c9d308147bd927e2a9af19b653d335ba51fd8541bb70"
+    },
+    {
+      "path": "outputs/temperature_sensitivity/t100/llama_seed42/three_arm_detail.csv",
+      "exists": true,
+      "bytes": 233329,
+      "lines": 2401,
+      "sha256": "b4233ef7b7eef27339004c59a10cafe872b629eaadf6e553b97bfe5352378e6c"
+    },
+    {
+      "path": "outputs/temperature_sensitivity/t100/llama_seed42/three_arm_harm_detail.csv",
+      "exists": true,
+      "bytes": 388760,
+      "lines": 4801,
+      "sha256": "0bc653e4f6ce6b439a0c79e2cc57e3919648a8628aa4a907d56e81e4fb994f16"
+    },
+    {
+      "path": "outputs/temperature_sensitivity/t100/llama_seed42/three_arm_harm_summary.csv",
+      "exists": true,
+      "bytes": 1828,
+      "lines": 19,
+      "sha256": "5583af1e69018d29b0432070ba3fdba71cde8bc38b72eb4e5b1673eac4ed3ef3"
+    },
+    {
+      "path": "outputs/temperature_sensitivity/t100/llama_seed42/three_arm_summary.csv",
+      "exists": true,
+      "bytes": 956,
+      "lines": 10,
+      "sha256": "3fb1e5b2a75f26ce62d03e0b403605ebcf6bc5caa8e6021c33ff21ffe425fa9a"
+    },
+    {
+      "path": "outputs/temperature_sensitivity/t100/qwen_seed271828/inference_long_reconstructed.jsonl",
+      "exists": true,
+      "bytes": 25018716,
+      "lines": 800,
+      "sha256": "4c046ff627713a62991cf4531bd73efc381b28c2f63aa0ee67f202371c21c334"
+    },
+    {
+      "path": "outputs/temperature_sensitivity/t100/qwen_seed271828/inference_long_sample8.jsonl",
+      "exists": true,
+      "bytes": 24874667,
+      "lines": 800,
+      "sha256": "2c82c2f0410a1ed6eadf236816ff96022c4511769b0bd3bfd75e770949b6abc6"
+    },
+    {
+      "path": "outputs/temperature_sensitivity/t100/qwen_seed271828/inference_xlong_sample8.jsonl",
+      "exists": true,
+      "bytes": 32392421,
+      "lines": 800,
+      "sha256": "f2428b467a77d540350520a57b47ee398217923e50b8a4b748bbe619fad2fc0f"
+    },
+    {
+      "path": "outputs/temperature_sensitivity/t100/qwen_seed271828/three_arm_detail.csv",
+      "exists": true,
+      "bytes": 232918,
+      "lines": 2401,
+      "sha256": "1926b44e393e0ce180a530f31ebf8333d2efcf979f4ab707763ee32b17629256"
+    },
+    {
+      "path": "outputs/temperature_sensitivity/t100/qwen_seed271828/three_arm_harm_detail.csv",
+      "exists": true,
+      "bytes": 388061,
+      "lines": 4801,
+      "sha256": "b12985d112c1d19db8716e9722e2ece6a6c3dfc12ce53f78e2d70903bb473c51"
+    },
+    {
+      "path": "outputs/temperature_sensitivity/t100/qwen_seed271828/three_arm_harm_summary.csv",
+      "exists": true,
+      "bytes": 1769,
+      "lines": 19,
+      "sha256": "eb8e0fa5f3ccfba296811fa228f40f35ff531902caace6aeaae942bce36ad9c7"
+    },
+    {
+      "path": "outputs/temperature_sensitivity/t100/qwen_seed271828/three_arm_summary.csv",
+      "exists": true,
+      "bytes": 816,
+      "lines": 10,
+      "sha256": "8e9a2ec0141d4259f207de5aa14eb3b766c40a80c91dadd1a8697292079dd494"
+    },
+    {
+      "path": "outputs/temperature_sensitivity/t100/qwen_seed314159/inference_long_reconstructed.jsonl",
+      "exists": true,
+      "bytes": 24924703,
+      "lines": 800,
+      "sha256": "7d5b822ee072d4b77a4c43dbf2d56f3b77ee4c7bc7fcdb19397d651043fde34e"
+    },
+    {
+      "path": "outputs/temperature_sensitivity/t100/qwen_seed314159/inference_long_sample8.jsonl",
+      "exists": true,
+      "bytes": 24995762,
+      "lines": 800,
+      "sha256": "8ce015cf505cde7bc5f1c103aa96255db3c2f9f66983a506d8df6cfa9e9a7335"
+    },
+    {
+      "path": "outputs/temperature_sensitivity/t100/qwen_seed314159/inference_xlong_sample8.jsonl",
+      "exists": true,
+      "bytes": 32135818,
+      "lines": 800,
+      "sha256": "e1a9fbc60edb9170dedd80615b7736ac093fcdba346326d87e0684ed5e8c35bd"
+    },
+    {
+      "path": "outputs/temperature_sensitivity/t100/qwen_seed314159/three_arm_detail.csv",
+      "exists": true,
+      "bytes": 232996,
+      "lines": 2401,
+      "sha256": "5eec1e47de5de94dc197a09d9bf2c55d2bd0e70312ed7945dad37fee7432a4dc"
+    },
+    {
+      "path": "outputs/temperature_sensitivity/t100/qwen_seed314159/three_arm_harm_detail.csv",
+      "exists": true,
+      "bytes": 388156,
+      "lines": 4801,
+      "sha256": "b2085211893bbea4fe74e5af3f826ee3e3d1ba7745d217e130a86c59beba3f7a"
+    },
+    {
+      "path": "outputs/temperature_sensitivity/t100/qwen_seed314159/three_arm_harm_summary.csv",
+      "exists": true,
+      "bytes": 1765,
+      "lines": 19,
+      "sha256": "b8d9a7aa9fda0bacae4588f76cc31e17d97334eff2f624bc6dfc7891979e58d3"
+    },
+    {
+      "path": "outputs/temperature_sensitivity/t100/qwen_seed314159/three_arm_summary.csv",
+      "exists": true,
+      "bytes": 840,
+      "lines": 10,
+      "sha256": "bbbb2c32d30e39a4c6f6e2cd9ea78c6c5494a4a9b866989540129b10f889b0e6"
+    },
+    {
+      "path": "outputs/temperature_sensitivity/t100/qwen_seed42/inference_long_reconstructed.jsonl",
+      "exists": true,
+      "bytes": 25093210,
+      "lines": 800,
+      "sha256": "9d9a28dbfe03c27a65d5c884623967a4fbcb63d7e495051db98448d4a6e9c8f0"
+    },
+    {
+      "path": "outputs/temperature_sensitivity/t100/qwen_seed42/inference_long_sample8.jsonl",
+      "exists": true,
+      "bytes": 24949009,
+      "lines": 800,
+      "sha256": "92b3c714e4f19be13e25e51b82999f069cb8d0405305a817aee3281529cd3877"
+    },
+    {
+      "path": "outputs/temperature_sensitivity/t100/qwen_seed42/inference_xlong_sample8.jsonl",
+      "exists": true,
+      "bytes": 32594526,
+      "lines": 800,
+      "sha256": "75412e54e5db978ddd45acb5b3259bb3854958b51d8dc6eb7777d7916c137069"
+    },
+    {
+      "path": "outputs/temperature_sensitivity/t100/qwen_seed42/three_arm_detail.csv",
+      "exists": true,
+      "bytes": 232937,
+      "lines": 2401,
+      "sha256": "54f0a70dea41b163a03921dbcf5423096929bc582cd0e0e20d7d71b23c8c0fc8"
+    },
+    {
+      "path": "outputs/temperature_sensitivity/t100/qwen_seed42/three_arm_harm_detail.csv",
+      "exists": true,
+      "bytes": 388127,
+      "lines": 4801,
+      "sha256": "7eb27288ed24b6ab904a7ae13b9240cdfdf11991922357ceec9dca439f8a52bd"
+    },
+    {
+      "path": "outputs/temperature_sensitivity/t100/qwen_seed42/three_arm_harm_summary.csv",
+      "exists": true,
+      "bytes": 1771,
+      "lines": 19,
+      "sha256": "57326c2312a1b9f4a5061f056c85ac6a368aba6bb97af9e52b09f22cc7fdd75d"
+    },
+    {
+      "path": "outputs/temperature_sensitivity/t100/qwen_seed42/three_arm_summary.csv",
+      "exists": true,
+      "bytes": 849,
+      "lines": 10,
+      "sha256": "3ed9db61a29e59173d8701bb5725bd576c11303740eca6c68ba79981d203f98c"
+    }
+  ]
+}

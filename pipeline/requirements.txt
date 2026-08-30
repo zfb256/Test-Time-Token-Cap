@@ -1,0 +1,36 @@
+# Tested on: Python 3.10+, CUDA 11.8+
+
+# ---- Inference ----
+vllm==0.6.6.post1
+transformers==4.47.1        # validated with vLLM 0.6.6 and Llama-3.1 RoPE
+accelerate==0.29.3
+torch==2.5.1
+xformers==0.0.28.post3
+
+# ---- Datasets ----
+datasets==2.19.2
+huggingface_hub==0.36.2
+
+# ---- ML / Features ----
+scikit-learn==1.4.2
+lightgbm==4.3.0
+numpy==1.26.4
+pandas==2.2.2
+
+# ---- Math verification ----
+sympy==1.13.1
+latex2sympy2==1.9.1        # LaTeX -> sympy for MATH answers
+antlr4-python3-runtime==4.7.2   # required by latex2sympy2==1.9.1
+
+# ---- Utilities ----
+pyyaml==6.0.3
+tqdm==4.69.1
+jsonlines==4.0.0
+
+# ---- Plotting (optional, for AUC curves) ----
+matplotlib==3.8.4
+seaborn==0.13.2
+
+# ---- Reproducibility ----
+scipy==1.12.0              # for statistical tests in evaluation
+pytest==8.3.5              # CPU regression suite

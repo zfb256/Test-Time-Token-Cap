@@ -1,0 +1,3 @@
+dataset,n,n_complete_wrong,base_plurality_accuracy,real_extended_plurality_accuracy,completed_only_control_accuracy,real_repairs_point,real_repairs_tie_lower,real_repairs_tie_upper,real_repair_ci95,control_repairs_point,control_repairs_tie_lower,control_repairs_tie_upper,control_repair_ci95,real_repairs_using_no_extra_tokens,control_censored_chain_rate
+all,60,0,0.1,0.5166666666666667,0.016666666666666666,0,0,0,"[0.000,1.000]",0,0,0,"[0.000,1.000]",0,0.9958333333333333
+aime,60,0,0.1,0.5166666666666667,0.016666666666666666,0,0,0,"[0.000,1.000]",0,0,0,"[0.000,1.000]",0,0.9958333333333333

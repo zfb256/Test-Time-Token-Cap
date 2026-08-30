@@ -1,0 +1,7 @@
+model,temperature,n_seeds,seeds,cbw_n,samecap_repair,long_repair,incremental_helpful,incremental_harmful,incremental_upper95,samecap_any_repair,long_any_repair,harm_n,harm_incremental
+Qwen2.5-Math-7B-Instruct,0.60,3,42+314159+271828,60,1,1,0,0,0.0487,3,4,1877,0
+Qwen2.5-Math-7B-Instruct,0.75,3,42+314159+271828,52,0,0,0,0,0.0560,3,5,1851,0
+Qwen2.5-Math-7B-Instruct,1.00,3,42+314159+271828,38,0,0,0,0,0.0758,0,0,1623,0
+Llama-3.1-8B-Instruct,0.60,3,42+314159+271828,115,3,4,1,0,0.0406,23,23,1672,1
+Llama-3.1-8B-Instruct,0.75,3,42+314159+271828,115,4,4,0,0,0.0257,22,22,1650,0
+Llama-3.1-8B-Instruct,1.00,3,42+314159+271828,84,1,1,0,0,0.0350,12,13,1584,0

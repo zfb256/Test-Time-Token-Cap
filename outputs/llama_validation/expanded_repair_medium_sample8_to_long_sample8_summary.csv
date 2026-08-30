@@ -1,0 +1,10 @@
+definition,dataset,n_problems,n_eligible,eligible_rate,repair_plurality_count,repair_plurality_rate,repair_any_rate,repair_tie_lower_rate,repair_tie_upper_rate
+strict_all_wrong,all,800,10,0.0125,0,0.0,0.4,0.0,0.0
+plurality_wrong,all,800,31,0.03875,12,0.3870967741935484,0.12903225806451613,0.3870967741935484,0.4838709677419355
+first_chain_wrong,all,800,91,0.11375,43,0.4725274725274725,0.7252747252747253,0.4725274725274725,0.5054945054945055
+strict_all_wrong,gsm8k,400,8,0.02,0,0.0,0.5,0.0,0.0
+plurality_wrong,gsm8k,400,25,0.0625,10,0.4,0.16,0.4,0.48
+first_chain_wrong,gsm8k,400,50,0.125,32,0.64,0.86,0.64,0.66
+strict_all_wrong,math,400,2,0.005,0,0.0,0.0,0.0,0.0
+plurality_wrong,math,400,6,0.015,2,0.3333333333333333,0.0,0.3333333333333333,0.5
+first_chain_wrong,math,400,41,0.1025,11,0.2682926829268293,0.5609756097560976,0.2682926829268293,0.3170731707317073

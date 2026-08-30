@@ -1,0 +1,18 @@
+Second Model Sanity Summary
+===========================
+
+dataset   n  medium_acc  long_acc  helpful_ml_rate  long_harm_rate  medium_hit_max_rate  medium_boxed_rate
+    all 800     0.60625   0.68125          0.07625         0.00125              0.27625             0.6950
+  gsm8k 400     0.85500   0.85500          0.00250         0.00250              0.02000             0.8975
+   math 400     0.35750   0.50750          0.15000         0.00000              0.53250             0.4925
+
+Routing:
+ routed  accuracy  avg_budget_tokens  savings_vs_long_pct       strategy  random_accuracy  gain_over_random  auc_cv_mean  auc_oof
+0.27625   0.68125             490.08              36.1875   rule_hit_max         0.626545          0.054705          NaN      NaN
+0.30500   0.67750             501.12              34.7500  rule_no_boxed         0.629245          0.048255          NaN      NaN
+0.20000   0.67250             460.80              40.0000 cheap_LR_top20         0.621110          0.051390     0.947596 0.945695
+0.30000   0.68125             499.20              35.0000 cheap_LR_top30         0.629092          0.052158     0.947596 0.945695
+0.40000   0.68125             537.60              30.0000 cheap_LR_top40         0.636305          0.044945     0.947596 0.945695
+0.20000   0.67250             460.80              40.0000 cheap_RF_top20         0.621110          0.051390     0.945066 0.943344
+0.30000   0.68125             499.20              35.0000 cheap_RF_top30         0.629092          0.052158     0.945066 0.943344
+0.40000   0.68125             537.60              30.0000 cheap_RF_top40         0.636305          0.044945     0.945066 0.943344

@@ -1,0 +1,8 @@
+quantity,estimate,n,events,ci_low,ci_high,method
+long_fix_rate[strict_complete_wrong_all],0.0,20,0,0.0,0.1684334709830853,clopper_pearson_95
+long_fix_rate[strict_complete_wrong_gsm8k],0.0,8,0,0.0,0.3694166475528192,clopper_pearson_95
+long_fix_rate[strict_complete_wrong_math],0.0,12,0,0.0,0.26464846939705117,clopper_pearson_95
+long_fix_rate[relaxed_complete_wrong_all],0.0,17,0,0.0,0.19506432296909318,clopper_pearson_95
+fixed_medium_acc,0.61375,800,491,0.58,0.6475,bootstrap_10000
+fixed_long_acc,0.82625,800,661,0.79875,0.8525,bootstrap_10000
+helpful_rate,0.2125,800,170,0.18375,0.2425,bootstrap_10000

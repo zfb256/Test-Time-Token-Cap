@@ -1,0 +1,13 @@
+dataset,budget,k,accuracy
+all,base,1,0.59140625
+all,base,8,0.70875
+all,extended,1,0.67078125
+all,extended,8,0.7625
+gsm8k,base,1,0.84125
+gsm8k,base,8,0.915
+gsm8k,extended,1,0.86
+gsm8k,extended,8,0.93
+math,base,1,0.3415625
+math,base,8,0.5025
+math,extended,1,0.4815625
+math,extended,8,0.595

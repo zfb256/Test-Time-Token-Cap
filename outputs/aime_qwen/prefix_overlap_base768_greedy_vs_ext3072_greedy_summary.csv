@@ -1,0 +1,5 @@
+group,n,exact_equal_rate,a_is_prefix_rate,mean_lcp_ratio,min_lcp_ratio,n_divergent
+all,60,0.21666666666666667,1.0,1.0,1.0,0
+base768_greedy_complete,13,1.0,1.0,1.0,1.0,0
+base768_greedy_truncated,47,0.0,1.0,1.0,1.0,0
+dataset=aime,60,0.21666666666666667,1.0,1.0,1.0,0

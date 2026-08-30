@@ -1,0 +1,38 @@
+CPU Review Diagnostics
+========================================
+
+Transitions: {'n': 800, 'helpful': 62, 'harmful': 19, 'net': 43}
+
+Symmetric complete-correct -> wrong:
+dataset                 definition  n_eligible  harm_count  harm_rate  ci95_low  ci95_high  certain_harm_count  possible_harm_count
+    all complete_plurality_correct         413           9   0.021792  0.010012   0.040963                   9                    9
+    all       complete_all_correct         295           0   0.000000  0.000000   0.012427                   0                    0
+  gsm8k complete_plurality_correct         332           6   0.018072  0.006660   0.038919                   6                    6
+  gsm8k       complete_all_correct         239           0   0.000000  0.000000   0.015316                   0                    0
+   math complete_plurality_correct          81           3   0.037037  0.007704   0.104444                   3                    3
+   math       complete_all_correct          56           0   0.000000  0.000000   0.063750                   0                    0
+
+Exact 4+4 same-budget split null:
+assignments=70, eligible_assignments=1354, repair_assignments=184, pooled_rate=0.135894
+This is a k=4 diagnostic over correlated exact assignments, not an independent-sample confidence interval.
+
+Budget x chain-count cells:
+dataset   budget  k  accuracy
+    all     base  1  0.591406
+    all     base  8  0.708750
+    all extended  1  0.670781
+    all extended  8  0.762500
+  gsm8k     base  1  0.841250
+  gsm8k     base  8  0.915000
+  gsm8k extended  1  0.860000
+  gsm8k extended  8  0.930000
+   math     base  1  0.341562
+   math     base  8  0.502500
+   math extended  1  0.481563
+   math extended  8  0.595000
+
+Effects:
+dataset  token_effect_k1  token_effect_kmax  chain_effect_base  chain_effect_extended  interaction
+    all         0.079375            0.05375           0.117344               0.091719    -0.025625
+  gsm8k         0.018750            0.01500           0.073750               0.070000    -0.003750
+   math         0.140000            0.09250           0.160937               0.113437    -0.047500

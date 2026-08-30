@@ -1,0 +1,15 @@
+Prefix Overlap Audit: base768_greedy vs ext3072_greedy
+==================================================
+
+                   group  n  exact_equal_rate  a_is_prefix_rate  mean_lcp_ratio  min_lcp_ratio  n_divergent
+                     all 60          0.216667               1.0             1.0            1.0            0
+ base768_greedy_complete 13          1.000000               1.0             1.0            1.0            0
+base768_greedy_truncated 47          0.000000               1.0             1.0            1.0            0
+            dataset=aime 60          0.216667               1.0             1.0            1.0            0
+
+Interpretation:
+- Among 13 complete (non-cap-hit) 'base768_greedy' traces, 100.0% of 'ext3072_greedy' outputs are byte-identical.
+- If this rate is ~100%, 'no repair of complete-but-wrong traces'
+  is a property of the deterministic decoding protocol, and must be
+  reported as such rather than as an empirical finding about the model.
+- Divergent pairs (LCP < 99.9% of 'base768_greedy'): 0

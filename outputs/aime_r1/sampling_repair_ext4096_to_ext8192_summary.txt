@@ -1,0 +1,19 @@
+Repair vs Completion under Sampling: ext4096_to_ext8192
+============================================================
+
+dataset  n  base_pass1  base_maj_acc  base_maj_tie_rate  ext_pass1  pass1_delta pass1_delta_ci95  ext_maj_acc  ext_maj_tie_rate  ext_maj_acc_tie_lower  ext_maj_acc_tie_upper  helpful_maj_rate helpful_maj_ci95  harm_maj_rate harm_maj_ci95  base_trunc_rate  n_complete_wrong  repair_rate_maj  repair_count_maj  repair_count_maj_tie_lower  repair_count_maj_tie_upper  repair_rate_maj_tie_lower  repair_rate_maj_tie_upper repair_rate_maj_ci95  repair_rate_any repair_rate_any_ci95  helpful_from_truncated  helpful_from_complete_wrong  helpful_from_mixed  helpful_from_complete_other  helpful_taxonomy_n
+    all 60         0.2      0.283333                0.0       0.35         0.15    [0.083,0.221]     0.516667              0.05               0.483333               0.516667              0.25    [0.147,0.379]       0.016667 [0.000,0.089]             0.75                 0              NaN                 0                           0                           0                        NaN                        NaN        [0.000,1.000]              NaN        [0.000,1.000]                     1.0                          0.0                 0.0                          0.0                  15
+   aime 60         0.2      0.283333                0.0       0.35         0.15    [0.083,0.221]     0.516667              0.05               0.483333               0.516667              0.25    [0.147,0.379]       0.016667 [0.000,0.089]             0.75                 0              NaN                 0                           0                           0                        NaN                        NaN        [0.000,1.000]              NaN        [0.000,1.000]                     1.0                          0.0                 0.0                          0.0                  15
+
+Key quantities:
+- repair_rate_*: among base complete-but-wrong problems, how often the
+  sampled extended run produces a correct majority (or any) answer.
+  Under the old greedy protocol this was 0 by construction. Under
+  independent sampling it is an observable transition, but not by
+  itself a token-budget effect: a same-budget resampling control is
+  required. Tie-lower/upper repair counts are reported explicitly.
+- helpful_from_truncated vs helpful_from_complete_wrong: taxonomy of
+  helpful cases via independent observable predicates. Mixed sampled
+  sets and complete-but-unparseable/aggregate-error sets are reported
+  separately, so the four helpful_from_* columns partition all helpful
+  cases instead of hiding a residual category.

@@ -1,0 +1,7 @@
+model,run,n_eligible,strict_plurality_repair,relaxed_plurality_repair,hidden_by_strict_matching
+llama,llama_seed271828,38,0,0,0
+llama,llama_seed314159,40,2,2,0
+llama,llama_seed42,37,2,2,0
+qwen,qwen_seed271828,18,0,0,0
+qwen,qwen_seed314159,16,0,0,0
+qwen,qwen_seed42,18,0,0,0

@@ -1,0 +1,27 @@
+Honest Cost Accounting: rerun vs resume (v2)
+=======================================================
+
+                    strategy  route_fraction  accuracy  cap_budget_rerun  savings_rerun_pct  cap_budget_resume  savings_resume_pct  actual_tokens_rerun  estimated_actual_tokens_resume
+                fixed_medium          0.0000   0.61375            384.00              50.00             384.00              50.000            317.60500                       317.60500
+   fixed_long_no_medium_pass          1.0000   0.82625            768.00               0.00             768.00               0.000            393.95375                       393.95375
+                rule_hit_max          0.3925   0.82625            685.44              10.75             534.72              30.375            544.67375                       393.95375
+               rule_no_boxed          0.3750   0.82000            672.00              12.50             528.00              31.250            537.68000                       393.68000
+any_router_top20pct_cap_only          0.2000       NaN            537.60              30.00             460.80              40.000                  NaN                             NaN
+any_router_top30pct_cap_only          0.3000       NaN            614.40              20.00             499.20              35.000                  NaN                             NaN
+any_router_top40pct_cap_only          0.4000       NaN            691.20              10.00             537.60              30.000                  NaN                             NaN
+
+Notes:
+- B_m=384, B_l=768; savings measured against fixed long
+  WITHOUT a medium pass (the honest deployment baseline).
+- rerun: routed examples pay B_m + B_l (the medium trace is required
+  as routing evidence and is then discarded).
+- resume: routed examples pay B_m + (B_l - B_m); requires the system
+  to continue the truncated trace (08_run_continuation.py validates
+  and quantifies agreement with independent long reruns).
+  Naturally terminated traces are a no-op and incur no continuation
+  tokens even if selected by a routing rule.
+- estimated_actual_tokens_resume uses the independent long trace
+  length as a continuation-length proxy; it is not a measured
+  serving cost from inference_long_resume.jsonl.
+- The paper must state which accounting it uses; the original 35%
+  figure is only valid under resume accounting.

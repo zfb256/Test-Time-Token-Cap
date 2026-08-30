@@ -1,0 +1,65 @@
+# AIME 2024+2025 hard-task validation, Qwen2.5-Math-7B-Instruct (v2).
+#
+# Review response (review 3, concern 4): GSM8K/MATH are computation-bound
+# and favor the completion-recovery hypothesis; AIME problems more often
+# fail with a complete but wrong reasoning direction. This config measures
+# the completion-vs-repair decomposition where repair should be likeliest.
+#
+# Note: Qwen2.5-Math context window is 4096 tokens, capping the ladder at
+# 3072 new tokens. Sampled chains (T=0.75 x 8) keep repair observable;
+# greedy singles are included for continuity with the v1 protocol.
+
+paths:
+  base_dir: "."
+  data_dir: "../data/aime"
+  raw_dir:  "../data/raw"
+  output_dir: "../outputs/aime_qwen"
+  log_dir:  "./logs"
+
+inference:
+  model: "../models/Qwen2.5-Math-7B-Instruct"
+  tensor_parallel_size: 1
+  dtype: "bfloat16"
+  gpu_memory_utilization: 0.85
+  max_model_len: 4096
+  trust_remote_code: false
+  collect_logprobs: false
+  num_logprobs: 2
+  seed: 42
+  deterministic_sampling: true
+  store_token_ids: true
+  budgets:
+    base768:
+      max_new_tokens: 768
+      n_chains: 8
+      temperature: 0.75
+      top_p: 0.95
+    ext1536:
+      max_new_tokens: 1536
+      n_chains: 8
+      temperature: 0.75
+      top_p: 0.95
+    ext3072:
+      max_new_tokens: 3072
+      n_chains: 8
+      temperature: 0.75
+      top_p: 0.95
+    base768_greedy:
+      max_new_tokens: 768
+      n_chains: 1
+      temperature: 0.0
+      top_p: 1.0
+    ext3072_greedy:
+      max_new_tokens: 3072
+      n_chains: 1
+      temperature: 0.0
+      top_p: 1.0
+  batch_size: 16
+  prompt_template: "qwen_math"
+
+orm:
+  numeric_tolerance: 1e-4
+
+classifiers:
+  cv_folds: 5
+  random_state: 42

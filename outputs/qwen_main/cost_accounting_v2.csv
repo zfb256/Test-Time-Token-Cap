@@ -1,0 +1,8 @@
+strategy,route_fraction,accuracy,cap_budget_rerun,savings_rerun_pct,cap_budget_resume,savings_resume_pct,actual_tokens_rerun,estimated_actual_tokens_resume
+fixed_medium,0.0,0.61375,384.0,50.0,384.0,50.0,317.605,317.605
+fixed_long_no_medium_pass,1.0,0.82625,768.0,0.0,768.0,0.0,393.95375,393.95375
+rule_hit_max,0.3925,0.82625,685.44,10.749999999999993,534.72,30.374999999999996,544.67375,393.95375
+rule_no_boxed,0.375,0.82,672.0,12.5,528.0,31.25,537.68,393.68
+any_router_top20pct_cap_only,0.2,,537.6,29.999999999999993,460.8,40.0,,
+any_router_top30pct_cap_only,0.3,,614.4,20.000000000000007,499.2,35.0,,
+any_router_top40pct_cap_only,0.4,,691.2,9.999999999999998,537.6,29.999999999999993,,

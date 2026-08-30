@@ -1,0 +1,9 @@
+Completed-chain-only same-budget resampling control
+===================================================
+
+dataset   n  n_complete_wrong  base_plurality_accuracy  real_extended_plurality_accuracy  completed_only_control_accuracy  real_repairs_point  real_repairs_tie_lower  real_repairs_tie_upper real_repair_ci95  control_repairs_point  control_repairs_tie_lower  control_repairs_tie_upper control_repair_ci95  real_repairs_using_no_extra_tokens  control_censored_chain_rate
+    all 800                10                  0.70875                             0.765                          0.71625                   0                       0                       0    [0.000,0.308]                      0                          0                          0       [0.000,0.308]                                   0                     0.290938
+  gsm8k 400                 8                  0.91500                             0.930                          0.92500                   0                       0                       0    [0.000,0.369]                      0                          0                          0       [0.000,0.369]                                   0                     0.035625
+   math 400                 2                  0.50250                             0.600                          0.50750                   0                       0                       0    [0.000,0.842]                      0                          0                          0       [0.000,0.842]                                   0                     0.546250
+
+Interpretation: chains at or above the base cap are censored because legacy JSONL files do not preserve their exact base-cap prefixes. This is an exact audit of repairs supported by naturally completed base-length chains, not a full reconstruction of a same-cap run.

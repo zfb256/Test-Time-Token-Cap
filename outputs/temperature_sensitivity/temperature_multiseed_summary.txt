@@ -1,0 +1,13 @@
+Temperature sweep pooled over available seeds
+
+model                              T seeds  CBW n  A->B  A->C  B->C +/-  upper95
+--------------------------------------------------------------------------------
+Qwen2.5-Math-7B-Instruct        0.60     3     60     1     1       0/0   0.0487
+Qwen2.5-Math-7B-Instruct        0.75     3     52     0     0       0/0   0.0560
+Qwen2.5-Math-7B-Instruct        1.00     3     38     0     0       0/0   0.0758
+Llama-3.1-8B-Instruct           0.60     3    115     3     4       1/0   0.0406
+Llama-3.1-8B-Instruct           0.75     3    115     4     4       0/0   0.0257
+Llama-3.1-8B-Instruct           1.00     3     84     1     1       0/0   0.0350
+
+upper95 is the exact one-sided Clopper-Pearson bound on the
+incremental (B->C) plurality repair rate within the CBW subset.

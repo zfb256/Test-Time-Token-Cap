@@ -29,14 +29,23 @@ that is not an exact token prefix of C.
 - `pipeline/` — inference + scoring pipeline (steps 00–08) and all run
   configs. GPU steps run here; see `run_three_seed_core.sh` for the current
   experiment batch.
-- `analysis/` — post-hoc analysis scripts. CPU only; defaults
-  resolve to `../outputs/qwen_main` and `../pipeline/config.yaml`.
+- `analysis/` — post-hoc analysis scripts. CPU only; script defaults point
+  at `../outputs/qwen_main` and `../pipeline/config.yaml`. Those defaults
+  resolve against summary files that are shipped, but rerunning an analysis
+  end to end needs the raw traces; pass `--results-dir` to select another
+  tree.
 - `data/` — the 800-problem core set and `data/expanded/`, which contains all
   1,319 GSM8K and 5,000 MATH test problems. Reuse these snapshots so runs
   stay comparable.
 - `models/` — model weights (not committed; download on the GPU server).
-- `outputs/` — compact summaries for the three-arm, temperature, routing, and
-  equivalence analyses. Full inference traces are not included.
+- `outputs/` — compact summaries and reproducibility manifests for every
+  analysis the paper reports: the three-arm, temperature, routing, and
+  equivalence trees, plus the earlier engine-seeded runs (`qwen_main/`,
+  `llama_validation/`, `r1_distill/`, `aime_qwen/`, `aime_r1/`) that back
+  the independent-budget, mixed-design, AIME, and greedy-audit contrasts.
+  `outputs/README.md` maps each directory to the rows it backs. Full
+  inference traces are not included.
+
 ## Install and test
 
 The pinned environment targets Python 3.10 and CUDA 11.8:
@@ -62,8 +71,9 @@ and the same 4/4 Llama pluralities, leaving no B→C plurality transition. The
 one-seed expanded run gives the same equality on all 6,319 problems: 1/240
 versus 1/240 for Qwen and 10/509 versus 10/509 for Llama. On arm-A-complete
 correct cases, same-cap resampling harms 20/3,994 Qwen and 150/3,168 Llama
-pluralities; extra tokens harm 0 and 1. Greedy prefix audits remain a protocol
-check rather than evidence about independent resampling.
+pluralities; extra tokens harm 0 and 1. Greedy prefix audits are the measured evidence for prefix preservation;
+under sampling the property holds by construction rather than by
+measurement.
 
 At temperatures 0.6, 0.75, and 1.0, the three-seed core sweep finds one strict
 B→C repair across six model--temperature cells and no strict harmful

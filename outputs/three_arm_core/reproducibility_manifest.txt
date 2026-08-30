@@ -1,0 +1,5 @@
+Canonical Clean-Rerun Reproducibility Manifest
+==============================================
+
+Artifacts recorded: 188
+Missing files: 0

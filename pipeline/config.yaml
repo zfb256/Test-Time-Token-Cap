@@ -1,0 +1,169 @@
+# Main Qwen2.5-Math-7B configuration; edit paths before running.
+
+# Paths
+paths:
+  base_dir: "."
+  data_dir: "../data"
+  raw_dir:  "../data/raw"
+  output_dir: "../outputs/qwen_main"
+  log_dir:  "./logs"
+
+# Dataset
+dataset:
+  gsm8k:
+    enabled: true
+    split: "test"
+    n_samples: 400          # 300-500; use null for all
+    seed: 42
+  math:
+    enabled: true
+    hf_names: ["SuperSecureHuman/competition_math_hf_dataset", "DigitalLearningGmbH/MATH-lighteval", "nlile/hendrycks-MATH-benchmark"]
+    split: "test"
+    n_per_level: 80         # per difficulty level (1-5), ~400 total
+    seed: 42
+    levels: [1, 2, 3, 4, 5]
+
+# Inference model
+inference:
+  model: "../models/Qwen2.5-Math-7B-Instruct"
+  tensor_parallel_size: 1   # increase if multi-GPU
+  dtype: "bfloat16"
+  gpu_memory_utilization: 0.85
+  max_model_len: 2560
+  trust_remote_code: false
+  collect_logprobs: false
+  num_logprobs: 2
+  seed: 42
+  # Stable SHA-256-derived seed per problem and chain. Multi-chain sampling
+  # is issued as independent n=1 requests to avoid same-seed chain collapse.
+  deterministic_sampling: true
+  # Enables exact CPU reconstruction of lower token caps from a longer run.
+  store_token_ids: true
+
+  # Four budget levels (tokens = max_new_tokens)
+  budgets:
+    short:
+      max_new_tokens: 128
+      n_chains: 3           # 3 short chains for answer consistency
+      temperature: 0.75
+      top_p: 0.95
+      collect_logprobs: true
+    medium:
+      max_new_tokens: 384
+      n_chains: 1
+      temperature: 0.0      # greedy
+      top_p: 1.0
+    long:
+      max_new_tokens: 768
+      n_chains: 1
+      temperature: 0.0      # greedy
+      top_p: 1.0
+    medium512:
+      max_new_tokens: 512
+      n_chains: 1
+      temperature: 0.0
+      top_p: 1.0
+    long1024:
+      max_new_tokens: 1024
+      n_chains: 1
+      temperature: 0.0
+      top_p: 1.0
+    sample:
+      max_new_tokens: 256
+      n_chains: 4
+      temperature: 0.75
+      top_p: 0.95
+    # Sampled controls keep alternative reasoning paths observable.
+    medium_sample8:
+      max_new_tokens: 384
+      n_chains: 8
+      temperature: 0.75
+      top_p: 0.95
+    long_sample8:
+      max_new_tokens: 768
+      n_chains: 8
+      temperature: 0.75
+      top_p: 0.95
+    xlong_sample8:
+      max_new_tokens: 1536
+      n_chains: 8
+      temperature: 0.75
+      top_p: 0.95
+
+  batch_size: 32            # vLLM concurrent requests
+  prompt_template: "qwen_math"   # implemented in 02_run_inference.py
+
+# PRM model
+prm:
+  model: "../models/Qwen2.5-Math-PRM-7B"
+  # Transformers device_map. Use "auto" for normal single/multi-GPU loading,
+  # or set an explicit device map if your server requires it.
+  device_map: "auto"
+  dtype: "bfloat16"
+  # score_aggregation: how to aggregate step scores -> chain score
+  # options: mean | min | last | product
+  score_aggregation: "mean"
+
+# Programmatic outcome verifier
+orm:
+  # No model needed — uses regex extraction + numeric comparison
+  numeric_tolerance: 1e-4   # for floating-point comparisons
+
+# Features
+features:
+  # G2: PRM statistics only. Ground-truth ORM correctness is used only to
+  # construct labels and must not be included as a predictor.
+  prm_stats: ["mean", "min", "var"]
+
+  # Utility label definition
+  # helpful=1 if short_correct=0 AND long_correct=1
+  label_short_budget: "short"
+  label_long_budget: "long"
+
+# Classifiers
+classifiers:
+  logistic_regression:
+    enabled: true
+    C: 1.0
+    max_iter: 1000
+    class_weight: "balanced"
+  lightgbm:
+    enabled: true
+    n_estimators: 200
+    num_leaves: 31
+    learning_rate: 0.05
+    class_weight: "balanced"
+    n_jobs: 1
+    verbose: -1
+  random_forest:
+    enabled: true
+    n_estimators: 200
+    max_depth: 8
+    class_weight: "balanced"
+    n_jobs: 1
+    random_state: 42
+
+  cv_folds: 5
+  scoring: "roc_auc"
+  random_state: 42
+
+# Plan B-1 parallel collection
+plan_b1:
+  enabled: true             # collect in parallel, zero extra cost
+  # initial_budget: which inference budget to use as the "initial answer"
+  # for self-correction. "long" (768 tok) is the strongest baseline and
+  # will UNDERESTIMATE CHR. "medium" (384 tok) is closer to a realistic
+  # deployment budget and gives a more honest CHR estimate.
+  initial_budget: "medium"
+  self_correction:
+    max_new_tokens: 512
+    temperature: 0.0        # greedy for self-correction
+  # CHR threshold for Plan B-1 go/no-go
+  chr_threshold: 0.05       # CHR > 5% -> Plan B-1 viable
+
+# Go/no-go thresholds (do not change)
+go_nogo:
+  auc_abort: 0.60           # < 0.60: stop CUPID-G, start Plan B
+  auc_warn_low: 0.60
+  auc_warn_high: 0.65
+  auc_conditional: 0.70     # >= 0.70: full CUPID-G

@@ -1,0 +1,68 @@
+# DeepSeek-R1-Distill-Qwen-7B three-arm config.
+#
+# The independent-budget R1 runs in outputs/r1_distill start at 1024 tokens,
+# where 64.3% of base sampled sets are truncated and only one complete-but-wrong
+# set survives. A repair rate cannot be estimated from a single eligible case,
+# so this config moves the base cap to 2048 and the extended cap to 4096 and
+# runs the same three-arm protocol as the Qwen and Llama experiments:
+#
+#   arm A = independent 2048-token sample (engine seed differs from arm C)
+#   arm B = 2048-token prefix of arm C, reconstructed on CPU
+#   arm C = paired 4096-token sample
+#
+# Decoding follows the model card (temperature 0.6, top_p 0.95); greedy
+# decoding is explicitly discouraged for R1-distill because of repetition
+# loops. Chain count stays at 4 to keep the 4096-token arm affordable.
+
+paths:
+  base_dir: "."
+  data_dir: "../data"                # same 800-problem core split
+  raw_dir:  "../data/raw"
+  output_dir: "../outputs/three_arm_r1"
+  log_dir:  "./logs"
+
+dataset:
+  gsm8k:
+    enabled: true
+    split: "test"
+    n_samples: 400
+    seed: 42
+  math:
+    enabled: true
+    split: "test"
+    n_per_level: 80
+    seed: 42
+    levels: [1, 2, 3, 4, 5]
+
+inference:
+  model: "../models/DeepSeek-R1-Distill-Qwen-7B"
+  tensor_parallel_size: 1
+  dtype: "bfloat16"
+  gpu_memory_utilization: 0.90
+  max_model_len: 8192
+  trust_remote_code: false
+  collect_logprobs: false
+  num_logprobs: 2
+  seed: 42
+  deterministic_sampling: true
+  store_token_ids: true              # required for exact prefix reconstruction
+  budgets:
+    long_sample4:
+      max_new_tokens: 2048
+      n_chains: 4
+      temperature: 0.6
+      top_p: 0.95
+    xlong_sample4:
+      max_new_tokens: 4096
+      n_chains: 4
+      temperature: 0.6
+      top_p: 0.95
+  batch_size: 16                     # halved: 4096-token chains hold more KV
+  prompt_template: "r1_math"
+
+orm:
+  numeric_tolerance: 1e-4
+
+classifiers:
+  cv_folds: 5
+  random_state: 42

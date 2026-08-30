@@ -1,0 +1,30 @@
+Equivalence bounds and detection limits for the B->C contrast
+
+model  scope          contrast                               n    k  upper95    mde80
+-------------------------------------------------------------------------------------
+qwen   core_3seed     B_to_C_incremental_repair             52    0   0.0560   0.0305
+qwen   core_3seed     B_to_C_incremental_harm_within_CBW    52    0   0.0560   0.0305
+qwen   core_3seed     B_to_C_harm                         1851    0   0.0016   0.0009
+llama  core_3seed     B_to_C_incremental_repair            115    0   0.0257   0.0139
+llama  core_3seed     B_to_C_incremental_harm_within_CBW   115    0   0.0257   0.0139
+llama  core_3seed     B_to_C_harm                         1650    0   0.0018   0.0010
+qwen   full_split     B_to_C_incremental_repair            240    0   0.0124   0.0067
+qwen   full_split     B_to_C_incremental_harm_within_CBW   240    0   0.0124   0.0067
+qwen   full_split     B_to_C_harm                         3994    0   0.0008   0.0004
+llama  full_split     B_to_C_incremental_repair            509    0   0.0059   0.0032
+llama  full_split     B_to_C_incremental_harm_within_CBW   509    0   0.0059   0.0032
+llama  full_split     B_to_C_harm                         3168    1   0.0015   0.0005
+r1     r1_3seed       B_to_C_incremental_repair             24    0   0.1173   0.0649
+r1     r1_3seed       B_to_C_incremental_harm_within_CBW    24    0   0.1173   0.0649
+r1     r1_3seed       B_to_C_harm                          971    0   0.0031   0.0017
+qwen   core_T0.60_3seed B_to_C_incremental_repair             60    0   0.0487   0.0265
+qwen   core_T0.75_3seed B_to_C_incremental_repair             52    0   0.0560   0.0305
+qwen   core_T1.00_3seed B_to_C_incremental_repair             38    0   0.0758   0.0415
+llama  core_T0.60_3seed B_to_C_incremental_repair            115    1   0.0406   0.0139
+llama  core_T0.75_3seed B_to_C_incremental_repair            115    0   0.0257   0.0139
+llama  core_T1.00_3seed B_to_C_incremental_repair             84    0   0.0350   0.0190
+
+Equivalence margins tested: 0.10, 0.05, 0.02, 0.01
+upper95 is the exact one-sided Clopper-Pearson bound and equals the
+smallest equivalence margin the observation rejects at alpha=0.05.
+mde80 is the smallest true rate the design detects with 80% power.

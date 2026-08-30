@@ -1,0 +1,72 @@
+# Llama-3.1-8B-Instruct second-model validation config
+# (full 800-example run; the legacy 200-example sanity setup was removed).
+
+paths:
+  base_dir: "."
+  data_dir: "../data/llama_validation"
+  raw_dir:  "../data/raw"
+  output_dir: "../outputs/llama_validation"
+  log_dir:  "./logs"
+
+dataset:
+  gsm8k:
+    enabled: true
+    split: "test"
+    n_samples: 400
+    seed: 42
+  math:
+    enabled: true
+    split: "test"
+    n_per_level: 80
+    seed: 42
+    levels: [1, 2, 3, 4, 5]
+
+inference:
+  model: "../models/Llama-3.1-8B-Instruct"
+  tensor_parallel_size: 1
+  dtype: "bfloat16"
+  gpu_memory_utilization: 0.85
+  max_model_len: 2560
+  trust_remote_code: false
+  collect_logprobs: false
+  num_logprobs: 2
+  seed: 42
+  deterministic_sampling: true
+  store_token_ids: true
+  budgets:
+    medium:
+      max_new_tokens: 384
+      n_chains: 1
+      temperature: 0.0
+      top_p: 1.0
+    long:
+      max_new_tokens: 768
+      n_chains: 1
+      temperature: 0.0
+      top_p: 1.0
+    medium_sample8:
+      max_new_tokens: 384
+      n_chains: 8
+      temperature: 0.75
+      top_p: 0.95
+    # v2 sampling control: non-greedy long-budget reruns so reasoning
+    # repair is observable on the second model as well.
+    long_sample8:
+      max_new_tokens: 768
+      n_chains: 8
+      temperature: 0.75
+      top_p: 0.95
+    xlong_sample8:
+      max_new_tokens: 1536
+      n_chains: 8
+      temperature: 0.75
+      top_p: 0.95
+  batch_size: 32
+  prompt_template: "llama3_math"
+
+orm:
+  numeric_tolerance: 1e-4
+
+classifiers:
+  cv_folds: 5
+  random_state: 42
