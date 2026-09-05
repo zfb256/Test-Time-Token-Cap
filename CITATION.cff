@@ -18,7 +18,7 @@ authors:
 repository-code: "https://github.com/zfb256/Test-Time-Token-Cap"
 identifiers:
   - type: doi
-    value: "10.5281/zenodo.22172647"
+    value: "10.5281/zenodo.22172646"
     description: "Concept DOI, always resolving to the latest version"
 keywords:
   - "test-time compute"
