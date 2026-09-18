@@ -74,7 +74,7 @@ def cluster_bootstrap(frame, metric, denominator=None, seed=42, n_boot=10000):
     grouped = frame.groupby("problem_id")[columns].sum().reindex(problem_ids)
     metric_values = grouped[metric].to_numpy(dtype=float)
     if denominator is None:
-        # Seeds are balanced by the validation in aggregate().
+
         metric_values /= frame["seed_label"].nunique()
     else:
         denominator_values = grouped[denominator].to_numpy(dtype=float)

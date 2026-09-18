@@ -1,11 +1,4 @@
-"""
-Run the Llama-3.1 second-model sanity check with Transformers.
-
-The installed vLLM (0.4.2) does not support Llama-3.1's llama3 RoPE
-configuration. This script keeps the output schema identical to
-pipeline/02_run_inference.py while using Transformers, which supports that
-configuration in the current environment.
-"""
+'Run the Llama-3.1 second-model sanity check with Transformers.'
 
 import argparse
 import hashlib
@@ -22,9 +15,8 @@ from transformers import AutoModelForCausalLM, AutoTokenizer
 import transformers.modeling_utils as hf_modeling_utils
 
 if hf_modeling_utils.ALL_PARALLEL_STYLES is None:
-    # Transformers >=4.52 exposes Llama tensor-parallel metadata even when
-    # torch<2.5 cannot use TP. We run single-GPU inference, so the metadata is
-    # only passing a post_init validation check.
+
+
     hf_modeling_utils.ALL_PARALLEL_STYLES = {
         "colwise",
         "rowwise",

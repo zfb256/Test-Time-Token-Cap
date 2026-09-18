@@ -30,3 +30,5 @@ outputs/**/*_checkpoint.sqlite
 
 # local reading copies; keep only the curated notes in version control
 docs/writing_refs/*.pdf
+
+/paper/

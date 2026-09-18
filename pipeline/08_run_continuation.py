@@ -1,34 +1,5 @@
 #!/usr/bin/env python3
-"""
-Step 8 (v2): Resume-from-truncation continuation runs.
-
-Review response (cost-accounting concern): the paper's savings formula
-    avg budget = B_m + r * (B_l - B_m)
-is only honest if the upgrade action *continues* the truncated medium trace
-instead of rerunning from scratch. This script implements that action:
-
-  - For medium traces that hit the token cap, re-prompt with
-    (original prompt + medium text) and generate at most (B_l - B_m)
-    additional tokens under the same greedy decoding.
-  - For medium traces that terminated naturally (EOS), the resume action
-    is a no-op: the medium answer is kept at zero extra cost.
-
-Output: inference_long_resume.jsonl in the config's output_dir, with the
-same record schema as 02_run_inference.py (chains[0].text holds the full
-medium+continuation text) plus a "resume" block with continuation stats.
-
-Comparing these resumed traces against the independent fixed-long rerun
-(inference_long.jsonl) also quantifies how close "rerun" and "resume" are
-under greedy decoding (see analysis/38_trace_prefix_overlap.py).
-
-Note: re-tokenizing (prompt + generated text) may split the boundary
-differently than the original token sequence; continuation token budgets
-are therefore approximate at the +/- 1-2 token level.
-
-Usage:
-    python 08_run_continuation.py --config config.yaml \
-        --medium-budget medium --long-budget long
-"""
+'Step 8 (v2): Resume-from-truncation continuation runs.'
 
 import argparse
 import importlib.util

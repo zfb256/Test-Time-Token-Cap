@@ -1,16 +1,4 @@
-"""Post-trace budget allocation evaluated inside the three-arm design.
-
-The routing study in earlier drafts used separately generated greedy long
-outputs, so its routed accuracy was not a counterfactual for the same
-trajectory. Arms B and C share a request seed and a token prefix, which makes
-"extend this record" an exactly observed intervention: routing a record swaps
-its arm-B aggregate for the arm-C aggregate, and leaving it alone keeps arm B.
-Routing every record that still has a chain running at the base cap therefore
-reproduces fixed-long accuracy exactly, because every other record is
-token-identical in the two arms. That value is a reference point rather than an
-upper bound: continuation also reverses some already-correct records, so a
-router that avoids those can finish above fixed-long accuracy.
-"""
+'Post-trace budget allocation evaluated inside the three-arm design.'
 
 import argparse
 import csv
@@ -130,13 +118,7 @@ def random_accuracy(base_correct, extended_correct, fraction, rng):
 
 
 def out_of_fold_scores(features, labels, groups, model_name, rng_seed=RANDOM_SEED):
-    """Cross-validated routing scores.
-
-    Returns the scores and whether a classifier was actually fitted. Too few
-    positives to stratify leaves the scores flat, which makes the learned rows
-    collapse onto the tie-breaker; the caller records that so a flat curve is
-    never read as a trained router that failed to separate.
-    """
+    'Cross-validated routing scores.'
     if (len(set(groups[labels])) < CV_FOLDS
             or len(set(groups[~labels])) < CV_FOLDS):
         return np.zeros(len(labels)), False

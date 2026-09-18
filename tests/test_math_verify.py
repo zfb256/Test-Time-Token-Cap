@@ -11,9 +11,7 @@ from unittest import mock
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "pipeline"))
 from utils.math_verify import MathVerifier
 
-# The symbolic-timeout guard is armed with signal.setitimer, which POSIX
-# provides and Windows does not. Where it is absent the guard is a no-op, so
-# these tests would not exercise what they name.
+
 requires_setitimer = unittest.skipUnless(
     hasattr(signal, "setitimer"),
     "requires signal.setitimer (POSIX only)",

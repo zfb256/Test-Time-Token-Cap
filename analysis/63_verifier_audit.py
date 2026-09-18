@@ -1,22 +1,4 @@
-"""
-Step 63: Can strict answer matching be hiding repairs?
-
-The headline result is a zero count, so the instrument that produced it deserves
-its own check. A missed repair requires the extended arm (arm C) to be scored
-wrong when its answer was in fact acceptable. This script re-scores every
-eligible complete-but-wrong record under a deliberately permissive answer rule
-and reports how many additional plurality repairs appear.
-
-Two guards make the result trustworthy rather than merely reassuring:
-
-* the strict pass must reproduce the labels already recorded in
-  ``three_arm_detail.csv``; a mismatch means this audit is wired wrong, not
-  that the pipeline is, and the script says so instead of reporting a rate;
-* the relaxed rule only ever *adds* accepted answers, so it can uncover a
-  hidden repair but never erase a recorded one.
-
-CPU only. No inference is run.
-"""
+'Step 63: Can strict answer matching be hiding repairs?'
 
 import argparse
 import collections
@@ -66,12 +48,7 @@ def relaxed_answer(text, dataset, verifier):
 
 
 def gold_number(gold, dataset, verifier):
-    """Numeric value of the reference answer, or None when it is not a plain number.
-
-    Naively taking the last number in the reference is wrong for MATH, where a
-    reference such as ``\\boxed{\\frac{1}{2}}`` would yield 2. The fallback is
-    therefore only offered when the reference really is a bare number.
-    """
+    'Numeric value of the reference answer, or None when it is not a plain number.'
     if dataset.lower() == "gsm8k":
         return verifier._extract_gsm8k_answer(gold)
     boxed = verifier._extract_boxed(gold)
@@ -88,10 +65,10 @@ def relaxed_correct(text, gold, dataset, verifier):
     if verifier.verify(text, gold, dataset):
         return True
     if verifier.extract_prediction_answer(text, dataset) is not None:
-        return False          # it had a parseable answer; strict already judged it
+        return False          
     gold_val = gold_number(gold, dataset, verifier)
     if gold_val is None:
-        return False          # reference is not a bare number, no safe relaxation
+        return False          
     hits = NUMBER.findall(text.replace(",", ""))
     if not hits:
         return False

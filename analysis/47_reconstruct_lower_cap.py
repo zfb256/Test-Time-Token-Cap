@@ -1,11 +1,5 @@
 #!/usr/bin/env python3
-"""Reconstruct an exact lower-token-cap run from stored endpoint token IDs.
-
-Generate the longest sampled condition once, then use this script to recover
-the same problem/chain/random-seed trajectories at a lower cap. Naturally
-terminated chains are kept unchanged; longer chains are decoded from their
-first ``cap`` generated token IDs and marked as length-stopped.
-"""
+'Reconstruct an exact lower-token-cap run from stored endpoint token IDs.'
 
 import argparse
 import copy
@@ -25,12 +19,7 @@ def resolve_path(path: str) -> Path:
 
 
 def decode_generated_tokens(tokenizer, token_ids):
-    """Match vLLM's serialized output-text semantics for a token prefix.
-
-    vLLM suppresses a trailing Unicode replacement character when generation
-    stops in the middle of a byte-fallback sequence. Hugging Face's whole-list
-    decode emits that marker, so remove it for exact cap reconstruction.
-    """
+    "Match vLLM's serialized output-text semantics for a token prefix."
     text = tokenizer.decode(
         token_ids,
         skip_special_tokens=True,

@@ -1,10 +1,4 @@
 #!/usr/bin/env bash
-# Install the pinned GPU/runtime dependencies for CUPID-G Phase 1.
-#
-# Usage:
-#   bash install_gpu_deps.sh
-#   PYTHON=/path/to/python bash install_gpu_deps.sh
-#   PIP_INDEX_URL=https://pypi.tuna.tsinghua.edu.cn/simple bash install_gpu_deps.sh
 
 set -euo pipefail
 

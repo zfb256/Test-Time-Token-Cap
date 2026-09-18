@@ -1,14 +1,4 @@
-"""
-PRM scoring utilities for CUPID-G Phase 1.
-
-Loads Qwen2.5-Math-PRM-7B (or any step-reward model that outputs per-step
-logits) and scores a reasoning chain.
-
-Usage:
-    scorer = PRMScorer(model_name="./models/Qwen2.5-Math-PRM-7B", device="cuda")
-    result = scorer.score_chain(question="...", chain="step1\\n step2\\n ...")
-    # result = {"step_scores": [...], "mean": 0.82, "min": 0.61, "var": 0.04}
-"""
+'PRM scoring utilities for CUPID-G Phase 1.'
 
 import numpy as np
 from typing import List, Dict
@@ -19,21 +9,14 @@ logger = logging.getLogger(__name__)
 
 
 class PRMScorer:
-    """
-    Wraps a Process Reward Model for step-level chain scoring.
-
-    Supports two backends:
-      1. "qwen_prm"   – Qwen2.5-Math-PRM-7B (token-level reward on \\n steps)
-      2. "math_shepherd" – Math-Shepherd (similar protocol)
-      3. "mock"       – returns random scores (for unit testing without GPU)
-    """
+    'Wraps a Process Reward Model for step-level chain scoring.'
 
     def __init__(
         self,
         model_name: str = "./models/Qwen2.5-Math-PRM-7B",
         device: str = "auto",
         dtype: str = "bfloat16",
-        aggregation: str = "mean",   # mean | min | last | product
+        aggregation: str = "mean",   
         mock: bool = False,
     ):
         self.model_name = model_name
@@ -48,9 +31,6 @@ class PRMScorer:
         if not mock:
             self._load_model(dtype)
 
-    # ------------------------------------------------------------------
-    # Model loading
-    # ------------------------------------------------------------------
 
     def _load_model(self, dtype: str):
         """Load PRM model and tokenizer (lazy, called once)."""
@@ -88,9 +68,6 @@ class PRMScorer:
         self._model.eval()
         logger.info("PRM model loaded.")
 
-    # ------------------------------------------------------------------
-    # Public API
-    # ------------------------------------------------------------------
 
     def score_chain(
         self,
@@ -98,18 +75,7 @@ class PRMScorer:
         chain: str,
         step_delimiter: str = "auto",
     ) -> Dict:
-        """
-        Score a single reasoning chain.
-
-        Returns:
-            {
-                "step_scores": [float, ...],   # per-step reward
-                "mean": float,
-                "min": float,
-                "var": float,
-                "chain_score": float,          # aggregated score
-            }
-        """
+        'Score a single reasoning chain.'
         if self.mock:
             return self._mock_score(chain, step_delimiter)
 
@@ -120,15 +86,9 @@ class PRMScorer:
         step_scores = self._score_steps_qwen(question, steps)
         return self._aggregate(step_scores)
 
-    # ------------------------------------------------------------------
-    # Qwen2.5-Math-PRM scoring protocol
-    # ------------------------------------------------------------------
 
     def _score_steps_qwen(self, question: str, steps: List[str]) -> List[float]:
-        """
-        Qwen2.5-Math-PRM scores each step at '<extra_0>' separator tokens.
-        The score for step i = P(positive label | separator after step i).
-        """
+        "Qwen2.5-Math-PRM scores each step at '<extra_0>' separator tokens."
         import torch
 
         messages = [
@@ -149,7 +109,7 @@ class PRMScorer:
             return_tensors="pt",
             truncation=True,
             max_length=2048,
-            add_special_tokens=False,  # chat template already added special tokens
+            add_special_tokens=False,  
         )
         model_device = next(self._model.parameters()).device
         input_ids = inputs["input_ids"].to(model_device)
@@ -186,9 +146,6 @@ class PRMScorer:
 
         return positive_probs.detach().float().cpu().tolist()[:len(steps)]
 
-    # ------------------------------------------------------------------
-    # Helpers
-    # ------------------------------------------------------------------
 
     def _split_steps(self, chain: str, delimiter: str) -> List[str]:
         """Split chain into steps; filter empty."""
@@ -196,8 +153,7 @@ class PRMScorer:
             steps = [s.strip() for s in chain.split(delimiter)]
             return [s for s in steps if s]
 
-        # Prefer paragraph boundaries; fall back to line boundaries and then
-        # sentence-like chunks for compact generations.
+
         normalized = chain.replace("\r\n", "\n").strip()
         if not normalized:
             return []

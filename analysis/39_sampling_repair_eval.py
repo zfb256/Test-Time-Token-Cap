@@ -1,38 +1,4 @@
-"""
-Step 39 (v2): Repair-vs-completion evaluation under non-greedy decoding.
-
-Review response (the central objection): under deterministic greedy decoding
-"reasoning repair" is impossible by construction, so the original taxonomy
-cannot falsify the completion-recovery hypothesis. This script evaluates the
-mechanism question on sampled runs, where the model CAN take a different
-reasoning path.
-
-Inputs (produced on the GPU server):
-  - inference_{base}.jsonl      base-budget run (n_chains >= 1)
-  - inference_{ext}.jsonl       extended-budget sampled run (n_chains >= 1)
-
-Per problem and run we compute chain-level strict correctness, cap-hit and
-boxed rates, plus pass@1 (mean over chains), any@k, and majority-vote
-correctness. The report answers, with exact binomial CIs:
-
-  1. Does extra budget still help under sampling (helpful rate, maj/pass@1)?
-  2. Are complete-but-wrong base cases now repairable? (the key number the
-     greedy protocol could not measure)
-  3. Among helpful cases, what fraction had truncated vs complete base
-     traces (taxonomy WITHOUT the subtraction shortcut: both classes are
-     defined by independent, observable predicates)?
-
-Usage examples:
-  # Qwen main: greedy medium vs sampled long
-  python 39_sampling_repair_eval.py --results-dir ../outputs/qwen_main \
-      --base-name medium --base-budget 384 \
-      --ext-name long_sample8 --ext-budget 768
-
-  # R1-distill: sampled base vs sampled extended
-  python 39_sampling_repair_eval.py --results-dir ../outputs/r1_distill \
-      --base-name base1024 --base-budget 1024 \
-      --ext-name ext4096 --ext-budget 4096
-"""
+'Step 39 (v2): Repair-vs-completion evaluation under non-greedy decoding.'
 
 import argparse
 import collections
@@ -127,9 +93,8 @@ def eval_run(rec: Dict, budget: int, verifier: MathVerifier) -> Dict:
     for chain in rec["chains"]:
         text = chain.get("text", "")
         correct.append(bool(verifier.verify(text, answer, dataset)))
-        # New artifacts preserve the engine's actual stopping decision.
-        # Fall back to the legacy token-count heuristic only for old JSONL
-        # files that predate finish_reason.
+
+
         finish_reason = chain.get("finish_reason")
         hit_max.append(
             finish_reason == "length"
@@ -139,7 +104,7 @@ def eval_run(rec: Dict, budget: int, verifier: MathVerifier) -> Dict:
         boxed.append("\\boxed" in text)
         answers.append(verifier.extract_prediction_answer(text, dataset))
     k = len(correct)
-    # Majority vote over extracted answers (None answers never win).
+
     maj_correct = False
     maj_tied = False
     maj_correct_any_tie = False
@@ -150,8 +115,8 @@ def eval_run(rec: Dict, budget: int, verifier: MathVerifier) -> Dict:
         top_count = max(counts.values())
         top_answers = sorted(a for a, count in counts.items() if count == top_count)
         maj_tied = len(top_answers) > 1
-        # Lexicographic tie-breaking is deterministic and independent of vLLM
-        # output order. Bounds below expose whether this choice affects accuracy.
+
+
         maj_answer = top_answers[0]
         maj_correct = any(c for a, c in valid if a == maj_answer)
         tie_correctness = [
@@ -169,8 +134,8 @@ def eval_run(rec: Dict, budget: int, verifier: MathVerifier) -> Dict:
     elif complete_wrong:
         completion_state = "all_complete_answered_wrong"
     else:
-        # Includes naturally terminated chains with missing/unparseable answers
-        # and sets containing a correct chain whose aggregate vote is wrong.
+
+
         completion_state = "complete_other"
 
     return {
@@ -186,9 +151,8 @@ def eval_run(rec: Dict, budget: int, verifier: MathVerifier) -> Dict:
         "all_complete": all_complete,
         "hit_max_rate": sum(hit_max) / k if k else 0.0,
         "boxed_rate": sum(boxed) / k if k else 0.0,
-        # A problem is "complete but wrong" only when every sampled chain
-        # terminated naturally, every chain yielded a parseable answer, and
-        # none was correct. Mixed truncated/complete sets are kept separate.
+
+
         "complete_wrong": complete_wrong,
         "completion_state": completion_state,
     }
@@ -239,8 +203,8 @@ def main():
             "math_level": base_rec.get("math_level", 0),
             **{f"base_{k}": v for k, v in b.items()},
             **{f"ext_{k}": v for k, v in e.items()},
-            # Independent, observable taxonomy predicates (review response:
-            # not defined by subtraction):
+
+
             "base_truncated": b["all_hit_max"],
             "base_complete_wrong": b["complete_wrong"],
             "base_completion_state": b["completion_state"],

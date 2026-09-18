@@ -1,12 +1,4 @@
-"""
-Step 24: Strict-vs-relaxed verifier sensitivity.
-
-The main labels intentionally use strict MATH verification: predicted answers
-must include \\boxed{...}. This script does not replace those labels. It audits
-how much of the medium->long utility signal is driven by formatting/completion
-requirements by recomputing a conservative relaxed numeric verifier for MATH
-outputs without boxed answers.
-"""
+'Step 24: Strict-vs-relaxed verifier sensitivity.'
 
 import argparse
 import json
@@ -124,9 +116,8 @@ def relaxed_verify_math(
             return True
 
     gt_num = try_numeric(gt_expr)
-    # Ground-truth MATH records are boxed. If that expression is not a simple
-    # scalar, falling back to the final digit can turn unequal fractions,
-    # tuples, or matrices into false matches.
+
+
     if gt_num is None:
         return False
 

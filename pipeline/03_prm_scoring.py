@@ -1,32 +1,4 @@
-"""
-Step 3: Score inference chains with PRM (Process Reward Model).
-
-Reads inference_short.jsonl (and optionally other budgets).
-Writes PRM scores for each chain into:
-  {output_dir}/prm_scores_short.jsonl   (one record per problem)
-
-Also computes ORM (programmatic) correctness for each chain via math_verify.py,
-and saves those results in the same file.
-
-Output record format:
-  {
-    "problem_id": "gsm8k_0001",
-    "dataset": "gsm8k",
-    "answer": "...",
-    "short_chains_prm": [         # one entry per chain
-      {"step_scores": [...], "mean": 0.72, "min": 0.55, "var": 0.03, "chain_score": 0.72,
-       "orm_correct": true, "extracted_answer": "42"}
-    ],
-    "short_orm_majority": true,   # majority vote across short chains
-    "long_orm_correct": true,     # from inference_long.jsonl
-    "medium_orm_correct": true,
-    "utility_label": 1,           # helpful=1 if short_wrong and long_right
-  }
-
-Run:
-  python 03_prm_scoring.py --config config.yaml
-  python 03_prm_scoring.py --config config.yaml --mock-prm   # use mock PRM (no GPU)
-"""
+'Step 3: Score inference chains with PRM (Process Reward Model).'
 
 import argparse
 import json
@@ -123,11 +95,7 @@ def score_sample_orm(rec: Optional[Dict], verifier: MathVerifier, gt_answer: str
 
 
 def extract_answer(text: str, dataset: str, verifier: MathVerifier) -> Optional[str]:
-    """
-    Extract the answer string from model output for consistency comparison.
-    For GSM8K: last number in text.
-    For MATH: content of \\boxed{...}.
-    """
+    'Extract the answer string from model output for consistency comparison.'
     return verifier.extract_prediction_answer(text, dataset)
 
 
@@ -148,7 +116,7 @@ def main():
     out_dir = Path(cfg["paths"]["output_dir"])
     out_dir.mkdir(parents=True, exist_ok=True)
 
-    # ---- Load inference results ----
+
     def load_budget(budget_name):
         p = out_dir / f"inference_{budget_name}.jsonl"
         if not p.exists():
@@ -192,7 +160,7 @@ def main():
         logger.error("No overlapping problem_ids between short and long inference files.")
         sys.exit(1)
 
-    # ---- Init verifier + PRM ----
+
     verifier = MathVerifier(numeric_tolerance=cfg["orm"]["numeric_tolerance"])
     prm_scorer = PRMScorer(
         model_name=cfg["prm"]["model"],
@@ -205,7 +173,7 @@ def main():
     if args.mock_prm:
         logger.warning("Using MOCK PRM — scores are random. Results are for pipeline testing only.")
 
-    # ---- Process each problem ----
+
     output_records = []
     for pid in tqdm(all_problem_ids, desc="Scoring"):
         short_rec = short_map[pid]
@@ -213,22 +181,22 @@ def main():
         dataset   = short_rec["dataset"]
         gt_answer = short_rec["answer"]
 
-        # ---- Score short chains (PRM + ORM) ----
+
         short_chains_scored = []
 
         for chain_data in short_rec["chains"]:
             chain_text = chain_data["text"]
 
-            # PRM scoring
+
             prm_result = prm_scorer.score_chain(
                 question=short_rec["question"],
                 chain=chain_text,
             )
 
-            # ORM scoring
+
             orm_correct = verifier.verify(chain_text, gt_answer, dataset)
 
-            # Extract answer for consistency check
+
             extracted = extract_answer(chain_text, dataset, verifier)
 
             short_chains_scored.append({
@@ -238,20 +206,19 @@ def main():
                 "token_count": chain_data.get("token_count", 0),
             })
 
-        # Majority vote ORM for short chains. Empty generations are treated as
-        # wrong so the label remains conservative instead of crashing.
+
         short_orm_majority = plurality_correct(
             (chain["extracted_answer"], chain["orm_correct"])
             for chain in short_chains_scored
         )
 
-        # ---- ORM for long chain ----
+
         long_chain_text = long_rec["chains"][0]["text"] if long_rec["chains"] else ""
         long_orm_correct = bool(
             score_chain_orm(long_rec, verifier, gt_answer, dataset)
         )
 
-        # ---- ORM for medium chain (optional) ----
+
         medium_orm_correct = score_chain_orm(
             medium_map.get(pid), verifier, gt_answer, dataset
         )
@@ -259,7 +226,7 @@ def main():
             sample_map.get(pid), verifier, gt_answer, dataset
         )
 
-        # ---- Utility label ----
+
         utility_label = FeatureBuilder.compute_utility_label(
             short_correct=short_orm_majority,
             long_correct=long_orm_correct,
@@ -283,19 +250,19 @@ def main():
                 "sample_any_correct": sample_stats["sample_any_correct"],
                 "sample_majority_correct": sample_stats["sample_majority_correct"],
             },
-            "long_chain_text": long_chain_text,  # saved for Plan B-1 CHR
+            "long_chain_text": long_chain_text,  
             "utility_label": utility_label,
         }
         output_records.append(record)
 
-    # ---- Save ----
+
     out_path = out_dir / "prm_scores.jsonl"
     with open(out_path, "w", encoding="utf-8") as f:
         for r in output_records:
             f.write(json.dumps(r, ensure_ascii=False) + "\n")
     logger.info(f"Saved {len(output_records)} records -> {out_path}")
 
-    # ---- Quick stats ----
+
     n_helpful = sum(r["utility_label"] for r in output_records)
     n_total = len(output_records)
     if n_total == 0:

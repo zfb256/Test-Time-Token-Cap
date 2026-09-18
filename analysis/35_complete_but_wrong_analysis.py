@@ -1,11 +1,4 @@
-"""
-Step 35: Complete-but-wrong subset analysis.
-
-This tests whether medium traces that appear complete but are wrong are repaired
-by the long budget. It directly addresses the reviewer question: is
-medium->long utility only completion recovery, or is there a separate reasoning
-recovery mechanism?
-"""
+'Step 35: Complete-but-wrong subset analysis.'
 
 import argparse
 import importlib.util
@@ -144,9 +137,8 @@ def main():
         l_tokens = int(l_chain.get("token_count", 0))
         medium_has_boxed = "\\boxed" in m_text
         medium_has_number = extract_last_numberish(m_text) is not None
-        # Dataset-specific final-answer signal. The prompt asks for boxed
-        # answers for both datasets, but GSM8K verification is numeric, so keep
-        # a numeric final-answer fallback to avoid defining the subset as MATH-only.
+
+
         medium_has_final_answer = medium_has_boxed or (
             dataset == "gsm8k" and medium_has_number
         )

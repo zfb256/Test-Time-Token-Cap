@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-# Temperature sensitivity for the three-arm protocol.
 set -euo pipefail
 
 MODE="${1:-smoke}"

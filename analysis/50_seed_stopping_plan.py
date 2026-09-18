@@ -1,9 +1,4 @@
-"""Plan additional seeds from observed eligible/repair counts.
-
-Reports expected eligible cases and the exact 95% upper repair-rate bound when
-no repairs are observed.  This is a planning calculation; final inference must
-cluster by problem because seeds repeat the same benchmark questions.
-"""
+'Plan additional seeds from observed eligible/repair counts.'
 
 import argparse
 import math

@@ -1,10 +1,4 @@
-"""
-Preflight checks for CUPID-G Phase 1.
-
-This script verifies local data/model readiness before the expensive vLLM run.
-By default it checks CPU-side prerequisites and reports GPU status without
-failing. Use --require-gpu on the machine that will run Step 02.
-"""
+'Preflight checks for CUPID-G Phase 1.'
 
 import argparse
 import importlib.util

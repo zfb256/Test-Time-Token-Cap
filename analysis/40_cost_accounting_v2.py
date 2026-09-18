@@ -1,25 +1,4 @@
-"""
-Step 40 (v2): Honest cost accounting - rerun vs resume.
-
-Review response (review 2, concern 2): the paper's savings formula
-    avg budget = B_m + r * (B_l - B_m)
-assumes the upgrade CONTINUES the medium trace, while the text describes a
-RERUN. The two differ materially:
-
-  rerun accounting:  routed example costs B_m (routing evidence) + B_l
-                     -> avg = B_m + r * B_l
-  resume accounting: routed example costs B_m + (B_l - B_m)
-                     -> avg = B_m + r * (B_l - B_m)
-
-This script reports both accountings side by side for every routing
-strategy, against the honest deployment baseline "fixed long WITHOUT a
-medium pass" (cost B_l). It also computes actual-generated-token versions
-for the transparent rules using real token counts.
-
-Runs on existing outputs; no GPU needed. After 08_run_continuation.py has
-produced inference_long_resume.jsonl, rerun with --resume-name to verify
-that resumed answers match the independent long rerun for truncated cases.
-"""
+'Step 40 (v2): Honest cost accounting - rerun vs resume.'
 
 import argparse
 from pathlib import Path
@@ -86,15 +65,13 @@ def main():
         acc = float((long_ok[mask].sum() + med_ok[~mask].sum()) / n)
         cap_rerun = b_m + r * b_l
         cap_resume = b_m + r * (b_l - b_m)
-        # actual token accounting (per-example):
+
         actual_rerun = float((med_tokens + mask * long_tokens).mean())
-        # resume: truncated routed examples pay the continuation only;
-        # approximate continuation cost as (long_tokens - medium_tokens)
-        # clipped at 0 (valid when long extends the medium prefix).
+
+
         cont = (long_tokens - med_tokens).clip(min=0.0)
-        # The continuation runner is a no-op after a natural EOS, even if a
-        # routing rule selects that example. Only length-truncated traces can
-        # incur continuation tokens.
+
+
         cont = cont * hit_max
         actual_resume = float((med_tokens + mask * cont).mean())
         return {
@@ -130,13 +107,13 @@ def main():
     })
     rows.append(strategy_row("rule_hit_max", hit_max))
     rows.append(strategy_row("rule_no_boxed", no_boxed))
-    # random / learned routers at fixed fraction: cap accounting only
+
     for r in (0.2, 0.3, 0.4):
         k = int(np.ceil(r * n))
         mask = np.zeros(n, dtype=bool)
-        mask[:k] = True  # placeholder mask: cap-based numbers depend only on r
+        mask[:k] = True  
         row = strategy_row(f"any_router_top{int(r*100)}pct_cap_only", mask)
-        row["accuracy"] = float("nan")  # depends on the router; see main tables
+        row["accuracy"] = float("nan")  
         row["actual_tokens_rerun"] = float("nan")
         row["estimated_actual_tokens_resume"] = float("nan")
         rows.append(row)

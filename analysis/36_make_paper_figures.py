@@ -6,13 +6,14 @@ import matplotlib
 import pandas as pd
 
 matplotlib.use("Agg")
+matplotlib.rcParams["pdf.fonttype"] = 42
 import matplotlib.pyplot as plt
 
 
 ROOT = Path(__file__).resolve().parents[1]
 ROUTING_OUTPUTS = ROOT / "outputs" / "three_arm_routing"
 THREE_ARM_OUTPUTS = ROOT / "outputs" / "three_arm_expanded"
-FIGURES = ROOT / "paper" / "figures"
+FIGURES = ROOT / "paper"
 MODELS = (("Qwen", "qwen_seed42"), ("Llama", "llama_seed42"))
 
 
@@ -28,17 +29,15 @@ def harm_row(run_dir, contrast):
 def save(fig, stem):
     FIGURES.mkdir(parents=True, exist_ok=True)
     fig.savefig(FIGURES / f"{stem}.pdf", bbox_inches="tight")
-    fig.savefig(FIGURES / f"{stem}.png", dpi=300, bbox_inches="tight")
 
 
 def make_three_arm_routing(scope="core_3seed"):
-    """Routing curves inside the three-arm design, where routing a record is an
-    exactly observed swap of its arm-B aggregate for its arm-C aggregate."""
+    'Routing curves inside the three-arm design, where routing a record is an'
     curve = pd.read_csv(ROUTING_OUTPUTS / "routing_curve.csv")
     summary = pd.read_csv(ROUTING_OUTPUTS / "routing_summary.csv")
     series = (
-        ("cap_hit_rank", "Cap-hit rank", "#1f77b4", "o"),
-        ("learned_logistic", "Cheap learned router", "#d62728", "s"),
+        ("cap_hit_rank", "Cap-hit ranking", "#1f77b4", "o"),
+        ("learned_logistic", "Learned router", "#d62728", "s"),
         ("random", "Random routing", "#7f7f7f", None),
     )
 
@@ -59,9 +58,9 @@ def make_three_arm_routing(scope="core_3seed"):
 
         first = ax is axes[0]
         ax.axhline(extended, color="#2ca02c", linestyle="--", linewidth=1.0,
-                   label="Fixed long (arm C)" if first else None)
+                   label="Fixed-long (arm C)" if first else None)
         ax.axhline(base, color="#8c564b", linestyle=":", linewidth=1.0,
-                   label="Fixed base (arm B)" if first else None)
+                   label="Fixed-base (arm B)" if first else None)
         ax.axvline(cap_hit, color="#bbbbbb", linewidth=0.8, zorder=0)
         for method, name, color, marker in series:
             points = rows[rows["method"] == method].sort_values("route_fraction")
@@ -81,7 +80,7 @@ def make_three_arm_routing(scope="core_3seed"):
                    bbox_to_anchor=(0.5 * len(panels), -0.26), ncol=3,
                    fontsize=7.2, frameon=False, handlelength=1.8,
                    columnspacing=1.2)
-    save(fig, "three_arm_routing")
+    save(fig, "Fig2")
     plt.close(fig)
 
 
@@ -92,19 +91,11 @@ def repair_row(run_dir):
 
 
 def make_answer_churn():
-    """Both directions at once: resampling moves answers, continuation does not.
-
-    Left panel counts corrections of a complete-but-wrong aggregate; right
-    panel counts reversals of an aggregate that was already correct. Each is
-    a rate over the arm-A-eligible population for that direction, so the two
-    panels have different denominators and are not compared across panels.
-    """
+    'Both directions at once: resampling moves answers, continuation does not.'
     resample_color, continue_color = "#4c78a8", "#e45756"
     fig, axes = plt.subplots(1, 2, figsize=(6.6, 2.5), sharey=False)
 
-    # Both panels contrast the same two quantities: what resampling moves, and
-    # what continuation adds on top of it. The continuation bar is therefore
-    # the incremental B->C count in both, never the cumulative A->C count.
+
     panels = (
         ("Corrections", "wrong $\\rightarrow$ right",
          [(repair_row(run)["n_eligible"],
@@ -149,18 +140,13 @@ def make_answer_churn():
 
 
 def make_three_arm_protocol():
-    """Figure 1: the three-arm protocol drawn on one shared token axis.
-
-    Layout follows a 900x540 grid with the y axis inverted, so positions read
-    top-down. Font sizes carry a single scale factor because matplotlib sizes
-    text in points while the layout is in data units.
-    """
+    'Figure 1: the three-arm protocol drawn on one shared token axis.'
     from matplotlib.patches import FancyBboxPatch, Polygon, Rectangle, Circle, FancyArrowPatch
 
     BLUE, GREEN, ORANGE = "#4C72B0", "#55A868", "#DD8452"
     INK, MUTED, LINE = "#22252A", "#6B7280", "#9CA3AF"
     PANEL, BORDER = "#FFFFFF", "#E3E6EA"
-    FS = 0.74                      # points per layout unit
+    FS = 0.74
 
     fig, ax = plt.subplots(figsize=(10.6, 6.05))
     ax.set_xlim(0, 900)
@@ -203,7 +189,7 @@ def make_three_arm_protocol():
             else:
                 bar(cx, y0 + 9, 14, 20, c, z=5)
 
-    # ---- panels and phase headers ----
+
     for x, w, accent, num, title, res in (
         (8, 276, BLUE, "1", "Generate", "GPU"),
         (312, 276, GREEN, "2", "Reconstruct & select", "CPU"),
@@ -216,7 +202,7 @@ def make_three_arm_protocol():
         txt(x + 48, 36.5, title, 12.8, INK, weight="bold")
         txt(x + w - 16, 36.5, res, 9.5, MUTED, ha="right")
 
-    # ---- prompt ----
+
     card(62, 62, 176, 56, r=28)
     ax.add_patch(Circle((90, 90), 10, facecolor="#EEF1F5", linewidth=0, zorder=4))
     ax.plot([85, 95], [90, 90], color=MUTED, lw=1.4, zorder=5)
@@ -224,12 +210,12 @@ def make_three_arm_protocol():
     txt(112, 84, "Problem $x_i$", 12.5, INK, weight="bold")
     txt(112, 104, "zero-shot prompt", 11, MUTED)
 
-    # trunk down the left gutter, clear of every label
+
     elbow([(150, 118), (150, 132), (16, 132), (16, 369)], head=False)
     elbow([(16, 231), (26, 231)])
     elbow([(16, 369), (26, 369)])
 
-    # ---- three arms, one token axis, cap always at local x = 120 ----
+
     def arm(x0, y, label, lcol, title, note, slots, cut_colour,
             cap_label=None, foot=()):
         txt(x0, y, label, 10.5, lcol, weight="bold")
@@ -259,12 +245,12 @@ def make_three_arm_protocol():
     txt(338, 336, "chains that ended naturally are", 10, MUTED)
     txt(338, 350, "token-identical in arms B and C", 10, MUTED)
 
-    # ---- scoring: the instrument behind every correct/wrong judgment ----
+
     card(332, 54, 240, 40, r=10, ec=LINE, fc="#F6F7F9", lw=1.1)
     txt(452, 68, "Verify each chain", 12.5, INK, "center", "bold")
     txt(452, 85, "extract answer, compare, then vote", 10.5, MUTED, "center")
 
-    # ---- eligibility gate ----
+
     ax.add_patch(Polygon([(354, 108), (534, 108), (556, 140), (534, 172),
                           (354, 172), (332, 140)], closed=True,
                          facecolor="#EAF3EC", edgecolor=GREEN, linewidth=1.3, zorder=3))
@@ -278,14 +264,14 @@ def make_three_arm_protocol():
     txt(388, 396, "Exact reconstruction", 12.5, INK, weight="bold")
     txt(388, 415, "zero additional inference", 11, MUTED)
 
-    # ---- flows ----
+
     elbow([(268, 231), (298, 231), (298, 74), (328, 74)], BLUE, 1.7)
     elbow([(268, 369), (298, 369), (298, 275), (334, 275)], GREEN, 1.7)
     elbow([(556, 140), (594, 140), (594, 121), (623, 121)], LINE, 1.35)
     elbow([(578, 275), (598, 275), (598, 225), (623, 225)], GREEN, 1.7)
     elbow([(148, 388), (148, 452), (606, 452), (606, 329), (623, 329)], ORANGE, 1.7)
 
-    # ---- the three contrasts ----
+
     def estimate(y, accent, tag, tag_x, name, note, icon):
         card(628, y, 248, 88, r=13)
         bar(628, y, 5, 88, accent, z=4)
@@ -318,17 +304,17 @@ def make_three_arm_protocol():
     estimate(282, ORANGE, "A $\\rightarrow$ C", 776, "Combined",
              "trajectory change + token increment", icon_ac)
 
-    # ---- result bus: the contrasts are parallel, not chained ----
+
     for yy in (118, 222, 326):
         elbow([(876, yy), (884, yy)], LINE, 1.3, head=False)
     elbow([(884, 118), (884, 386), (752, 386), (752, 404)], LINE, 1.3, ms=8)
 
     card(638, 410, 228, 84, r=17)
     txt(752, 436, "Paired attribution", 13, INK, "center", "bold")
-    txt(752, 460, "repair · reversal · exact bounds", 10.5, MUTED, "center")
+    txt(752, 460, "correction · reversal · exact bounds", 10.5, MUTED, "center")
     txt(752, 478, "paired tests · routing utility", 10.5, MUTED, "center")
 
-    save(fig, "three_arm_protocol")
+    save(fig, "Fig1")
     plt.close(fig)
 
 
@@ -346,8 +332,8 @@ def make_incremental_bounds():
              "core_T0.60_3seed": "core, $T$=0.60",
              "core_T0.75_3seed": "core, $T$=0.75",
              "core_T1.00_3seed": "core, $T$=1.00"}
-    # core_3seed is the T=0.75 operating point, so the T=0.75 sweep cells hold
-    # the same records and are not drawn twice.
+
+
     order = ["core_3seed", "r1_3seed", "full_split",
              "core_T0.60_3seed", "core_T1.00_3seed"]
     name = {"qwen": "Qwen", "llama": "Llama", "r1": "R1"}
@@ -411,9 +397,7 @@ def make_incremental_bounds():
 
 def main():
     make_three_arm_routing()
-    make_answer_churn()
     make_three_arm_protocol()
-    make_incremental_bounds()
     print(f"Saved paper figures to {FIGURES}")
 
 

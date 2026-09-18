@@ -1,16 +1,4 @@
-"""Decompose resampling and token-budget effects with a three-arm design.
-
-Arm A is an independently sampled base-cap run and defines eligibility.
-Arms B and C are the same sampled trajectories observed at the base and
-extended caps.  Therefore:
-
-* A -> B measures recovery under independent same-cap resampling;
-* A -> C measures recovery under resampling plus a larger token cap;
-* C - B is the incremental contribution of extending the B trajectories.
-
-The script operates on one model/seed.  Repeated-seed uncertainty should
-cluster the emitted detail rows by problem ID.
-"""
+'Decompose resampling and token-budget effects with a three-arm design.'
 
 import argparse
 import hashlib

@@ -1,9 +1,4 @@
 #!/usr/bin/env bash
-# Three-arm control for DeepSeek-R1-Distill-Qwen-7B at 2048 -> 4096 tokens.
-#
-# The 1024-token independent-budget run leaves one complete-but-wrong set,
-# which cannot support a repair estimate. Raising the base cap to 2048 is the
-# smallest change that puts R1 in the regime where the estimand is defined.
 set -euo pipefail
 
 MODE="${1:-smoke}"

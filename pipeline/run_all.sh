@@ -1,19 +1,4 @@
 #!/usr/bin/env bash
-# ============================================================
-# CUPID-G Phase 1: Master run script
-# Usage: bash run_all.sh [--resume] [--mock-prm] [--dry-run]
-#
-# Steps:
-#   01  Download + sample datasets
-#   02  Run inference (all 4 budget levels)
-#   06  Plan B-1 self-correction (parallel, same inference engine call)
-#   03  PRM scoring + ORM verification + utility labels
-#   04  Build G1-G4 feature matrix
-#   05  Train classifiers, compute AUC, print Go/No-Go verdict
-#
-# Requires: vllm, transformers, datasets, lightgbm, scikit-learn
-# See requirements.txt
-# ============================================================
 
 set -euo pipefail
 
@@ -33,7 +18,6 @@ DRY_RUN_FLAG=""
 LOG_DIR="logs"
 PYTHON_BIN="${PYTHON:-}"
 
-# Parse args
 for arg in "$@"; do
     case $arg in
         --resume)   RESUME_FLAG="--resume" ;;
@@ -60,7 +44,6 @@ if [ -z "${PYTHON_BIN}" ]; then
     fi
 fi
 
-# Read output/log dirs from config (fallback to local dirs if PyYAML is unavailable)
 OUT_DIR=$("${PYTHON_BIN}" -c "import yaml; c=yaml.safe_load(open('${CONFIG}')); print(c['paths']['output_dir'])" 2>/dev/null || echo "../outputs/qwen_main")
 LOG_DIR=$("${PYTHON_BIN}" -c "import yaml; c=yaml.safe_load(open('${CONFIG}')); print(c['paths'].get('log_dir', 'logs'))" 2>/dev/null || echo "${LOG_DIR}")
 mkdir -p "${OUT_DIR}" "${LOG_DIR}"
@@ -108,7 +91,6 @@ run_step() {
     fi
 }
 
-# ---- Step 01: Download data ----
 run_step "01" "01_download_data.py" "${DRY_RUN_FLAG}"
 
 if [ -n "${DRY_RUN_FLAG}" ]; then
@@ -117,12 +99,8 @@ if [ -n "${DRY_RUN_FLAG}" ]; then
     exit 0
 fi
 
-# ---- Step 02: Inference (all budgets) ----
-# Note: this is the GPU-intensive step (~2-3 hours on A100 for 800 problems)
 run_step "02" "02_run_inference.py" "${RESUME_FLAG}"
 
-# ---- Step 06: Plan B-1 CHR (uses plan_b1.initial_budget from config) ----
-# Parallel track — uses same problems, minimal extra cost
 echo "" | tee -a "${LOG_FILE}"
 echo ">>> Step 06 (Plan B-1 parallel): 06_planb1_chr.py" | tee -a "${LOG_FILE}"
 "${PYTHON_BIN}" 06_planb1_chr.py --config "${CONFIG}" ${RESUME_FLAG} \
@@ -130,22 +108,17 @@ echo ">>> Step 06 (Plan B-1 parallel): 06_planb1_chr.py" | tee -a "${LOG_FILE}"
     echo "    [WARN] Plan B-1 CHR step failed (non-fatal, continuing CUPID-G track)" | tee -a "${LOG_FILE}"
 }
 
-# ---- Step 03: PRM scoring + ORM ----
 run_step "03" "03_prm_scoring.py" "${MOCK_PRM_FLAG}"
 
-# ---- Step 04: Build features ----
 run_step "04" "04_build_features.py" ""
 
-# ---- Step 05: Train + AUC evaluation ----
 run_step "05" "05_train_evaluate.py" ""
 
-# ---- Final summary ----
 echo "" | tee -a "${LOG_FILE}"
 echo "============================================" | tee -a "${LOG_FILE}"
 echo "PHASE 1 COMPLETE — $(date)"                  | tee -a "${LOG_FILE}"
 echo "============================================" | tee -a "${LOG_FILE}"
 
-# Print Go/No-Go from the verdict file
 VERDICT_FILE="${OUT_DIR}/auc_results.txt"
 if [ -f "${VERDICT_FILE}" ]; then
     echo "" | tee -a "${LOG_FILE}"
@@ -153,7 +126,6 @@ if [ -f "${VERDICT_FILE}" ]; then
     cat "${VERDICT_FILE}" | tee -a "${LOG_FILE}"
 fi
 
-# Print CHR result
 CHR_FILE="${OUT_DIR}/planb1_chr_result.txt"
 if [ -f "${CHR_FILE}" ]; then
     echo "" | tee -a "${LOG_FILE}"

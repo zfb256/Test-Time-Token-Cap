@@ -1,27 +1,4 @@
-"""
-Plan B-1 parallel track: Self-Correction CHR (Correction Harm Rate).
-
-Runs SIMULTANEOUSLY with Days 1-7 CUPID-G track (zero extra cost since
-it uses the same GSM8K + MATH problems).
-
-Protocol:
-  1. For each problem, the "initial answer" = plan_b1.initial_budget greedy chain
-     (default: medium, 384 tokens; configurable in config.yaml).
-  2. Generate one "self-corrected answer" by prompting the model:
-     "Review your solution and correct any errors."
-  3. Compute CHR = (# correct→wrong transitions) / (# initially correct problems)
-
-CHR > 5% threshold (from config) -> Plan B-1 viable for AAAI
-CHR < 2%                          -> Plan B-2 (data filtering, ACL/EMNLP)
-
-Outputs:
-  {output_dir}/planb1_corrections.jsonl   (initial + corrected pairs)
-  {output_dir}/planb1_chr_result.txt      (CHR value + Plan B decision)
-
-Run:
-  python 06_planb1_chr.py --config config.yaml
-  python 06_planb1_chr.py --config config.yaml --resume
-"""
+'Plan B-1 parallel track: Self-Correction CHR (Correction Harm Rate).'
 
 import argparse
 import json
@@ -42,7 +19,7 @@ logger = logging.getLogger(__name__)
 sys.path.insert(0, str(Path(__file__).parent))
 from utils.math_verify import MathVerifier
 
-# Self-correction prompt template (Qwen-Math chat format)
+
 SELF_CORRECT_PROMPT = (
     "<|im_start|>system\n"
     "Please reason step by step, and put your final answer within \\boxed{{}}.<|im_end|>\n"
@@ -83,7 +60,7 @@ def main():
     out_dir = Path(cfg["paths"]["output_dir"])
     out_dir.mkdir(parents=True, exist_ok=True)
 
-    # ---- Load initial answers (budget controlled by config) ----
+
     initial_budget = cfg["plan_b1"].get("initial_budget", "medium")
     initial_path = out_dir / f"inference_{initial_budget}.jsonl"
     if not initial_path.exists():
@@ -96,7 +73,7 @@ def main():
         logger.error(f"No records found in inference_{initial_budget}.jsonl.")
         sys.exit(1)
 
-    # ---- Check for already-processed records ----
+
     out_path = out_dir / "planb1_corrections.jsonl"
     done_ids = set()
     if args.resume and out_path.exists():
@@ -113,7 +90,7 @@ def main():
     if not todo:
         logger.info("All done. Computing CHR from existing file.")
     else:
-        # ---- Load vLLM ----
+
         from vllm import LLM, SamplingParams
         planb_cfg = cfg["plan_b1"]["self_correction"]
         inf_cfg = cfg["inference"]
@@ -174,7 +151,7 @@ def main():
         except Exception:
             pass
 
-    # ---- Compute CHR ----
+
     logger.info("\nComputing CHR...")
     if not out_path.exists():
         logger.error(f"No correction file found: {out_path}")
@@ -250,7 +227,7 @@ def main():
 
     logger.info(f"\nDecision: {decision}")
 
-    # Save result
+
     result_txt = out_dir / "planb1_chr_result.txt"
     with open(result_txt, "w", encoding="utf-8") as f:
         f.write("Plan B-1 CHR Results\n")

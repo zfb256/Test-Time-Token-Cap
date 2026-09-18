@@ -1,21 +1,5 @@
 #!/usr/bin/env python3
-"""
-Step 9 (v2): Download AIME 2024 + 2025 problems.
-
-Review response (review 3, concern 4): GSM8K/MATH are computation-bound
-tasks that favor the completion-recovery hypothesis; harder competition
-problems produce more "complete but wrong reasoning direction" failures.
-AIME provides 60 such problems with integer answers (0-999) that the
-existing MATH-style boxed verifier handles directly.
-
-Writes data/aime/all_problems.jsonl with the same record schema as
-01_download_data.py:
-    problem_id, dataset="aime", question, answer ("\\boxed{N}"), math_level
-
-Run locally (needs internet + `datasets`); commit the output so the GPU
-server needs no downloads:
-    python 09_download_aime.py
-"""
+'Step 9 (v2): Download AIME 2024 + 2025 problems.'
 
 import argparse
 import json
@@ -25,7 +9,7 @@ from pathlib import Path
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 
-# (hf_id, split, question_field, answer_field, year_tag)
+
 CANDIDATES_2024 = [
     ("Maxwell-Jia/AIME_2024", "train", "Problem", "Answer", "aime24"),
     ("HuggingFaceH4/aime_2024", "train", "problem", "answer", "aime24"),
@@ -44,7 +28,7 @@ def try_load(candidates):
         try:
             ds = load_dataset(hf_id, split=split)
             if qf not in ds.column_names or af not in ds.column_names:
-                # tolerate capitalization differences
+
                 cols = {c.lower(): c for c in ds.column_names}
                 qf = cols.get(qf.lower(), qf)
                 af = cols.get(af.lower(), af)
@@ -60,11 +44,11 @@ def try_load(candidates):
                         f"{hf_id} row {i} has a non-integer AIME answer: "
                         f"{raw_answer!r}"
                     )
-                # Canonical AIME answers are integers from 000 through 999.
+
                 a = int(match.group(1))
                 if not 0 <= a <= 999:
                     raise ValueError(f"{hf_id} row {i} answer out of range: {a}")
-                # Zero is a valid AIME answer; only the question may be empty.
+
                 if not q:
                     continue
                 rows.append({
@@ -72,14 +56,14 @@ def try_load(candidates):
                     "dataset": "aime",
                     "question": q,
                     "answer": f"\\boxed{{{a}}}",
-                    "math_level": 6,  # above MATH level 5 by convention
+                    "math_level": 6,  
                     "source": hf_id,
                 })
             if len(rows) == 30:
                 print(f"Loaded {len(rows)} problems from {hf_id}")
                 return rows
             raise ValueError(f"{hf_id} returned {len(rows)} rows; expected exactly 30")
-        except Exception as e:  # try next mirror
+        except Exception as e:  
             last_err = e
             print(f"  {hf_id} failed: {e}")
     raise RuntimeError(f"All candidates failed; last error: {last_err}")
@@ -104,7 +88,7 @@ def main():
     tmp_path.replace(out_path)
     print(f"Saved {len(rows)} problems -> {out_path}")
 
-    # quick sanity: answers must be boxed integers
+
     bad = [r for r in rows if not r["answer"].startswith("\\boxed{")]
     if bad:
         print(f"WARNING: {len(bad)} records lack boxed answers")

@@ -1,11 +1,4 @@
-"""Pool the temperature sweep over whatever seeds are present on disk.
-
-Script 58 compiles the one-seed table. This one pools every seed directory it
-finds for each model--temperature cell, reports the pooled counts with exact
-one-sided bounds, and records which seeds contributed. Running it before the
-extra seeds land reproduces the one-seed numbers, so the paper table and the
-handover run share a single code path.
-"""
+'Pool the temperature sweep over whatever seeds are present on disk.'
 
 import argparse
 import csv

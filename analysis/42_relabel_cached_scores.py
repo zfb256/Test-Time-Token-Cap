@@ -111,8 +111,7 @@ def main():
     tmp_path.replace(cached_path)
     print(f"Relabeled {len(output)} cached PRM records: {dict(changed)}")
 
-    # Medium-trace PRM features are expensive and remain valid, but their
-    # cached verifier labels must be refreshed as well.
+
     medium_features_path = out_dir / "features_medium.jsonl"
     medium_features = load_map(medium_features_path)
     if set(medium_features) != expected:

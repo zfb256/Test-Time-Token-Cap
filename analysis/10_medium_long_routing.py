@@ -1,33 +1,4 @@
-"""
-Step 10: Medium→Long routing experiment (CUPID-G pivot).
-
-Why: analysis (07) showed short-vs-long allocation is dominated by fixed_medium.
-Pivot: use medium-chain features to decide whether to extend to long.
-
-Routing rule at threshold τ:
-  P(helpful_ml | medium_features) > τ  →  run long  (+384 extra tokens vs medium)
-  P(helpful_ml | medium_features) ≤ τ  →  keep medium answer  (0 extra tokens)
-
-Baselines:
-  fixed_long    always long
-  fixed_medium  always medium  (the new short baseline)
-  random_τ      random routing at same fraction (100 seeds)
-  oracle        route to long iff label_ml=1
-
-Reads:
-  {results_dir}/features_medium.jsonl   (from Step 9)
-
-Outputs:
-  {output_dir}/ml_routing_results.json
-  {output_dir}/ml_routing_results.csv
-  {output_dir}/ml_routing_summary.txt
-  {output_dir}/ml_routing_pareto.png        (if matplotlib available)
-  {output_dir}/ml_predictor.pkl             (final predictor)
-
-Run:
-  python 10_medium_long_routing.py
-  python 10_medium_long_routing.py --results-dir ../outputs/qwen_main
-"""
+'Step 10: Medium→Long routing experiment (CUPID-G pivot).'
 
 import argparse
 import json
@@ -55,11 +26,10 @@ logger = logging.getLogger(__name__)
 sys.path.insert(0, str(Path(__file__).parent.parent / "pipeline"))
 from utils.feature_utils import FeatureBuilder
 
-# ---- Token budget constants ----------------------------------------
-# Medium chain already paid; delta = long - medium
+
 MEDIUM_TOKENS = 384
 LONG_TOKENS   = 768
-DELTA_TOKENS  = LONG_TOKENS - MEDIUM_TOKENS   # 384 extra to go medium→long
+DELTA_TOKENS  = LONG_TOKENS - MEDIUM_TOKENS   
 
 THRESHOLDS = np.round(np.arange(0.05, 0.96, 0.05), 3)
 DOMAIN_COLS = {"g1_is_gsm8k", "g1_is_math", "g1_math_level"}
@@ -225,13 +195,13 @@ def build_summary(baselines, cupidg_rows, cv_auc) -> str:
     long_acc = baselines["fixed_long"]["accuracy"]
     acc_gap  = long_acc - med_acc
 
-    # Count dominated rows
+
     dom = sum(1 for r in cupidg_rows if r["accuracy"] <= med_acc and r["fraction_routed"] > 0)
     lines.append(f"CUPID-G threshold sweep: {len(cupidg_rows)} points, "
                  f"{dom} dominated by fixed_medium")
     lines.append("")
 
-    # Best efficiency: max accuracy gain per token spent
+
     best_eff, best_score = None, -1e9
     for row in cupidg_rows:
         if row["fraction_routed"] < 1e-6:
@@ -296,7 +266,7 @@ def main():
     records = load_features(feat_path)
     X_g4, y = FeatureBuilder.records_to_dataframe(records, "G4")
 
-    # Select feature set
+
     if args.feature_set == "G4_nodomain":
         drop = [c for c in DOMAIN_COLS if c in X_g4.columns]
         X = X_g4.drop(columns=drop)
@@ -326,7 +296,7 @@ def main():
     n_folds    = cfg["classifiers"]["cv_folds"]
     rs         = cfg["classifiers"]["random_state"]
 
-    # CV AUC
+
     min_class = int(y.value_counts().min())
     folds = min(n_folds, min_class)
     cv_obj = StratifiedKFold(n_splits=folds, shuffle=True, random_state=rs)
@@ -334,11 +304,11 @@ def main():
     cv_auc_mean = float(auc_scores.mean())
     logger.info(f"\nCV AUC ({args.feature_set}): {cv_auc_mean:.4f} ± {auc_scores.std():.4f}")
 
-    # OOF probs for simulation
+
     logger.info("Computing OOF probabilities...")
     oof_probs = get_oof_probs(X, y, clf, folds, rs)
 
-    # Baselines
+
     baselines = compute_baselines(medium_correct, long_correct, utility_labels)
     logger.info("\nBaselines:")
     for k, v in baselines.items():
@@ -346,7 +316,7 @@ def main():
                     f"tokens={v['avg_total_tokens']:.0f}  "
                     f"savings={v['token_savings_pct']:.1f}%")
 
-    # Threshold sweep
+
     logger.info(f"\nThreshold sweep ({args.feature_set}):")
     cupidg_rows = []
     med_acc = baselines["fixed_medium"]["accuracy"]
@@ -370,7 +340,7 @@ def main():
     n_beats_medium = sum(1 for r in cupidg_rows if r["beats_fixed_medium"])
     logger.info(f"\nCUPID-G beats fixed_medium at {n_beats_medium}/{len(cupidg_rows)} thresholds")
 
-    # Save
+
     output = {
         "feature_set": args.feature_set,
         "cv_auc":      cv_auc_mean,
@@ -404,7 +374,7 @@ def main():
     logger.info(f"\nSaved: {json_path}\n       {csv_path}\n       {txt_path}")
     logger.info("\n" + summary)
 
-    # Save predictor
+
     final_clf = clone(clf)
     final_clf.fit(X.values, y.values)
     pkl_path = out_dir / f"ml_predictor_{args.feature_set.lower()}.pkl"
@@ -413,7 +383,7 @@ def main():
                      "feature_set": args.feature_set}, f)
     logger.info(f"Saved predictor: {pkl_path}")
 
-    # Plot
+
     try:
         import matplotlib.pyplot as plt
         fig, ax = plt.subplots(figsize=(7, 5))

@@ -1,16 +1,4 @@
-"""Audit repair rates under several explicit base-case definitions.
-
-This is a sensitivity analysis, not a replacement for the paper's strict
-complete-but-wrong (CBW) definition.  It separates:
-
-* strict_all_wrong: all chains stop naturally, parse, and are incorrect;
-* plurality_wrong: all chains stop naturally and parse, but the plurality is
-  wrong (a correct minority is allowed);
-* first_chain_wrong: the first chain stops naturally, parses, and is wrong.
-
-The extended run is scored by deterministic plurality, any-correct, and
-tie-breaking lower/upper bounds.
-"""
+'Audit repair rates under several explicit base-case definitions.'
 
 import argparse
 import collections
@@ -157,14 +145,14 @@ def analyze(base_map, ext_map, base_budget, ext_budget):
         }
         for definition, is_eligible in eligible.items():
             if definition == "first_chain_wrong":
-                # The comparator is the declared first (single) base chain.
+
                 repair_plurality = ext_vote["correct"]
                 repair_any = ext_any_correct
                 repair_tie_lower = ext_vote["lower"]
                 repair_tie_upper = ext_vote["upper"]
             else:
-                # For set-level definitions, require a false->true transition;
-                # a correct base minority is not a new any-chain repair.
+
+
                 repair_plurality = (
                     not base_vote["correct"] and ext_vote["correct"]
                 )

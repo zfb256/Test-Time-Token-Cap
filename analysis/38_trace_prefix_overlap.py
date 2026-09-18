@@ -1,27 +1,4 @@
-"""
-Step 38 (v2): Trace prefix-overlap audit between two budget runs.
-
-Review response (both reviews: "under greedy decoding the long trace should
-be a token-level continuation of the medium trace, so complete-but-wrong
-fixes are impossible by construction"). This script measures that claim
-empirically instead of leaving it implicit:
-
-  - For every problem, compare the serialized medium and long text:
-    exact equality, prefix relation, and longest-common-prefix ratio.
-  - Split by whether the medium trace hit the token cap (truncated) or
-    terminated naturally (complete).
-
-Expected under deterministic greedy decoding:
-  - complete medium traces: long text identical -> repair impossible.
-  - truncated medium traces: long text extends the medium prefix; any
-    divergence indicates numeric nondeterminism worth reporting.
-
-Also supports comparing the independent long rerun against the resumed
-run (inference_long_resume.jsonl) once 08_run_continuation.py has run:
-    python 38_trace_prefix_overlap.py --a-name long --b-name long_resume
-
-Runs on existing outputs; no GPU needed.
-"""
+'Step 38 (v2): Trace prefix-overlap audit between two budget runs.'
 
 import argparse
 import json

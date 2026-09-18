@@ -1,6 +1,4 @@
 #!/usr/bin/env bash
-# Future GPU add-on: generate only independent 768-token arm A and reuse the
-# existing exact-prefix B/C artifacts from run_three_seed_core.sh.
 set -euo pipefail
 
 PY="${PYTHON_BIN:-python}"

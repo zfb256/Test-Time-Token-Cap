@@ -1,15 +1,4 @@
-"""
-Step 1: Download and sample GSM8K + MATH datasets.
-
-Outputs:
-  {data_dir}/gsm8k_samples.jsonl
-  {data_dir}/math_samples.jsonl
-  {data_dir}/all_problems.jsonl   (combined, with dataset tag)
-
-Run:
-  python 01_download_data.py --config config.yaml
-  python 01_download_data.py --config config.yaml --dry-run
-"""
+'Step 1: Download and sample GSM8K + MATH datasets.'
 
 import argparse
 import json
@@ -28,10 +17,6 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-
-# ------------------------------------------------------------------
-# Main
-# ------------------------------------------------------------------
 
 def main():
     parser = argparse.ArgumentParser(description="Download and sample math datasets")
@@ -59,7 +44,7 @@ def main():
 
     all_problems = []
 
-    # ------ GSM8K ------
+
     if cfg["dataset"]["gsm8k"]["enabled"]:
         logger.info("Loading GSM8K...")
         gsm8k = load_dataset("openai/gsm8k", "main", split=cfg["dataset"]["gsm8k"]["split"])
@@ -83,7 +68,7 @@ def main():
                 "source": "openai/gsm8k",
                 "source_split": cfg["dataset"]["gsm8k"]["split"],
                 "question": item["question"],
-                "answer": item["answer"],   # full answer with #### at end
+                "answer": item["answer"],   
                 "math_level": 0,
             }
             gsm8k_records.append(record)
@@ -96,7 +81,7 @@ def main():
                     f.write(json.dumps(r, ensure_ascii=False) + "\n")
             logger.info(f"Saved: {out_path}")
 
-    # ------ MATH ------
+
     if cfg["dataset"]["math"]["enabled"]:
         logger.info("Loading MATH dataset...")
         math_ds = None
@@ -124,7 +109,7 @@ def main():
         math_records = []
         for level in levels:
             level_str = str(level)
-            # Different datasets use different field names for difficulty
+
             level_items = [
                 item for item in math_ds
                 if str(item.get("level", item.get("difficulty", "0"))).replace("Level ", "") == level_str
@@ -162,7 +147,7 @@ def main():
                     f.write(json.dumps(r, ensure_ascii=False) + "\n")
             logger.info(f"Saved: {out_path}")
 
-    # ------ Combined ------
+
     logger.info(f"Total problems: {len(all_problems)}")
     logger.info(f"  GSM8K: {sum(1 for p in all_problems if p['dataset']=='gsm8k')}")
     logger.info(f"  MATH:  {sum(1 for p in all_problems if p['dataset']=='math')}")

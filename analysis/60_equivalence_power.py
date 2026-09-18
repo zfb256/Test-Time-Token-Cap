@@ -1,12 +1,4 @@
-"""Equivalence bounds, detection limits, and paired tests for the B->C contrast.
-
-The three-arm design reports several near-zero incremental effects. A raw zero
-count is not evidence of absence on its own, so this script converts each of
-them into (a) an exact one-sided upper confidence bound, (b) the smallest
-equivalence margin the observation rejects, (c) the smallest true rate the
-design could have detected, and (d) where the paired records are available, an
-exact McNemar comparison of same-budget resampling against continuation.
-"""
+'Equivalence bounds, detection limits, and paired tests for the B->C contrast.'
 
 import argparse
 import csv
@@ -88,18 +80,12 @@ def equivalence_p(k, n, margin):
 
 
 def smallest_rejected_margin(k, n, alpha=ALPHA):
-    """Smallest equivalence margin the observation rejects at level alpha.
-
-    This coincides with the exact one-sided upper confidence bound; reporting
-    both makes the duality explicit for readers who prefer one framing.
-    """
+    'Smallest equivalence margin the observation rejects at level alpha.'
     return upper_bound(k, n, alpha)
 
 
 def detectable_rate(n, power=POWER):
-    """Smallest true rate at which n draws yield at least one event with the
-    stated probability. Solving 1 - (1 - p)^n = power gives the bound below.
-    Rates under it are the ones this design could plausibly have missed."""
+    'Smallest true rate at which n draws yield at least one event with the'
     if n == 0:
         return float("nan")
     return 1.0 - (1.0 - power) ** (1.0 / n)

@@ -1,14 +1,4 @@
-"""
-Step 4: Build G1-G4 feature matrix + utility labels.
-
-Reads:  {output_dir}/prm_scores.jsonl
-Writes: {output_dir}/features.jsonl     (one record per problem, all 4 groups)
-        {output_dir}/features_G1.csv    (for manual inspection)
-        {output_dir}/features_G4.csv
-
-Run:
-  python 04_build_features.py --config config.yaml
-"""
+'Step 4: Build G1-G4 feature matrix + utility labels.'
 
 import argparse
 import json
@@ -33,21 +23,19 @@ logger = logging.getLogger(__name__)
 
 
 def process_record(rec: Dict, fb: FeatureBuilder) -> Dict:
-    """
-    Convert one prm_scores record into a feature record.
-    """
+    'Convert one prm_scores record into a feature record.'
     pid = rec["problem_id"]
     dataset = rec["dataset"]
     question = rec["question"]
     math_level = rec.get("math_level", 0)
 
-    # ---- G1 ----
+
     g1 = fb.build_g1(question, dataset)
 
-    # ---- G2: use PRM stats from SHORT chains (averaged across 3 chains) ----
+
     short_chains = rec.get("short_chains", [])
     if short_chains:
-        # Flatten all step scores for detailed stats
+
         all_steps = [
             step
             for chain in short_chains
@@ -73,12 +61,12 @@ def process_record(rec: Dict, fb: FeatureBuilder) -> Dict:
         prm_var=prm_var,
     )
 
-    # ---- G3: answer consistency from 3 short chains ----
+
     extracted_answers = [c.get("extracted_answer") for c in short_chains]
     g3 = fb.build_g3(extracted_answers)
     uncertainty = fb.build_uncertainty(short_chains)
 
-    # ---- Combine into groups ----
+
     groups = fb.build_feature_groups(
         g1, g2, g3, math_level=math_level, uncertainty=uncertainty
     )
@@ -112,7 +100,7 @@ def main():
         logger.error(f"Missing: {in_path}. Run 03_prm_scoring.py first.")
         sys.exit(1)
 
-    # Load PRM scored data
+
     records = []
     seen = set()
     with open(in_path, "r", encoding="utf-8") as f:
@@ -139,20 +127,20 @@ def main():
 
     fb = FeatureBuilder()
 
-    # Build feature records
+
     feature_records = [
         process_record(rec, fb)
         for rec in tqdm(records, desc="Building features")
     ]
 
-    # Save full feature JSONL
+
     out_jsonl = out_dir / "features.jsonl"
     with open(out_jsonl, "w", encoding="utf-8") as f:
         for r in feature_records:
             f.write(json.dumps(r, ensure_ascii=False) + "\n")
     logger.info(f"Saved features.jsonl: {out_jsonl}")
 
-    # Save CSVs for quick inspection
+
     for group_name in ["G1", "G2", "G3", "G4"]:
         X, y = FeatureBuilder.records_to_dataframe(feature_records, group_name)
         df_out = X.copy()
@@ -164,7 +152,7 @@ def main():
         df_out.to_csv(csv_path, index=True)
         logger.info(f"Saved {group_name} CSV: {csv_path} ({len(df_out)} rows × {len(X.columns)} features)")
 
-    # ---- Stats ----
+
     labels = [r["label"] for r in feature_records]
     n_pos = sum(labels)
     n_neg = len(labels) - n_pos

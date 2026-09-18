@@ -1,21 +1,5 @@
 #!/usr/bin/env python3
-"""Audit matched-budget repair against an independent same-cap resample.
-
-The extended run is an independent sample, so an apparent repair can occur
-without using any token above the base cap.  This script evaluates the same
-extended records twice:
-
-1. at their real extended cap; and
-2. as a *completed-chain-only* base-cap control, retaining only chains that
-   terminated naturally below the base cap.
-
-The second evaluation exactly identifies repairs supported entirely by
-naturally completed base-length chains.  It is deliberately not called an
-exact reconstruction of a base-cap run: legacy artifacts do not contain
-token IDs or finish reasons, so the prefix of a longer chain cannot be
-recovered exactly.  Chains whose stored token_count is at or above the base
-cap are censored rather than scored using text generated after the cap.
-"""
+'Audit matched-budget repair against an independent same-cap resample.'
 
 import argparse
 import copy
@@ -39,19 +23,14 @@ validate_run = sampling_eval.validate_run
 
 
 def censor_to_completed_chains(rec, cap):
-    """Return a record containing only chains known to finish below ``cap``.
-
-    An empty chain placeholder preserves k, so pass@1 remains conservative.
-    Plurality ignores its missing answer, matching the evaluator's existing
-    missing-answer semantics.
-    """
+    'Return a record containing only chains known to finish below ``cap``.'
     out = copy.deepcopy(rec)
     def completed_by_cap(chain):
         token_count = int(chain.get("token_count", 0))
         if token_count < cap:
             return True
-        # New artifacts distinguish an EOS exactly on the boundary from a
-        # length stop. Legacy artifacts remain conservatively censored.
+
+
         return token_count == cap and chain.get("finish_reason") == "stop"
 
     out["chains"] = [

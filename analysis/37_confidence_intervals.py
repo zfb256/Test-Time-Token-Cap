@@ -1,18 +1,4 @@
-"""
-Step 37 (v2): Statistical confidence for the main claims.
-
-Review response (both reviews: "no CIs anywhere, 0/32 is weak evidence"):
-
-  1. Exact Clopper-Pearson intervals for zero-event rates
-     (complete-but-wrong long-fix rates), stating explicitly which true
-     repair rates the data can and cannot rule out.
-  2. Bootstrap CIs (B=10000) for the headline accuracies and helpful rates.
-  3. Paired bootstrap comparison of the cheap learned router vs the
-     transparent hit-max rule AT THE SAME route fraction, which the
-     original Table 1 did not provide.
-
-Runs on existing outputs; no GPU needed.
-"""
+'Step 37 (v2): Statistical confidence for the main claims.'
 
 import argparse
 import importlib.util
@@ -123,7 +109,7 @@ def main():
         detail[column] = boolean_series(detail[column], column)
     rows = []
 
-    # ---- 1. Zero-event Clopper-Pearson bounds --------------------------
+
     subsets = {
         "strict_complete_wrong_all": detail[detail["strict_complete_wrong"]],
         "strict_complete_wrong_gsm8k": detail[detail["strict_complete_wrong"] & (detail["dataset"] == "gsm8k")],
@@ -142,7 +128,7 @@ def main():
             "method": "clopper_pearson_95",
         })
 
-    # ---- 2. Bootstrap CIs for headline rates ---------------------------
+
     med = detail["strict_medium_correct"].values.astype(float)
     lng = detail["strict_long_correct"].values.astype(float)
     helpful = ((detail["strict_medium_correct"] == False) & detail["strict_long_correct"]).values.astype(float)  # noqa: E712
@@ -153,10 +139,7 @@ def main():
                      "events": int(vals.sum()), "ci_low": lo, "ci_high": hi,
                      "method": f"bootstrap_{args.bootstrap}"})
 
-    # ---- 3. Routers at the same operating point ------------------------
-    # Historical router features are optional in the canonical mechanism
-    # artifact bundle. Keep the primary confidence report usable when those
-    # frozen feature files are intentionally absent.
+
     router_inputs = (
         out_dir / "features_medium.jsonl",
         out_dir / "inference_medium.jsonl",

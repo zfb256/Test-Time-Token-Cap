@@ -1,12 +1,4 @@
-"""
-Step 22: Explain and stress-test cheap router.
-
-Cheap router is surprisingly strong. This script checks:
-  - feature importance for cheap/format routers
-  - correlations with labels and correctness
-  - top-K selected examples by dataset / math level / medium correctness
-  - manual-readable error slices
-"""
+'Step 22: Explain and stress-test cheap router.'
 
 import argparse
 import json
@@ -247,7 +239,7 @@ def main():
         slices.insert(1, "auc_oof", auc)
         outputs.append(slices)
 
-        # Save top false positives/false negatives for manual inspection.
+
         inspect = meta.copy()
         inspect["pred_helpful"] = probs
         inspect["rank"] = inspect["pred_helpful"].rank(ascending=False, method="first")
@@ -269,7 +261,7 @@ def main():
     slice_path = out_dir / "cheap_router_selected_slices.csv"
     slice_df.to_csv(slice_path, index=False)
 
-    # Simple feature-label correlations for cheap_nodomain.
+
     X_corr = feature_sets["cheap_nodomain"].reset_index(drop=True)
     corr_rows = []
     for col in X_corr.columns:

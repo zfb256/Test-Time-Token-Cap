@@ -1,18 +1,4 @@
-"""
-Feature engineering for CUPID-G Phase 1.
-
-Builds G1-G4 feature groups from raw inference + PRM data.
-
-Feature groups:
-  G1: Question surface features
-  G2: PRM-only probe signals
-  G3: Answer consistency (from 3 short chains)
-  G4: All features combined
-
-Utility label:
-  helpful = 1  if  short_correct=0  AND  long_correct=1
-  helpful = 0  otherwise
-"""
+'Feature engineering for CUPID-G Phase 1.'
 
 import re
 import numpy as np
@@ -25,50 +11,35 @@ logger = logging.getLogger(__name__)
 
 class FeatureBuilder:
 
-    # ------------------------------------------------------------------
-    # Utility label
-    # ------------------------------------------------------------------
 
     @staticmethod
     def compute_utility_label(short_correct: bool, long_correct: bool) -> int:
-        """
-        helpful=1 if short was wrong but long was right.
-        This is the core CUPID-G hypothesis signal.
-        """
+        'helpful=1 if short was wrong but long was right.'
         return int((not short_correct) and long_correct)
 
-    # ------------------------------------------------------------------
-    # G1: Question surface features
-    # ------------------------------------------------------------------
 
     @staticmethod
     def build_g1(question: str, dataset: str) -> Dict[str, float]:
-        """
-        G1 features derived purely from the question text.
-        No inference needed.
-        """
+        'G1 features derived purely from the question text.'
         text = question.strip()
         words = text.split()
         sentences = re.split(r'[.!?]+', text)
 
-        # Number density: count of numeric tokens / total word count
+
         num_tokens = re.findall(r'\b\d+[\.,]?\d*\b', text)
         num_density = len(num_tokens) / max(len(words), 1)
 
-        # Sub-question count: rough heuristic (questions containing "?")
+
         sub_qs = len(re.findall(r'\?', text))
 
-        # Operator density: +, -, *, /, =, %, ^, sqrt, frac
+
         op_tokens = re.findall(r'[+\-*/=^%]|\\(?:sqrt|frac|cdot|times|div)', text)
         op_density = len(op_tokens) / max(len(words), 1)
 
-        # Domain one-hot (GSM8K vs MATH)
+
         is_gsm8k = 1.0 if dataset.lower() == "gsm8k" else 0.0
         is_math = 1.0 if dataset.lower() == "math" else 0.0
 
-        # MATH difficulty level (0 if not MATH)
-        # Expected to be supplied externally; leave as 0 here
-        # (caller can add "math_level" separately)
 
         return {
             "g1_question_len": float(len(words)),
@@ -81,32 +52,23 @@ class FeatureBuilder:
             "g1_is_math": is_math,
         }
 
-    # ------------------------------------------------------------------
-    # G2: PRM-only probe features
-    # ------------------------------------------------------------------
 
     @staticmethod
     def build_g2(
-        prm_scores: List[float],   # step-level PRM scores for the SHORT chain(s)
-        short_correct: bool = False,  # kept for backward compatibility; not used as a feature
+        prm_scores: List[float],   
+        short_correct: bool = False,  
         prm_mean: Optional[float] = None,
         prm_min: Optional[float] = None,
         prm_var: Optional[float] = None,
     ) -> Dict[str, float]:
-        """
-        G2 features: PRM statistics from cheap short-chain probes.
-
-        Do not include short-chain ORM correctness here. In Phase 1 the ORM
-        correctness is computed against the dataset answer and is valid only
-        for label construction. Using it as an input feature leaks the label.
-        """
+        'G2 features: PRM statistics from cheap short-chain probes.'
         arr = np.array(prm_scores, dtype=float) if prm_scores else np.array([0.5])
 
         m = prm_mean if prm_mean is not None else float(arr.mean())
         mn = prm_min if prm_min is not None else float(arr.min())
         vr = prm_var if prm_var is not None else float(arr.var())
 
-        # PRM high/low threshold: 0.5 (neutral boundary)
+
         prm_high = 1.0 if m >= 0.5 else 0.0
         step_count = float(len(arr))
         score_range = float(arr.max() - arr.min()) if len(arr) else 0.0
@@ -120,17 +82,10 @@ class FeatureBuilder:
             "g2_prm_score_range": score_range,
         }
 
-    # ------------------------------------------------------------------
-    # G3: Answer consistency (3 short chains)
-    # ------------------------------------------------------------------
 
     @staticmethod
     def build_g3(answers: List[Optional[str]]) -> Dict[str, float]:
-        """
-        G3 features from the 3 short chains' extracted answers.
-
-        answers: list of extracted answer strings (None if extraction failed)
-        """
+        "G3 features from the 3 short chains' extracted answers."
         valid = [a for a in answers if a is not None]
         n_valid = len(valid)
         n_total = len(answers)
@@ -143,7 +98,7 @@ class FeatureBuilder:
                 "g3_majority_confidence": 0.0,
             }
 
-        # Count unique answers (normalized)
+
         def norm_ans(s: str) -> str:
             s = s.strip().lower()
             s = re.sub(r'\s+', '', s)
@@ -171,9 +126,6 @@ class FeatureBuilder:
             "g3_majority_confidence": float(majority_confidence),
         }
 
-    # ------------------------------------------------------------------
-    # G4-only: model uncertainty from short-chain logprobs
-    # ------------------------------------------------------------------
 
     @staticmethod
     def build_uncertainty(short_chains: List[Dict]) -> Dict[str, float]:
@@ -200,9 +152,6 @@ class FeatureBuilder:
             "g4_logprob_coverage": float(len(avg_logprobs) / max(len(short_chains), 1)),
         }
 
-    # ------------------------------------------------------------------
-    # Combine into feature groups
-    # ------------------------------------------------------------------
 
     @classmethod
     def build_feature_groups(
@@ -211,9 +160,7 @@ class FeatureBuilder:
         math_level: int = 0,
         uncertainty: Optional[Dict] = None,
     ) -> Dict[str, Dict[str, float]]:
-        """
-        Returns dict with keys G1, G2, G3, G4 each mapping to feature dict.
-        """
+        'Returns dict with keys G1, G2, G3, G4 each mapping to feature dict.'
         g1_full = {**g1, "g1_math_level": float(math_level)}
         g2_full = dict(g2)
         g3_full = dict(g3)
@@ -226,23 +173,13 @@ class FeatureBuilder:
             "G4": g4_full,
         }
 
-    # ------------------------------------------------------------------
-    # DataFrame helpers
-    # ------------------------------------------------------------------
 
     @staticmethod
     def records_to_dataframe(
         records: List[Dict],
-        feature_group: str,  # "G1" | "G2" | "G3" | "G4"
+        feature_group: str,  
     ) -> Tuple["pd.DataFrame", "pd.Series"]:
-        """
-        Convert list of feature records to (X, y) for sklearn.
-
-        Each record must have:
-          - "features": {G1: {...}, G2: {...}, G3: {...}, G4: {...}}
-          - "label": int (0 or 1)
-          - "problem_id": str
-        """
+        'Convert list of feature records to (X, y) for sklearn.'
         rows = []
         labels = []
         ids = []

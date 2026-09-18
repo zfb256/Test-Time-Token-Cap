@@ -1,18 +1,4 @@
-"""
-Mechanism-only validation for a medium-to-long inference run.
-
-This script avoids PRM scoring and learned routing. It verifies medium/long
-outputs, classifies helpful examples by completion state, and reports whether
-complete-but-wrong traces are repaired by longer inference.
-
-Run after:
-  python 01_download_data.py --config <config>.yaml
-  python 02_run_inference.py --config <config>.yaml --budget medium --resume
-  python 02_run_inference.py --config <config>.yaml --budget long --resume
-
-Example:
-  python 07_mechanism_validation.py --config config.yaml
-"""
+'Mechanism-only validation for a medium-to-long inference run.'
 
 import argparse
 import csv

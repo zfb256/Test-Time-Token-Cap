@@ -1,27 +1,4 @@
-"""
-Step 5: Train LR / LightGBM / Random Forest on G1-G4 feature groups.
-        Report AUC via stratified k-fold cross-validation.
-
-This is the primary Go/No-Go decision step for CUPID-G. Inspect robustness
-diagnostics before treating the random-CV G4 AUC as strong evidence.
-
-AUC thresholds (from config.yaml go_nogo section):
-  < 0.60  -> ABORT CUPID-G, start Plan B immediately
-  0.60-0.65 -> WARNING: add more features, hard deadline 1 week
-  0.65-0.70 -> conditional: verify with second model
-  >= 0.70  -> FULL CUPID-G
-
-Outputs:
-  {output_dir}/auc_results.json    (machine-readable)
-  {output_dir}/auc_results.csv     (human-readable table)
-  {output_dir}/auc_results.txt     (verdict text)
-  Single-group runs use auc_results_G1/G2/G3/G4.* instead.
-  {output_dir}/feature_importance_G4_{classifier}.csv  (feature importance)
-
-Run:
-  python 05_train_evaluate.py --config config.yaml
-  python 05_train_evaluate.py --config config.yaml --group G4  # single group
-"""
+'Step 5: Train LR / LightGBM / Random Forest on G1-G4 feature groups.'
 
 import argparse
 import json
@@ -51,10 +28,6 @@ logger = logging.getLogger(__name__)
 sys.path.insert(0, str(Path(__file__).parent))
 from utils.feature_utils import FeatureBuilder
 
-
-# ------------------------------------------------------------------
-# Classifiers
-# ------------------------------------------------------------------
 
 def build_classifiers(cfg: dict) -> Dict:
     """Build classifier instances from config."""
@@ -101,10 +74,6 @@ def build_classifiers(cfg: dict) -> Dict:
 
     return clfs
 
-
-# ------------------------------------------------------------------
-# Evaluation
-# ------------------------------------------------------------------
 
 def evaluate_group(
     X: pd.DataFrame,
@@ -192,12 +161,7 @@ def evaluate_dataset_breakdowns(
     n_folds: int,
     random_state: int,
 ) -> Dict[str, Dict]:
-    """
-    Additional non-decision diagnostics:
-      - within-dataset CV
-      - train GSM8K -> test MATH
-      - train MATH -> test GSM8K
-    """
+    'Additional non-decision diagnostics:'
     datasets = pd.Series([r["dataset"] for r in records], index=X.index, name="dataset")
     diagnostics = {"within_dataset_cv": {}, "cross_dataset": {}}
 
@@ -216,10 +180,8 @@ def evaluate_dataset_breakdowns(
     if set(datasets.unique()) >= {"gsm8k", "math"}:
         gsm_mask = datasets == "gsm8k"
         math_mask = datasets == "math"
-        # Strip domain-identity columns before cross-dataset holdout.
-        # Keeping g1_is_gsm8k / g1_is_math / g1_math_level would let the
-        # classifier trivially detect the domain shift rather than measuring
-        # true utility-prediction generalization.
+
+
         domain_cols = {"g1_is_gsm8k", "g1_is_math", "g1_math_level"}
         X_cross = X.drop(columns=[c for c in domain_cols if c in X.columns])
         diagnostics["cross_dataset"]["train_gsm8k_test_math"] = evaluate_holdout(
@@ -269,10 +231,6 @@ def get_feature_importance(clf, feature_names: List[str], clf_name: str) -> pd.D
     }).sort_values("importance", ascending=False)
 
 
-# ------------------------------------------------------------------
-# Main
-# ------------------------------------------------------------------
-
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--config", default="config.yaml")
@@ -289,7 +247,7 @@ def main():
         logger.error(f"Missing: {features_path}. Run 04_build_features.py first.")
         sys.exit(1)
 
-    # Load feature records
+
     records = []
     with open(features_path, "r", encoding="utf-8") as f:
         for line in f:
@@ -341,7 +299,7 @@ def main():
             X, y, records, classifiers, cv_folds, random_state
         )
 
-    # ---- Summary table ----
+
     rows = []
     for group_name, group_res in all_results.items():
         for clf_name, res in group_res.items():
@@ -377,7 +335,7 @@ def main():
             for clf_name, auc in split_results.items():
                 logger.info(f"    {clf_name:4s}: AUC = {auc:.4f}")
 
-    # ---- Go/No-Go decision ----
+
     logger.info("\n" + "=" * 60)
     logger.info("GO / NO-GO DECISION")
     logger.info("=" * 60)
@@ -396,11 +354,11 @@ def main():
         verdict = "G4 not evaluated. Run with --group all for final decision."
         logger.warning(verdict)
 
-    # ---- Feature importance on G4 ----
+
     if "G4" in all_results and classifiers:
         X_g4, y_g4 = FeatureBuilder.records_to_dataframe(records, "G4")
         importance_clf = "LGB" if "LGB" in classifiers else ("RF" if "RF" in classifiers else "LR")
-        # Refit on full data for importance
+
         clf_g4 = classifiers[importance_clf]
         clf_g4.fit(X_g4.values, y_g4.values)
         fi_df = get_feature_importance(clf_g4, list(X_g4.columns), importance_clf)
@@ -411,8 +369,7 @@ def main():
             logger.info(fi_df.head(10).to_string(index=False))
             logger.info(f"Saved: {fi_path}")
 
-    # ---- Save outputs ----
-    # JSON
+
     output_stem = "auc_results" if args.group == "all" else f"auc_results_{args.group}"
     json_out = out_dir / f"{output_stem}.json"
     with open(json_out, "w", encoding="utf-8") as f:
@@ -425,12 +382,12 @@ def main():
         }, f, indent=2, ensure_ascii=False)
     logger.info(f"\nSaved: {json_out}")
 
-    # CSV
+
     csv_out = out_dir / f"{output_stem}.csv"
     df_summary.to_csv(csv_out, index=False)
     logger.info(f"Saved: {csv_out}")
 
-    # Text verdict
+
     txt_out = out_dir / f"{output_stem}.txt"
     with open(txt_out, "w", encoding="utf-8") as f:
         f.write("CUPID-G Phase 1 — AUC Results\n")

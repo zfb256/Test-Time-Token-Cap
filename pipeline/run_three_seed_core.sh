@@ -1,7 +1,4 @@
 #!/usr/bin/env bash
-# Reproducible three-arm rerun:
-# A = independent 768-token sample, B = exact 768-token prefix of C,
-# C = independent 1536-token sample.
 set -euo pipefail
 
 MODE="${1:-smoke}"
@@ -30,8 +27,6 @@ elif [[ "$MODE" == "full" ]]; then
     RUN_ROOT="$CORE_ROOT"
     EXPECTED=800
 else
-    # The full split defaults to one seed because each endpoint is roughly
-    # eight times a core-split endpoint. Set EXPANDED_SEEDS to extend it.
     IFS=' ' read -r -a SEEDS <<< "${EXPANDED_SEEDS:-42}"
     LIMIT_ARGS=()
     DATA_ARGS=(--data-dir ../data/expanded)

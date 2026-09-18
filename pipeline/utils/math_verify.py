@@ -1,11 +1,4 @@
-"""
-ORM: Programmatic math answer verification (no model needed).
-
-Supports:
-  - GSM8K  : extract #### <number> from ground truth, then find last number in model output
-  - MATH   : extract \\boxed{...} from both ground truth and model output
-              and compare symbolically using sympy
-"""
+'ORM: Programmatic math answer verification (no model needed).'
 
 import atexit
 import hashlib
@@ -19,7 +12,7 @@ from functools import lru_cache
 from pathlib import Path
 from typing import Optional
 
-# ---- optional sympy import (graceful fallback) ----
+
 try:
     import sympy
     from sympy.parsing.sympy_parser import parse_expr
@@ -35,10 +28,7 @@ except ImportError:
 
 
 class MathVerifier:
-    """
-    Verify model-generated answers against ground truth.
-    Returns True/False (correct / incorrect).
-    """
+    'Verify model-generated answers against ground truth.'
 
     _CACHE_VERSION = "2"
     _MISSING = object()
@@ -132,16 +122,9 @@ class MathVerifier:
             signal.setitimer(signal.ITIMER_REAL, *previous_timer)
             signal.signal(signal.SIGALRM, previous_handler)
 
-    # ------------------------------------------------------------------
-    # Public API
-    # ------------------------------------------------------------------
 
     def verify_gsm8k(self, prediction: str, ground_truth: str) -> bool:
-        """
-        GSM8K verification.
-        Ground truth format: "... #### 42"
-        Prediction: free-form text, extract last number.
-        """
+        'GSM8K verification.'
         gt_num = self._extract_gsm8k_answer(ground_truth)
         if gt_num is None:
             return False
@@ -151,18 +134,13 @@ class MathVerifier:
         return abs(pred_num - gt_num) <= self.tol
 
     def verify_math(self, prediction: str, ground_truth: str) -> bool:
-        """
-        MATH dataset verification.
-        Both ground truth and prediction should contain \\boxed{...}.
-        Falls back to string matching if sympy fails.
-        """
+        'MATH dataset verification.'
         gt_expr = self._extract_boxed(ground_truth)
         pred_expr = self._extract_boxed(prediction)
 
         if gt_expr is None or pred_expr is None:
-            # Cannot extract \boxed{} from ground truth or prediction.
-            # Do NOT fall back to full-solution string comparison — it produces
-            # too many false positives/negatives and contaminates utility labels.
+
+
             return False
 
         if self._string_eq(gt_expr, pred_expr):
@@ -172,10 +150,7 @@ class MathVerifier:
         ):
             return False
 
-        # Keep verification and plurality canonicalization consistent. This
-        # also handles textual labels (for example ``odd`` vs
-        # ``\text{odd}``) before latex2sympy2 can misparse them as products
-        # of single-letter variables.
+
         try:
             canonical_equal = self._canonical_math_answer(
                 gt_expr
@@ -186,13 +161,13 @@ class MathVerifier:
         if canonical_equal:
             return True
 
-        # Try numeric comparison first
+
         gt_num = self._try_float(gt_expr)
         pred_num = self._try_float(pred_expr)
         if gt_num is not None and pred_num is not None:
             return abs(gt_num - pred_num) <= self.tol
 
-        # Try sympy symbolic comparison
+
         if SYMPY_AVAILABLE:
             try:
                 sympy_result = self._sympy_eq(gt_expr, pred_expr)
@@ -202,7 +177,7 @@ class MathVerifier:
             if sympy_result is not None:
                 return sympy_result
 
-        # Final fallback: normalized string match
+
         return self._string_eq(gt_expr, pred_expr)
 
     def verify(self, prediction: str, ground_truth: str, dataset: str) -> bool:
@@ -216,8 +191,8 @@ class MathVerifier:
         if dataset == "gsm8k":
             result = self.verify_gsm8k(prediction, ground_truth)
         elif dataset in ("math", "aime"):
-            # AIME answers are integers in boxed form; MATH-style boxed
-            # extraction plus normalized numeric equality applies directly.
+
+
             result = self.verify_math(prediction, ground_truth)
         else:
             raise ValueError(f"Unknown dataset: {dataset}")
@@ -261,9 +236,6 @@ class MathVerifier:
             self._cache_put(key, result)
         return result
 
-    # ------------------------------------------------------------------
-    # GSM8K helpers
-    # ------------------------------------------------------------------
 
     def _extract_gsm8k_answer(self, text: str) -> Optional[float]:
         """Extract the number after #### in GSM8K ground truth."""
@@ -274,7 +246,7 @@ class MathVerifier:
 
     def _extract_last_number(self, text: str) -> Optional[float]:
         """Extract the last number appearing in model output."""
-        # Match integers, floats, negatives, with optional comma separators
+
         numbers = re.findall(r'-?[\d,]+\.?\d*', text)
         for n in reversed(numbers):
             val = self._try_float(n.replace(',', ''))
@@ -283,12 +255,7 @@ class MathVerifier:
         return None
 
     def _extract_gsm8k_prediction(self, text: str) -> Optional[float]:
-        """Prefer the requested boxed answer, then fall back to the last number.
-
-        Taking the last number unconditionally misreads outputs such as
-        ``\\boxed{45} ... after 4 hours`` as 4 even though the model supplied an
-        explicit final answer.
-        """
+        'Prefer the requested boxed answer, then fall back to the last number.'
         boxed = self._extract_boxed(text)
         if boxed is not None:
             boxed_num = self._try_numeric_expr(boxed)
@@ -298,29 +265,23 @@ class MathVerifier:
                 return boxed_num
         return self._extract_last_number(text)
 
-    # ------------------------------------------------------------------
-    # MATH helpers
-    # ------------------------------------------------------------------
 
     @lru_cache(maxsize=8_192)
     def _extract_boxed(self, text: str) -> Optional[str]:
-        """
-        Extract the last content from \\boxed{...}, handling nested braces.
-        Returns None if not found.
-        """
+        'Extract the last content from \\boxed{...}, handling nested braces.'
         starts = [m.start() for m in re.finditer(r'\\boxed\{', text)]
         if not starts:
-            # Try \boxed (without brace, rare)
+
             start = text.rfind(r'\boxed ')
             if start != -1:
-                # Take next token
+
                 rest = text[start + 7:].strip()
                 return rest.split()[0] if rest else None
             return None
 
         for start in reversed(starts):
-            # Walk forward counting braces
-            idx = start + 7  # past \boxed{
+
+            idx = start + 7  
             depth = 1
             while idx < len(text) and depth > 0:
                 if text[idx] == '{':
@@ -336,10 +297,7 @@ class MathVerifier:
 
     @lru_cache(maxsize=8_192)
     def _sympy_eq(self, expr1: str, expr2: str) -> Optional[bool]:
-        """
-        Try to compare two LaTeX/sympy expressions symbolically.
-        Returns None if parsing fails.
-        """
+        'Try to compare two LaTeX/sympy expressions symbolically.'
         try:
             with self._time_limit():
                 if LATEX2SYMPY_AVAILABLE:
@@ -372,15 +330,9 @@ class MathVerifier:
 
     @lru_cache(maxsize=8_192)
     def _canonical_math_answer(self, expr: str) -> str:
-        """Canonicalize extracted math answers before consistency voting.
+        'Canonicalize extracted math answers before consistency voting.'
 
-        Verification already treats many LaTeX-equivalent forms as equal, so
-        voting on raw strings would incorrectly split votes such as ``1/2``
-        and ``\\frac{1}{2}``.
-        """
-        # Textual class labels such as ``\text{odd}`` should vote together
-        # with ``odd``. latex2sympy2 otherwise interprets the wrapper command
-        # as symbolic multiplication (for example ``dd*o``).
+
         if re.fullmatch(
             r"\s*\\(?:text|mathrm|mathbf|mathit)\{[^{}]*\}\s*", expr
         ) or re.fullmatch(r"\s*[A-Za-z]{2,}\s*", expr):
@@ -399,9 +351,6 @@ class MathVerifier:
         except Exception:
             return self._normalize_string(expr)
 
-    # ------------------------------------------------------------------
-    # Generic helpers
-    # ------------------------------------------------------------------
 
     def _try_float(self, s: str) -> Optional[float]:
         try:

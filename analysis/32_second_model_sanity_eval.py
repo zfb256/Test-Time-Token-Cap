@@ -1,13 +1,4 @@
-"""
-Step 32: Second-model sanity evaluation.
-
-For a small second-model run, evaluate:
-  Q1: medium->long accuracy gap
-  Q2: helpful_ml rate
-  Q3: cheap completion/router signals
-
-This script intentionally avoids PRM features so it can run for non-Qwen models.
-"""
+'Step 32: Second-model sanity evaluation.'
 
 import argparse
 import json

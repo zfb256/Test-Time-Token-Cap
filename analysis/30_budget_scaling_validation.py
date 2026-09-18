@@ -1,15 +1,4 @@
-"""
-Step 30: Budget scaling validation.
-
-After running additional inference budgets, evaluate whether medium->long
-utility persists as the budget scale increases. Example usage:
-
-  python 02_run_inference.py --config config.yaml --budget medium512 --resume
-  python 02_run_inference.py --config config.yaml --budget long1024 --resume
-  python 30_budget_scaling_validation.py --pairs medium:long medium512:long1024
-
-This script only evaluates existing inference files.
-"""
+'Step 30: Budget scaling validation.'
 
 import argparse
 import json

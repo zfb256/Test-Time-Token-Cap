@@ -1,9 +1,4 @@
-"""Aggregate the deterministic three-seed core experiment.
-
-The script reports both unconditional endpoint accuracy and repair rates
-conditioned on each pre-declared eligibility definition. Confidence intervals
-resample problem IDs, keeping all seed observations for a problem together.
-"""
+'Aggregate the deterministic three-seed core experiment.'
 
 import argparse
 import importlib.util

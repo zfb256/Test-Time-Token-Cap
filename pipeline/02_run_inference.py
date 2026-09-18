@@ -1,29 +1,4 @@
-"""
-Step 2: Run inference at all 4 budget levels using vLLM.
-
-For each problem, generates:
-  - short:  3 chains × 128 tokens (temp=0.75)  -> answer consistency + quick ORM
-  - medium: 1 chain  × 384 tokens (greedy)
-  - long:   1 chain  × 768 tokens (greedy)      -> PRIMARY utility signal
-  - sample: 4 chains × 256 tokens (temp=0.75)   -> for later diversity analysis
-
-All outputs saved as JSONL (one record per problem). Resumable: skips already-done
-problems based on existing output files.
-
-Also collects initial answer for Plan B-1 (self-correction) at no extra cost —
-just saves the "long" greedy output as the initial answer for CHR computation.
-
-Outputs:
-  {output_dir}/inference_short.jsonl
-  {output_dir}/inference_medium.jsonl
-  {output_dir}/inference_long.jsonl
-  {output_dir}/inference_sample.jsonl
-
-Run:
-  python 02_run_inference.py --config config.yaml
-  python 02_run_inference.py --config config.yaml --budget short   # one budget only
-  python 02_run_inference.py --config config.yaml --resume         # skip done
-"""
+'Step 2: Run inference at all 4 budget levels using vLLM.'
 
 import argparse
 import hashlib
@@ -57,11 +32,7 @@ CHECKPOINT_PROBLEMS = 10
 
 
 def request_seed(seed, n_chains, temperature):
-    """Legacy single-request seed policy.
-
-    Multi-chain sampled runs use ``deterministic_chain_seed`` instead: every
-    chain is issued as its own request with a stable request-specific seed.
-    """
+    'Legacy single-request seed policy.'
     sampled = int(n_chains) > 1 and float(temperature) > 0
     return None if sampled else seed
 
@@ -127,7 +98,7 @@ def assert_chain_diversity(results, n_chains, temperature, threshold=MAX_IDENTIC
             f"{n_chains} chains identical; maximum allowed is {threshold:.0%}"
         )
 
-# ---- Prompt templates ----
+
 QWEN_MATH_SYSTEM = (
     "Please reason step by step, and put your final answer within \\boxed{}."
 )
@@ -143,18 +114,13 @@ LLAMA3_MATH_CHAT_TEMPLATE = (
     "{system}<|eot_id|><|start_header_id|>user<|end_header_id|>\n\n"
     "{question}<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n"
 )
-# Intentionally explicit instead of tokenizer.apply_chat_template: the local
-# Llama tokenizer injects a fixed "Today Date: 26 Jul 2024" preamble. The
-# existing greedy medium/long artifacts were generated without that preamble,
-# so v2 sampled controls must preserve this exact template for comparability.
 
 
 R1_MATH_USER_SUFFIX = (
     "\nPlease reason step by step, and put your final answer within \\boxed{}."
 )
 
-# DeepSeek-R1-Distill chat format: no system prompt (per model card), the
-# assistant turn starts with an opening <think> tag.
+
 R1_MATH_CHAT_TEMPLATE = (
     "<｜begin▁of▁sentence｜><｜User｜>{question}"
     "<｜Assistant｜><think>\n"
@@ -175,10 +141,6 @@ def build_prompt(question: str, template: str = "qwen_math") -> str:
     else:
         return f"Question: {question}\nAnswer:"
 
-
-# ------------------------------------------------------------------
-# vLLM inference engine
-# ------------------------------------------------------------------
 
 class VLLMInferenceEngine:
     def __init__(self, cfg: dict):
@@ -260,11 +222,7 @@ class VLLMInferenceEngine:
         collect_logprobs: bool,
         seed: int = None,
     ) -> List[Dict]:
-        """
-        Generate n_chains completions per problem.
-        Returns list of dicts with keys:
-          problem_id, chains: [{"text": ..., "token_count": ...}, ...]
-        """
+        'Generate n_chains completions per problem.'
         prompts = [build_prompt(p["question"], self.template) for p in problems]
         base_sampling_kwargs = {
             "max_tokens": max_new_tokens,
@@ -282,7 +240,7 @@ class VLLMInferenceEngine:
                 "deterministic_sampling requires a configured budget seed"
             )
 
-        # vLLM processes in one shot but we batch for memory safety
+
         all_results = []
         for i in range(0, len(prompts), self.batch_size):
             batch_prompts = prompts[i: i + self.batch_size]
@@ -345,10 +303,8 @@ class VLLMInferenceEngine:
                     chain_record = {
                         "text": comp.text,
                         "token_count": len(comp.token_ids),
-                        # token_count alone cannot distinguish an EOS that
-                        # happens exactly at the cap from length truncation.
-                        # Persist vLLM's termination metadata for all future
-                        # mechanism analyses.
+
+
                         "finish_reason": comp.finish_reason,
                         "stop_reason": comp.stop_reason,
                         "chain_index": chain_index,
@@ -367,10 +323,6 @@ class VLLMInferenceEngine:
                 })
         return all_results
 
-
-# ------------------------------------------------------------------
-# Main
-# ------------------------------------------------------------------
 
 def load_problems(data_dir: Path) -> List[Dict]:
     combined = data_dir / "all_problems.jsonl"
@@ -523,13 +475,7 @@ def load_completed_records(
     expected_seed_policy: Dict = None,
     expected_run_signature: Dict = None,
 ) -> Dict[str, Dict]:
-    """Load valid completed records, deduplicated by problem_id.
-
-    Interrupted runs can leave malformed lines or records with fewer chains
-    than requested. Keeping only complete records prevents --resume from
-    appending a second row for the same problem and silently violating the
-    one-record-per-problem schema.
-    """
+    'Load valid completed records, deduplicated by problem_id.'
     completed = {}
     rejected = 0
     malformed = 0
@@ -697,9 +643,8 @@ def run_budget(
     todo = [p for p in problems if p["problem_id"] not in done_ids]
 
     if not todo:
-        # Canonicalize even a complete resume file: malformed/stale/duplicate
-        # lines may coexist with one valid row for every problem, in which
-        # case merely skipping would preserve a structurally invalid JSONL.
+
+
         assert_chain_diversity(
             list(completed.values()),
             budget_cfg["n_chains"],
@@ -874,7 +819,7 @@ def main():
                 args.temperature
             )
 
-    # Load the model once for every requested budget.
+
     engine = VLLMInferenceEngine(cfg)
 
     for budget_name in budgets_to_run:
