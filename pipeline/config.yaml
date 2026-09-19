@@ -147,7 +147,7 @@ classifiers:
   scoring: "roc_auc"
   random_state: 42
 
-# Plan B-1 parallel collection
+# Self-correction parallel collection
 plan_b1:
   enabled: true             # collect in parallel, zero extra cost
   # initial_budget: which inference budget to use as the "initial answer"
@@ -158,12 +158,12 @@ plan_b1:
   self_correction:
     max_new_tokens: 512
     temperature: 0.0        # greedy for self-correction
-  # CHR threshold for Plan B-1 go/no-go
-  chr_threshold: 0.05       # CHR > 5% -> Plan B-1 viable
+  # Harm-rate threshold
+  chr_threshold: 0.05
 
-# Go/no-go thresholds (do not change)
+# AUC thresholds
 go_nogo:
-  auc_abort: 0.60           # < 0.60: stop CUPID-G, start Plan B
+  auc_abort: 0.60
   auc_warn_low: 0.60
   auc_warn_high: 0.65
-  auc_conditional: 0.70     # >= 0.70: full CUPID-G
+  auc_conditional: 0.70

@@ -1,4 +1,4 @@
-'PRM scoring utilities for CUPID-G Phase 1.'
+'Process reward model scoring utilities.'
 
 import numpy as np
 from typing import List, Dict

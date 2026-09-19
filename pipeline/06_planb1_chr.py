@@ -1,4 +1,4 @@
-'Plan B-1 parallel track: Self-Correction CHR (Correction Harm Rate).'
+'Self-correction harm rate evaluation.'
 
 import argparse
 import json
@@ -205,7 +205,7 @@ def main():
     chr_pct = 100 * chr_value
 
     logger.info(f"\n{'='*50}")
-    logger.info("PLAN B-1: SELF-CORRECTION CHR RESULTS")
+    logger.info("SELF-CORRECTION CHR RESULTS")
     logger.info("="*50)
     logger.info(f"Total problems:       {len(all_corrections)}")
     logger.info(f"Initially correct:    {n_initially_correct}")
@@ -218,19 +218,19 @@ def main():
 
     chr_threshold = cfg["plan_b1"]["chr_threshold"] * 100
     if chr_pct > chr_threshold:
-        decision = f"✅ Plan B-1 VIABLE (CHR {chr_pct:.1f}% > threshold {chr_threshold:.0f}%)"
-        decision += "\n   Self-correction gate is a meaningful problem. Proceed with Plan B-1."
+        decision = f"CHR {chr_pct:.1f}% exceeds the threshold {chr_threshold:.0f}%."
+        decision += "\n   Correct-to-wrong transitions exceed the configured harm threshold."
     elif chr_pct < 2.0:
-        decision = f"⬇️  Plan B-2 (CHR {chr_pct:.1f}% < 2%). Self-correction rarely hurts. -> Data filtering only."
+        decision = f"CHR {chr_pct:.1f}% is below 2%."
     else:
-        decision = f"🟡 Borderline (CHR {chr_pct:.1f}%). Monitor; may still work with better correction protocol."
+        decision = f"CHR {chr_pct:.1f}% is between 2% and the configured threshold."
 
     logger.info(f"\nDecision: {decision}")
 
 
     result_txt = out_dir / "planb1_chr_result.txt"
     with open(result_txt, "w", encoding="utf-8") as f:
-        f.write("Plan B-1 CHR Results\n")
+        f.write("Self-correction CHR Results\n")
         f.write("=" * 40 + "\n\n")
         f.write(f"Total: {len(all_corrections)}\n")
         f.write(f"Initially correct: {n_initially_correct}\n")
@@ -239,7 +239,7 @@ def main():
         f.write(f"CHR: {chr_pct:.2f}%\n\n")
         f.write(f"Decision: {decision}\n")
     logger.info(f"\nSaved: {result_txt}")
-    logger.info("\nStep 6 (Plan B-1 CHR) complete.")
+    logger.info("\nStep 6 (Self-correction CHR) complete.")
 
 
 if __name__ == "__main__":

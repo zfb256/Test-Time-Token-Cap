@@ -52,7 +52,7 @@ TIMESTAMP=$(date +%Y%m%d_%H%M%S)
 LOG_FILE="${LOG_DIR}/run_${TIMESTAMP}.log"
 
 echo "============================================" | tee -a "${LOG_FILE}"
-echo "CUPID-G Phase 1 — $(date)"                   | tee -a "${LOG_FILE}"
+echo "Budget allocation — $(date)"                   | tee -a "${LOG_FILE}"
 echo "Config: ${CONFIG}"                            | tee -a "${LOG_FILE}"
 echo "Python: ${PYTHON_BIN}"                        | tee -a "${LOG_FILE}"
 echo "Output: ${OUT_DIR}"                           | tee -a "${LOG_FILE}"
@@ -102,10 +102,10 @@ fi
 run_step "02" "02_run_inference.py" "${RESUME_FLAG}"
 
 echo "" | tee -a "${LOG_FILE}"
-echo ">>> Step 06 (Plan B-1 parallel): 06_planb1_chr.py" | tee -a "${LOG_FILE}"
+echo ">>> Step 06 (Self-correction parallel): 06_planb1_chr.py" | tee -a "${LOG_FILE}"
 "${PYTHON_BIN}" 06_planb1_chr.py --config "${CONFIG}" ${RESUME_FLAG} \
     2>&1 | tee -a "${LOG_DIR}/step06_${TIMESTAMP}.log" "${LOG_FILE}" || {
-    echo "    [WARN] Plan B-1 CHR step failed (non-fatal, continuing CUPID-G track)" | tee -a "${LOG_FILE}"
+    echo "    [WARN] Self-correction CHR step failed (non-fatal, continuing Budget routing track)" | tee -a "${LOG_FILE}"
 }
 
 run_step "03" "03_prm_scoring.py" "${MOCK_PRM_FLAG}"
@@ -116,7 +116,7 @@ run_step "05" "05_train_evaluate.py" ""
 
 echo "" | tee -a "${LOG_FILE}"
 echo "============================================" | tee -a "${LOG_FILE}"
-echo "PHASE 1 COMPLETE — $(date)"                  | tee -a "${LOG_FILE}"
+echo "PIPELINE COMPLETE — $(date)"                  | tee -a "${LOG_FILE}"
 echo "============================================" | tee -a "${LOG_FILE}"
 
 VERDICT_FILE="${OUT_DIR}/auc_results.txt"
@@ -129,7 +129,7 @@ fi
 CHR_FILE="${OUT_DIR}/planb1_chr_result.txt"
 if [ -f "${CHR_FILE}" ]; then
     echo "" | tee -a "${LOG_FILE}"
-    echo "=== PLAN B-1 CHR ===" | tee -a "${LOG_FILE}"
+    echo "=== SELF-CORRECTION CHR ===" | tee -a "${LOG_FILE}"
     cat "${CHR_FILE}" | tee -a "${LOG_FILE}"
 fi
 

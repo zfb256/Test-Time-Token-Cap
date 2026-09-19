@@ -1,4 +1,4 @@
-'Feature engineering for CUPID-G Phase 1.'
+'Features for budget allocation.'
 
 import re
 import numpy as np

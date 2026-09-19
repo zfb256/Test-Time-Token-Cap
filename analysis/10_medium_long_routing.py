@@ -1,4 +1,4 @@
-'Step 10: Medium→Long routing experiment (CUPID-G pivot).'
+'Medium-to-long budget routing analysis.'
 
 import argparse
 import json
@@ -172,13 +172,13 @@ def compute_baselines(medium_correct, long_correct, utility_labels) -> Dict:
 
 
 def dominates(row, fixed_medium_acc) -> bool:
-    """True if this CUPID-G point is dominated by fixed_medium (same tokens, worse accuracy)."""
+    """Check whether accuracy is lower with less than 1% of records routed."""
     return row["accuracy"] < fixed_medium_acc and row["fraction_routed"] < 0.01
 
 
 def build_summary(baselines, cupidg_rows, cv_auc) -> str:
     lines = [
-        "CUPID-G analysis — Medium→Long Routing Results",
+        "Budget routing analysis — Medium→Long Routing Results",
         "=" * 52, "",
         f"Predictor AUC (5-fold CV): {cv_auc:.4f}", "",
         "Baselines:",
@@ -197,7 +197,7 @@ def build_summary(baselines, cupidg_rows, cv_auc) -> str:
 
 
     dom = sum(1 for r in cupidg_rows if r["accuracy"] <= med_acc and r["fraction_routed"] > 0)
-    lines.append(f"CUPID-G threshold sweep: {len(cupidg_rows)} points, "
+    lines.append(f"Budget routing threshold sweep: {len(cupidg_rows)} points, "
                  f"{dom} dominated by fixed_medium")
     lines.append("")
 
@@ -214,7 +214,7 @@ def build_summary(baselines, cupidg_rows, cv_auc) -> str:
 
     if best_eff and best_eff["accuracy"] > med_acc:
         gap_recovered = 100 * (best_eff["accuracy"] - med_acc) / max(acc_gap, 1e-6)
-        lines.append("Best efficiency point (CUPID-G):")
+        lines.append("Best routing efficiency point:")
         lines.append(f"  τ = {best_eff['threshold']:.2f}")
         lines.append(f"  Accuracy = {best_eff['accuracy']:.4f}  "
                      f"({gap_recovered:.1f}% of medium→long gap recovered)")
@@ -222,9 +222,9 @@ def build_summary(baselines, cupidg_rows, cv_auc) -> str:
         lines.append(f"  vs random routing: "
                      f"{best_eff['accuracy'] - best_eff.get('random_accuracy', float('nan')):.4f} gain")
     else:
-        lines.append("WARNING: CUPID-G cannot outperform fixed_medium at any threshold.")
+        lines.append("WARNING: Budget routing cannot outperform fixed_medium at any threshold.")
         lines.append("  → Signal too weak for medium→long routing on this dataset.")
-        lines.append("  → Consider G2+G3-only features (better cross-domain transfer).")
+        lines.append("  Results apply to the evaluated thresholds.")
 
     lines.append("")
     lines.append(f"Oracle upper bound: acc={baselines['oracle']['accuracy']:.4f}  "
@@ -338,7 +338,7 @@ def main():
         )
 
     n_beats_medium = sum(1 for r in cupidg_rows if r["beats_fixed_medium"])
-    logger.info(f"\nCUPID-G beats fixed_medium at {n_beats_medium}/{len(cupidg_rows)} thresholds")
+    logger.info(f"\nBudget routing beats fixed_medium at {n_beats_medium}/{len(cupidg_rows)} thresholds")
 
 
     output = {
@@ -389,14 +389,14 @@ def main():
         fig, ax = plt.subplots(figsize=(7, 5))
         xs = [r["avg_total_tokens"] for r in cupidg_rows]
         ys = [r["accuracy"]         for r in cupidg_rows]
-        ax.plot(xs, ys, "b-o", markersize=4, label=f"CUPID-G ({args.feature_set})")
+        ax.plot(xs, ys, "b-o", markersize=4, label=f"Budget routing ({args.feature_set})")
         colors = {"fixed_long": "r", "fixed_medium": "g", "oracle": "purple"}
         for k, v in baselines.items():
             ax.axhline(v["accuracy"], color=colors[k], linestyle="--", alpha=0.7, label=k)
             ax.scatter([v["avg_total_tokens"]], [v["accuracy"]], color=colors[k], zorder=5, s=60)
         ax.set_xlabel("Avg total tokens per problem (medium + delta)")
         ax.set_ylabel("Accuracy")
-        ax.set_title(f"CUPID-G Medium→Long Pareto ({args.feature_set})")
+        ax.set_title(f"Budget routing Medium→Long Pareto ({args.feature_set})")
         ax.legend(fontsize=8)
         ax.grid(alpha=0.3)
         fig_path = out_dir / f"ml_routing_pareto_{args.feature_set.lower()}.png"

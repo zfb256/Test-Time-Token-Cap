@@ -206,13 +206,13 @@ def get_verdict(auc: float, thresholds: dict) -> Tuple[str, str]:
     go = thresholds["auc_conditional"]
 
     if auc < abort:
-        return "🔴", f"ABORT CUPID-G. AUC={auc:.4f} < {abort}. Start Plan B-1 TODAY."
+        return "🔴", f"AUC={auc:.4f} is below the minimum threshold {abort}."
     elif auc < warn_high:
-        return "🟡", f"WARNING. AUC={auc:.4f} in [{warn_low},{warn_high}). Add features; 1-week hard deadline."
+        return "🟡", f"AUC={auc:.4f} is in the warning range [{warn_low},{warn_high})."
     elif auc < go:
-        return "🟡", f"CONDITIONAL. AUC={auc:.4f} in [{warn_high},{go}). Verify with second model before full run."
+        return "🟡", f"AUC={auc:.4f} is in the intermediate range [{warn_high},{go})."
     else:
-        return "🟢", f"GO. AUC={auc:.4f} >= {go}. Proceed with full CUPID-G."
+        return "🟢", f"AUC={auc:.4f} meets the threshold {go}."
 
 
 def get_feature_importance(clf, feature_names: List[str], clf_name: str) -> pd.DataFrame:
@@ -283,7 +283,7 @@ def main():
     diagnostics = {}
 
     logger.info("\n" + "=" * 60)
-    logger.info("CUPID-G Phase 1: AUC Evaluation")
+    logger.info("Budget allocation: AUC Evaluation")
     logger.info("=" * 60)
 
     for group_name in groups_to_run:
@@ -390,7 +390,7 @@ def main():
 
     txt_out = out_dir / f"{output_stem}.txt"
     with open(txt_out, "w", encoding="utf-8") as f:
-        f.write("CUPID-G Phase 1 — AUC Results\n")
+        f.write("Budget allocation — AUC Results\n")
         f.write("=" * 50 + "\n\n")
         f.write(pivot.to_string() + "\n\n")
         if best_auc is None:

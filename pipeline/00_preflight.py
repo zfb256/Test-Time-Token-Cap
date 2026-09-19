@@ -1,4 +1,4 @@
-'Preflight checks for CUPID-G Phase 1.'
+'Inference and scoring preflight checks.'
 
 import argparse
 import importlib.util
