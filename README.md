@@ -1,8 +1,8 @@
 # Attributing test-time token-cap gains in mathematical reasoning: continuation versus resampling
 
 Code, frozen benchmark snapshots, and aggregate results accompanying the
-manuscript prepared for the International Journal of Machine Learning and
-Cybernetics. The manuscript has not been published in that journal.
+manuscript of the same name. The manuscript is under review and not yet
+published.
 
 ## Study and main findings
 
